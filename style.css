@@ -1,5 +1,5 @@
 body {
-    background: rgb(255, 181, 244);
+    background: gray;
     color: rgb(45, 45, 45);
     padding: 10px;
     font-family: Arial, sans-serif;
@@ -11,19 +11,27 @@ body {
 }
 
 nav {
-    background: rgb(247, 151, 32);
+    background: #49759c;
     margin: 0 auto;
     display: flex;
     padding: 10px;
     margin-bottom: 20px;
+    border-radius: 15px;
+    border-style: groove;
+    border-color:#70a7d8;
+    border-width: 20px;
+    outline-color: black;
+    outline-width: 20px;
 }
 
 h1 {
     display: flex;
     align-items: center;
-    color: white;
+    color: aquamarine;
     flex: 1;
     margin: 0;
+    font-family: "Lucida Console";
+    font-size: 30px;
 }
 
 #nav-ul {
@@ -36,6 +44,7 @@ h1 {
 .nav-li {
     display: inline-block;
     padding: 0 10px;
+    color: navy;
 }
 
 a {
@@ -56,6 +65,9 @@ main {
 
 .sidebar-img {
     width: 200px;
+    border-style: ridge;
+    border-radius: 10px;
+    border-width: 20px;
 }
 
 .content {
@@ -71,4 +83,54 @@ main {
 
 h2, h3 {
     margin: 0px;
+}
+
+.content h1 {
+    color: black;
+}
+
+#portfolio {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#portfolio li {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#portfolio li:hover {
+    background: #eee;
+}
+
+#portfolio a {
+    text-decoration: none;
+    color: red;
+}
+
+.nav-li a:hover {
+    color: #f28500;
+}
+
+#portfolio-text {
+    font-family: papyrus;
+}
+
+.content h2 {
+    font-family: fantasy;
+    font-size: 47px;
+    outline: dotted;
+    outline-width: 8px;
+    text-align: center;
+    color: steelblue;
+}
+#potato {
+    height: 32px;
+    width: 47px;
+}
+
+#cake a {
+    font-size: 10px;
 }
