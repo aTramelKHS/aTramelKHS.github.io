@@ -1,14 +1,24 @@
-body {
-    background: gray;
-    color: rgb(45, 45, 45);
+@keyframes background {
+    50% {background-position: center;}
+}
+
+#all-contents {
     padding: 10px;
     font-family: Arial, sans-serif;
+}
+body {
+    background-color: gray;
+    background-image: url(sourced\ images/potato.png);
+    background-position: top left;
+    animation: background 5s infinite;
+    background-size: 260px 140px;
 }
 
 #all-contents {
     max-width: 800px;
     margin: auto;
 }
+
 
 nav {
     background: #49759c;
