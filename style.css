@@ -8,15 +8,16 @@
 }
 body {
     background-color: gray;
-/*    background-image: url(sourced\ images/potato.png);
+    background-image: url(sourced\ images/potato.png);
     background-position: top left;
     animation: background 5s infinite;
-    background-size: 260px 140px; */
-    background-image: url(sourced\ images/potato.png), url(sourced\ images/potato.png);
+    background-size: 260px 140px; 
+    /* background-image: url(sourced\ images/potato.png), url(sourced\ images/potato.png);
     background-repeat: repeat-y;
     background-size: 158px 89px;
     background-attachment: fixed;
     background-position-x: left, right;
+    code reminants */
 }
 
 
