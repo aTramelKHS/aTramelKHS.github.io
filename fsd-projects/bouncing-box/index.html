@@ -8,22 +8,23 @@
       .box {
         width: 70px;
         height: 70px;
-        background-color: cyan;
         font-size: 300%;
         text-align: center;
         user-select: none;
         display: block;
         position: absolute;
         top: 100px;
-
-        left: 0px;
+        color: white;
+        background-image: url(/fsd-projects/bouncing-box/dvd-logos/1.svg);
+        background-size: 70px 70px;
+        background-repeat: no-repeat;
       }
 
       .board {
         height: 100vh;
-        background-image: url(https://www.up.com/cs/groups/public/@uprr/@corprel/documents/digitalmedia/img_up_instrk-rj-blog-train_lr.jpg);
-		background-repeat: no-repeat;
-		background-size: auto;
+        background-image: url(https://www.drgw.net/gallery/d/61926-1/up-1982-manzanola_co-_20-jul-2014_-000.jpg);
+        background-repeat: no-repeat;
+        background-size: 1550px 820px;
       }
     </style>
     <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -55,7 +56,7 @@
         // moves the Box to a new position on the screen along the X-Axis
         function moveBoxTo(newPositionX, newPositionY) {
           box.css("left", newPositionX);
-		  box.css("top", newPositionY)
+          box.css("top", newPositionY);
         }
 
         // changes the text displayed on the Box
@@ -67,13 +68,15 @@
         /////////////////// YOUR CODE BELOW HERE /////////////////////////
         //////////////////////////////////////////////////////////////////
 
-        // TODO 2 - Variable declarations
         var boardHeight = jQuery(window).height();
         var positionX = 10;
         var points = 0;
         var speed = 10;
         var positionY = 10;
         var speedY = 10;
+        var randNum = Math.random() * 720;
+        var randomColor;
+
 
         /* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -81,28 +84,57 @@
 			turn it around! 
 			*/
         function update() {
-          moveBoxTo(positionX, positionY);
+          moveBoxTo(positionX + randNum, positionY);
           positionX = positionX + speed;
           positionY += speedY;
-          if (positionX > boardWidth) {
+          if (positionX > boardWidth - randNum) {
             speed *= -1;
+            randomColor = Math.floor(Math.random() * 6);
+            console.log(randomColor);
           }
-          if (positionX < 0) {
+          if (positionX < 0 - randNum) {
             speed *= -1;
+            randomColor = Math.floor(Math.random() * 6);
+            console.log(randomColor);
           }
-          if (positionY > boardHeight) {
+          if (positionY > boardHeight - 70) {
             speedY *= -1;
+            randomColor = Math.floor(Math.random() * 6);
+            console.log(randomColor);
           }
           if (positionY < 0) {
             speedY *= -1;
+            randomColor = Math.floor(Math.random() * 6);
+            console.log(randomColor);
           }
+          //somethingTest();
         }
+// broken unfixable
+      /*function somethingTest() {
+          let BGID = document.getElementsByClassName("box");
+          if (randomColor = 0) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/6.svg')|inherit";
+          }
+          else if (randomColor = 1) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/2.svg')|inherit";
+          }
+          else if (randomColor = 2) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/3.svg')|inherit";
+          }
+          else if (randomColor = 3) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/4.svg')|inherit";
+          }
+          else if (randomColor = 4) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/5.svg')|inherit";
+          }
+          else if (randomColor = 5) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/6.svg')|inherit";
+          }
+          else if (randomColor = 6) {
+            BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/7.svg')|inherit";
+          }
+        } */
 
-        /* 
-			This Function will be called each time the box is clicked. Each time it is called,
-			it should increase the points total, increase the speed, and move the box to
-			the left side of the screen.
-			*/
         function handleBoxClick() {
           positionX = 0;
           positionY = 0;
@@ -111,7 +143,6 @@
           speedY = 3 * points + 10;
           changeBoxText(points);
         }
-
       })();
     </script>
   </body>
