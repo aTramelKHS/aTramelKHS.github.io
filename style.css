@@ -52,6 +52,7 @@ h1 {
 }
 
 #nav-ul {
+    position: sticky;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -147,7 +148,6 @@ h2, h3 {
     height: 32px;
     width: 47px;
 }
-
 #cake a {
     font-size: 10px;
 }
