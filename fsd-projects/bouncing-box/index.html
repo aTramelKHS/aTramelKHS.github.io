@@ -14,8 +14,7 @@
         display: block;
         position: absolute;
         top: 100px;
-        color: white;
-        background-image: url(/fsd-projects/bouncing-box/dvd-logos/1.svg);
+        background-color: white;
         background-size: 70px 70px;
         background-repeat: no-repeat;
       }
@@ -48,7 +47,7 @@
         var boardWidth = board.width(); // the maximum X-Coordinate of the screen
 
         // Every 50 milliseconds, call the update Function (see below)
-        setInterval(update, 50);
+        var interval = setInterval(update, 50);
 
         // Every time the box is clicked, call the handleBoxClick Function (see below)
         box.on("click", handleBoxClick);
@@ -75,8 +74,12 @@
         var positionY = 10;
         var speedY = 10;
         var randNum = Math.random() * 720;
-        var randomColor;
-
+        var colorStr = "rgb(50, 25, 250)";
+        var randomNumber;
+        var randomNumber2;
+        var randomNumber3;
+        var misclicks = e;
+        document.addEventListener('click', update())
 
         /* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -87,25 +90,21 @@
           moveBoxTo(positionX + randNum, positionY);
           positionX = positionX + speed;
           positionY += speedY;
+          randomNumber = Math.floor(Math.random()*255);
+          randomNumber2 = Math.floor(Math.random()*255);
+          randomNumber3 = Math.floor(Math.random()*255);
+
           if (positionX > boardWidth - randNum) {
             speed *= -1;
-            randomColor = Math.floor(Math.random() * 6);
-            console.log(randomColor);
           }
           if (positionX < 0 - randNum) {
             speed *= -1;
-            randomColor = Math.floor(Math.random() * 6);
-            console.log(randomColor);
           }
           if (positionY > boardHeight - 70) {
             speedY *= -1;
-            randomColor = Math.floor(Math.random() * 6);
-            console.log(randomColor);
           }
           if (positionY < 0) {
             speedY *= -1;
-            randomColor = Math.floor(Math.random() * 6);
-            console.log(randomColor);
           }
           //somethingTest();
         }
@@ -134,6 +133,12 @@
             BGID.style.backgroundImage = "url('/fsd-projects/bouncing-box/dvd-logos/7.svg')|inherit";
           }
         } */
+        
+        function getRandomColor() {
+          colorStr = "rgb(" + randomNumber + ", " + randomNumber2 + ", " + randomNumber3 + ")";
+          box.css("background-color", colorStr);
+        }
+
 
         function handleBoxClick() {
           positionX = 0;
@@ -142,6 +147,11 @@
           speed = 3 * points + 10;
           speedY = 3 * points + 10;
           changeBoxText(points);
+          getRandomColor();
+        }
+
+        function endgame() {
+          clearInterval(interval);
         }
       })();
     </script>
