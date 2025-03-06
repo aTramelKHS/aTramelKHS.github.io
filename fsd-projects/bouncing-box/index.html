@@ -78,8 +78,8 @@
         var randomNumber;
         var randomNumber2;
         var randomNumber3;
-        var misclicks = e;
-        document.addEventListener('click', update())
+        var clicks;
+        
 
         /* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -105,6 +105,10 @@
           }
           if (positionY < 0) {
             speedY *= -1;
+          }
+          if (!Math.trunc(points / 3)) {
+            speed += 2;
+            speedY += 2;
           }
           //somethingTest();
         }
@@ -151,7 +155,10 @@
         }
 
         function endgame() {
-          clearInterval(interval);
+          document.addEventListener('click', handleBoxClick());
+          if (clicks === 10) {
+            clearInterval(interval);
+          }
         }
       })();
     </script>

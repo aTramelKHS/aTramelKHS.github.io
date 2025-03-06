@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let timerId;
   let score = 0;
   let holdQueue = 0;
+
+  const colors = [
+    'orange',
+    'red',
+    'purple',
+    'green',
+    'blue'
+  ]
   
 
   // Tetrominoes
@@ -58,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function draw() {
     current.forEach(index => {
       squares[currentPosition + index].classList.add('tetrimino')
+      squares[currentPosition + index].style.backgroundColor = colors[random]
     })
   }
 
@@ -65,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function undraw() {
     current.forEach(index => {
       squares[currentPosition+ index].classList.remove('tetrimino');
+      squares[currentPosition + index].style.backgroundColor = ''
     })
   }
 
@@ -109,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       draw();
       displayShape();
       addScore();
+      gameOver();
     }
   }
 
@@ -139,15 +150,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   draw();
  }
+ function isAtRight() {
+  return current.some(index=> (currentPosition + index + 1) % width === 0)  
+}
+
+function isAtLeft() {
+  return current.some(index=> (currentPosition + index) % width === 0)
+}
+
+//fixesed
+
+function checkRotatedPosition(P){
+  P = P || currentPosition       //get current position.  Then, check if the piece is near the left side.
+  if ((P+1) % width < 4) {         //add 1 because the position index can be 1 less than where the piece is (with how they are indexed).     
+    if (isAtRight()){            //use actual position to check if it's flipped over to right side
+      currentPosition += 1    //if so, add one to wrap it back around
+      checkRotatedPosition(P) //check again.  Pass position from start, since long block might need to move more.
+      }
+  }
+  else if (P % width > 5) {
+    if (isAtLeft()){
+      currentPosition -= 1
+    checkRotatedPosition(P)
+    }
+  }
+}
 
  //rotation
- function rotate() {
+function rotate() {
   undraw();
   currentRotation ++;
   if(currentRotation === current.length) {
     currentRotation = 0;
   }
   current = theTetriminoes[random][currentRotation];
+  checkRotatedPosition();
   draw();
  }
  
@@ -172,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
   upNextTetrominoes[nextRandom].forEach(index => {
     displaySquares[displayIndex + index].classList.add('tetrimino')
+    displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom]
   })
  }
 
@@ -182,8 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
     timerId = null;
   }
   else {
+    let level = prompt('what level do you want to be on? (0 - 12)');
     draw();
-    timerId = setInterval(moveDown, 1000)
+    timerId = setInterval(moveDown, 1000);
     nextRandom = Math.floor(Math.random()*theTetriminoes.length);
     displayShape();
   }
@@ -191,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
  //add score
  function addScore() {
-  for (let i = 0; 1 < 199; i += width) {
+  for (let i = 0; i < 199; i += width) {
     const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
 
     if (row.every(index => squares[index].classList.contains('taken'))) {
@@ -202,17 +241,37 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[index].classList.remove('tetrimino');
         squares[index].computedStyleMap.backroundColor = '';
       })
-      const squaresRemoved = squares.splice(i, width)
+      const squaresRemoved = squares.splice(i, width);
       squares = squaresRemoved.concat(squares);
-      squares.forEach(cell => grid.appendChild(cell))
+      squares.forEach(cell => grid.appendChild(cell));
     }
   }
  }
 
+//game over
+ function gameOver() {
+  if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+    scoreDisplay.innerHTML = 'end';
+    clearInterval(timerId);
+    undraw();
+  }
+ }
 
-
-
-
+ if (score === 1000 || level === 0) {
+  timerId = setInterval(moveDown, 1200);
+ }
+ else if (score === 2100 || level === 1) {
+  timerId = setInterval(moveDown, 1800);
+ }
+ else if (score === 3400 || level === 2) {
+  timerId = setInterval(moveDown, 2400);
+ }
+ else if (score === 4600 || level === 3) {
+  timerId = setInterval(moveDown, 2900);
+ }
+ else {
+  timerId = setInterval(moveDown, 20);
+ }
 
 
 
