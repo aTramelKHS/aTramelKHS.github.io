@@ -49,8 +49,9 @@
         // Every 50 milliseconds, call the update Function (see below)
         var interval = setInterval(update, 50);
 
-        // Every time the box is clicked, call the handleBoxClick Function (see below)
+        // Every time the box is clicked, call the handleBoxClick Function (see below
         box.on("click", handleBoxClick);
+        board.on("click", handleMisclick);
 
         // moves the Box to a new position on the screen along the X-Axis
         function moveBoxTo(newPositionX, newPositionY) {
@@ -78,7 +79,8 @@
         var randomNumber;
         var randomNumber2;
         var randomNumber3;
-        var clicks;
+        var clicks = 0;
+        var condition = false;
         
 
         /* 
@@ -93,7 +95,6 @@
           randomNumber = Math.floor(Math.random()*255);
           randomNumber2 = Math.floor(Math.random()*255);
           randomNumber3 = Math.floor(Math.random()*255);
-
           if (positionX > boardWidth - randNum) {
             speed *= -1;
           }
@@ -106,10 +107,11 @@
           if (positionY < 0) {
             speedY *= -1;
           }
+          /* gravity mode
+          originally was a coding error but i thought it was cool enough to keep
           if (!Math.trunc(points / 3)) {
             speed += 2;
-            speedY += 2;
-          }
+          }*/
           //somethingTest();
         }
 // broken unfixable
@@ -143,11 +145,20 @@
           box.css("background-color", colorStr);
         }
 
+        function handleMisclick() {
+          clicks ++;
+          if (clicks === 10) {
+            endgame();
+            alert('you lost loser')
+            location.reload();
+         }
+        }
 
         function handleBoxClick() {
           positionX = 0;
           positionY = 0;
           points++;
+          clicks -= points;
           speed = 3 * points + 10;
           speedY = 3 * points + 10;
           changeBoxText(points);
@@ -155,10 +166,8 @@
         }
 
         function endgame() {
-          document.addEventListener('click', handleBoxClick());
-          if (clicks === 10) {
-            clearInterval(interval);
-          }
+          clearInterval(interval);
+          condition = true;
         }
       })();
     </script>
