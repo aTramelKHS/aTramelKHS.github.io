@@ -1,9 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <header>Tetris Game</header>
+        <link rel="stylesheet" href="tetris_style.css"/>
+
     </head>
     <body>
-        <h1>Under Construction: thank you for being patient</h1>
+        <h1>Still being built: please be patient :)</h1>
+            <button class="settings" id="startBtn">Start</button>
+            <!-- <p>level select</p>
+            <ul>
+                <li><button id="lvl1">1</button></li>
+                <li><button id="lvl2">2</button></li>
+                <li><button id="lvl3">3</button></li>
+                <li><button id="lvl4">4</button></li>
+                <li><button id="lvl5">5</button></li>
+                <li><button id="lvl6">6</button></li>
+            </ul>
+            <ul>
+                <li><button id="lvl7">7</button></li>
+                <li><button id="lvl8">8</button></li>
+                <li><button id="lvl9">9</button></li>
+                <li><button id="lvl10">10</button></li>
+                <li><button id="lvl11">11</button></li>
+                <li><button id="lvl12">12</button></li>
+            </ul> -->
+        <canvas hidden id="queue" width = '80' height = '80'></canvas>
+        <canvas hidden id="game" width="320" height="640"></canvas>
+        <!-- next tetris piece will show here (canvas)-->
+        <div hidden id="UI">
+            <ul id="UIlist">
+                <li><span id="scorehtml">Score: 0</span></li>
+                <li><span id="levelhtml">Level: 0</span></li>
+                <li><span id="lineshtml">Line Clears: 0</span></li>
+            </ul>
+        </div>
+        <script src="tetris_script.js"></script>
+        <script src="menuscript.js"></script>
+
     </body>
 </html>

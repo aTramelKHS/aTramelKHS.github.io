@@ -1,0 +1,28 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    color: white;
+}
+
+body {
+    background: linear-gradient(blue, rgb(1, 209, 224));
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    border: 1px solid white;
+}
+
+canvas {
+    border: 1px solid white;
+    background: rgb(0, 0, 84);
+}
+
+#UI {
+    justify-content: left;
+    text-align: left;
+    font-size: 20px;
+}
+
+#UIlist {
+    list-style-type: square;
+}
