@@ -1,11 +1,16 @@
 //not my code!!!
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-var moveSound = new Audio("fsd-projects/other projects/source/sounds/move.mp3");
+let clearSound = new Audio("source/sounds/line-clear.mp3");
+let bgm = new Audio("source/sounds/testsong.wav")
+function playSong1(){
+  bgm.src = "source/sounds/typeb.mp3"
+}
 
 
 
 function game() {
+  bgm.play();
   let lineClears = 0;
   var level = 0;
   var tickSpeed = 72;
@@ -149,6 +154,7 @@ function game() {
     // check for line clears starting from the bottom and working our way up
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every(cell => !!cell)) {
+        clearSound.play();
         lineClears += 1;
         levelUp();
         increaseScore(100);
@@ -312,9 +318,9 @@ function game() {
     if (gameOver) return;
 
     // left and right arrow keys (move)
-    if (e.which === 37 || e.which === 39) {
-      moveSound.play();
-      const col = e.which === 37
+    if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
+      
+      const col = e.code === "ArrowLeft"
         ? tetromino.col - 1
         : tetromino.col + 1;
       if (isValidMove(tetromino.matrix, tetromino.row, col)) {
@@ -323,7 +329,7 @@ function game() {
     }
 
     // up arrow key (rotate)
-    if (e.which === 38) {
+    if (e.code === "ArrowUp") {
       const matrix = rotate(tetromino.matrix);
       if (isValidMove(matrix, tetromino.row, tetromino.col)) {
         tetromino.matrix = matrix;
@@ -331,7 +337,7 @@ function game() {
     }
 
     // down arrow key (drop)
-    if(e.which === 40) {
+    if(e.code === "ArrowDown") {
       const row = tetromino.row + 1;
 
       if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
