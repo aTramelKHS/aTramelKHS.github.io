@@ -5,7 +5,6 @@ start.addEventListener('click', () => {
   document.getElementById('game').hidden = false;
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
-  //document.getElementsByClassName('settings').hidden = true;
 });
 
 

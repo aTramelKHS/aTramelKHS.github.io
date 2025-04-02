@@ -1,28 +1,48 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    color: white;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: white;
 }
 
 body {
-    background: linear-gradient(blue, rgb(1, 209, 224));
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    border: 1px solid white;
+  background: linear-gradient(blue, rgb(1, 209, 224));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
 }
 
 canvas {
-    border: 1px solid white;
-    background: rgb(0, 0, 84);
+  border: 1px solid white;
+  background: rgb(0, 0, 84);
+}
+
+.buttons {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px;
+  margin: 10px;
+  border: 10px groove blue;
+  background-color: lightblue;
+  font-size: 25px;
+}
+.buttons:hover {
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 15px;
+  padding: 18px;
+  font-size: 23px;
+}
+
+#mute {
+  margin: 10px;
 }
 
 #UI {
-    justify-content: left;
-    text-align: left;
-    font-size: 20px;
+  justify-content: left;
+  text-align: left;
+  font-size: 20px;
 }
 
 #UIlist {
-    list-style-type: square;
+  list-style-type: square;
 }

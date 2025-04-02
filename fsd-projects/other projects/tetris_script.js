@@ -1,19 +1,27 @@
 //not my code!!!
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
+
 let clearSound = new Audio("source/sounds/line-clear.mp3");
 let bgm = new Audio("source/sounds/testsong.wav")
+bgm.volume = 0.3;
+bgm.loop = true;
 function playSong1(){
   bgm.src = "source/sounds/typeb.mp3"
 }
-
+function muteMusic() {
+  bgm.pause();
+}
 
 
 function game() {
   bgm.play();
-  let lineClears = 0;
+  var lineClears = 0;
   var level = 0;
-  var tickSpeed = 72;
+  levelUp()
+  var tickSpeed = 84;
+  let score = 0;
+  updateScore()
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -63,7 +71,6 @@ function game() {
     document.getElementById('lineshtml').textContent = "Line Clears: " + lineClears;
   }
   
-  let score = 0;
   function updateScore() {
     document.getElementById('scorehtml').textContent = "Score: " + score;
   }
@@ -189,9 +196,6 @@ function game() {
     context.textBaseline = 'middle';
     context.fillText('GAME OVER! ' + score, canvas.width / 2, canvas.height / 2);
   }
-
-
-
 
   const canvas = document.getElementById('game');
   const context = canvas.getContext('2d');
