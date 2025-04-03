@@ -22,19 +22,19 @@ canvas {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 20px;
   margin: 10px;
-  border: 10px groove blue;
+  border: 8px groove blue;
   background-color: lightblue;
-  font-size: 25px;
+  font-size: 20px;
 }
 .buttons:hover {
-  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
   margin: 15px;
   padding: 18px;
-  font-size: 23px;
+  font-size: 18px;
 }
 
-#mute {
-  margin: 10px;
+#queue {
+  margin: 20px;
 }
 
 #UI {

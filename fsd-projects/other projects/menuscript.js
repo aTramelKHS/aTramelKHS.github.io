@@ -2,9 +2,11 @@ const start = document.getElementById('startBtn');
 
 start.addEventListener('click', () => {
   game();
+  start.hidden = true;
   document.getElementById('game').hidden = false;
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
+  document.getElementById('mute').hidden = false;
 });
 
 
