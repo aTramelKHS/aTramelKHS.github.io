@@ -7,6 +7,8 @@ start.addEventListener('click', () => {
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
   document.getElementById('mute').hidden = false;
+  document.getElementById('unmute').hidden = false;
+  document.getElementById('viewnext').hidden = false;
 });
 
 

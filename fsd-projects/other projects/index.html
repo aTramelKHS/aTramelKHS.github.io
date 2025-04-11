@@ -7,10 +7,11 @@
 
     </head>
     <body>
-        <h1>Still being built: please be patient :)</h1>
+        <h1>Still being built</h1>
         <p>(works best in full screen)</p>
             <button class="buttons" id="startBtn">Start</button>
             <button hidden class="buttons" id="mute" onclick="muteMusic()">Mute</button>
+            <button hidden class="buttons" id="unmute" onclick="unmute()">Unmute</button>
             <!-- <p>level select</p>
             <ul>
                 <li><button id="lvl1">1</button></li>
@@ -30,7 +31,7 @@
             </ul> -->
         <canvas hidden id="queue" width = '128' height = '128'></canvas>
         <canvas hidden id="game" width="320" height="640"></canvas>
-        <!-- next tetris piece will show here (canvas)-->
+        <canvas hidden id="viewnext" width = '128' height = '128'></canvas>
         <div hidden id="UI">
             <ul id="UIlist">
                 <li><span id="scorehtml">Score: 0</span></li>

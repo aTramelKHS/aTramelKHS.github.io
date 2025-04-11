@@ -52,7 +52,6 @@ h1 {
 }
 
 #nav-ul {
-    position: sticky;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -150,4 +149,36 @@ h2, h3 {
 }
 #cake a {
     font-size: 10px;
+}
+.updateboard {
+    border-style: outset;
+    border-color:#49759c;
+    border-width: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    width: 740px;
+    display: block;
+}
+.date {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    margin: 10px;
+}
+#maintxt {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 50px;
+    padding-top: 30px;
+    color:#f28500;
+    text-decoration: underline;
+}
+.updateboard li {
+    list-style-type: square;
+    padding-top: 10px;
+    font-size:18px;
 }

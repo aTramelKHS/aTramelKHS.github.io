@@ -15,7 +15,7 @@ body {
 
 canvas {
   border: 1px solid white;
-  background: rgb(0, 0, 84);
+  background-image: url(source/images/matrix.png);
 }
 
 .buttons {

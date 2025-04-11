@@ -1,9 +1,10 @@
-//not my code!!!
+//not my code!!! slight additions were made by me
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-
+//background music and other sounds
 let clearSound = new Audio("source/sounds/line-clear.mp3");
-let bgm = new Audio("source/sounds/testsong.wav")
+let bgm = new Audio("source/sounds/typeb.mp3")
+clearSound.volume = 0.4;
 bgm.volume = 0.3;
 bgm.loop = true;
 function playSong1(){
@@ -13,22 +14,27 @@ function muteMusic() {
   bgm.pause();
 }
 
+function unmute() {
+  bgm.play();
+}
 
+//plays game whenever a button is pressed
 function game() {
   bgm.play();
+  //reverts the scores and levels back to its original value whenever you reset the game
   var lineClears = 0;
   var level = 0;
-  levelUp()
   var tickSpeed = 84;
   let score = 0;
-  updateScore()
+  levelUp();
+  updateScore();
+
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  //queue();
+  //decreases tetromino fall speed every 10 levels
   function levelUp() {
     if (lineClears === 10) {
       level = 1;
@@ -70,15 +76,16 @@ function game() {
     document.getElementById('levelhtml').textContent = "Level: " + level;
     document.getElementById('lineshtml').textContent = "Line Clears: " + lineClears;
   }
-  
+
+  //updates the score display
   function updateScore() {
     document.getElementById('scorehtml').textContent = "Score: " + score;
   }
+  //calculates whatever score is in the placeholder then updates it
   function increaseScore(points) {
     score += points;
     updateScore();
   }
-  var showNext;
   // generate a new tetromino sequence
   function generateSequence() {
     const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
@@ -87,7 +94,6 @@ function game() {
       const rand = getRandomInt(0, sequence.length - 1);
       const name = sequence.splice(rand, 1)[0];
       tetrominoSequence.push(name);
-      showNext === tetrominoSequence;
     }
   }
 
@@ -96,22 +102,66 @@ function game() {
     if (tetrominoSequence.length === 0) {
       generateSequence();
     }
-
     const name = tetrominoSequence.pop();
     const matrix = tetrominos[name];
-
     // I and O start centered, all others start in left-middle
     const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
-
     // I starts on row 21 (-1), all others start on row 22 (-2)
     const row = name === 'I' ? -1 : -2;
-
+    //do something wit this
+    //console.log(tetrominoSequence);
     return {
       name: name,      // name of the piece (L, O, etc.)
       matrix: matrix,  // the current rotation matrix
       row: row,        // current row (starts offscreen)
       col: col         // current col
     };
+  }
+  
+  const viewBox = document.getElementById('viewnext');
+  const ctx = viewBox.getContext('2d');
+  //finish tommorrrowwwwerrr
+
+  function viewNext() {
+    var getNext = tetrominoSequence[tetrominoSequence.length - 1];
+    console.log(getNext);
+    if (getNext === 'I') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'cyan';
+      ctx.fillRect(40, 40, 20, 80);
+    }
+    if (getNext === 'J') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(20, 0, 20, 80);
+      ctx.fillRect(0, 0, 20, 20);
+    } 
+    if (getNext === 'L') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'orange';
+      ctx.fillRect(20, 0, 40, 120);
+    } 
+    if (getNext === 'O') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'yellow';
+      ctx.fillRect(20, 0, 40, 120);
+    }
+    if (getNext === 'S') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'green';
+      ctx.fillRect(20, 0, 40, 120);
+    }
+    if (getNext === 'Z') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'red';
+      ctx.fillRect(20, 0, 40, 120);
+    }
+    if (getNext === 'T') {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = 'purple';
+      ctx.fillRect(20, 0, 40, 120);
+    }
+
   }
 
   // rotate an NxN matrix 90 degrees
@@ -157,7 +207,6 @@ function game() {
         }
       }
     }
-
     // check for line clears starting from the bottom and working our way up
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every(cell => !!cell)) {
@@ -178,6 +227,7 @@ function game() {
     }
     increaseScore(10);
     tetromino = getNextTetromino();
+    viewNext();
   }
 
   // show the game over screen
@@ -195,6 +245,7 @@ function game() {
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText('GAME OVER! ' + score, canvas.width / 2, canvas.height / 2);
+    bgm.pause();
   }
 
   const canvas = document.getElementById('game');
@@ -272,6 +323,7 @@ function game() {
 
   // game loop
   function loop() {
+    
     rAF = requestAnimationFrame(loop);
     context.clearRect(0,0,canvas.width,canvas.height);
     // draw the playfield
@@ -290,12 +342,10 @@ function game() {
     // draw the active tetromino
     if (tetromino) {
 
-      // tetromino falls every 35 frames
+      // tetromino falls every few frames depending on the value of the tickSpeed variable
       if (++count > tickSpeed) {
         tetromino.row++;
         count = 0;
-        
-
         // place piece if it runs into anything
         if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
           tetromino.row--;
@@ -358,7 +408,3 @@ function game() {
   // start the game
   rAF = requestAnimationFrame(loop);
 }
-
-/* function queue() {
-  console.log(showNext);
-} */
