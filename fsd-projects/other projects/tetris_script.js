@@ -18,6 +18,8 @@ function unmute() {
   bgm.play();
 }
 
+//set preload to auto to not get sound delay
+
 //plays game whenever a button is pressed
 function game() {
   bgm.play();
@@ -34,7 +36,7 @@ function game() {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  //decreases tetromino fall speed every 10 levels
+  //decreases tick speed every 10 levels
   function levelUp() {
     if (lineClears === 10) {
       level = 1;
@@ -125,28 +127,31 @@ function game() {
   function viewNext() {
     var getNext = tetrominoSequence[tetrominoSequence.length - 1];
     console.log(getNext);
+    if (getNext === undefined) {
+
+    }
     if (getNext === 'I') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'cyan';
       ctx.fillRect(40, 40, 20, 80);
     }
-    if (getNext === 'J') {
+    else if (getNext === 'J') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'blue';
       ctx.fillRect(20, 0, 20, 80);
       ctx.fillRect(0, 0, 20, 20);
     } 
-    if (getNext === 'L') {
+    else if (getNext === 'L') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'orange';
       ctx.fillRect(20, 0, 40, 120);
     } 
-    if (getNext === 'O') {
+    else if (getNext === 'O') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'yellow';
       ctx.fillRect(20, 0, 40, 120);
     }
-    if (getNext === 'S') {
+    else if (getNext === 'S') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'green';
       ctx.fillRect(20, 0, 40, 120);
@@ -156,12 +161,12 @@ function game() {
       ctx.fillStyle = 'red';
       ctx.fillRect(20, 0, 40, 120);
     }
-    if (getNext === 'T') {
+    else if (getNext === 'T') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'purple';
       ctx.fillRect(20, 0, 40, 120);
     }
-
+    
   }
 
   // rotate an NxN matrix 90 degrees
@@ -318,6 +323,7 @@ function game() {
 
   let count = 0;
   let tetromino = getNextTetromino();
+  viewNext();
   let rAF = null;  // keep track of the animation frame so we can cancel it
   let gameOver = false;
 
@@ -396,7 +402,6 @@ function game() {
 
       if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row = row - 1;
-
         placeTetromino();
         return;
       }
