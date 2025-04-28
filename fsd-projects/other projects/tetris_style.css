@@ -1,16 +1,22 @@
 html,
 body {
   height: 100%;
-  margin: 0;
+  margin: 10;
   color: white;
+  background: linear-gradient(blue, rgb(1, 209, 224));
 }
 
-body {
-  background: linear-gradient(blue, rgb(1, 209, 224));
+#text {
+  text-align: center;
+  
+}
+
+.nan {
+  position: relative;
+  left: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
 }
 
 canvas {
@@ -34,15 +40,24 @@ canvas {
 }
 
 #queue {
+  position: relative;
+  bottom: 160px;
   margin: 20px;
+  align-items: top;
+}
+
+#viewnext {
+  margin: 20px;
+  position: relative;
+  bottom: 160px;
 }
 
 #UI {
-  justify-content: left;
-  text-align: left;
   font-size: 20px;
 }
 
 #UIlist {
+  position: relative;
+  right: 160px;
   list-style-type: square;
 }

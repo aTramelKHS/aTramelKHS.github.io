@@ -2,45 +2,65 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <header>Tetris Game</header>
         <link rel="stylesheet" href="tetris_style.css"/>
 
     </head>
     <body>
-        <h1>Still being built</h1>
-        <p>(works best in full screen)</p>
-            <button class="buttons" id="startBtn">Start</button>
-            <button hidden class="buttons" id="mute" onclick="muteMusic()">Mute</button>
-            <button hidden class="buttons" id="unmute" onclick="unmute()">Unmute</button>
-            <!-- <p>level select</p>
-            <ul>
-                <li><button id="lvl1">1</button></li>
-                <li><button id="lvl2">2</button></li>
-                <li><button id="lvl3">3</button></li>
-                <li><button id="lvl4">4</button></li>
-                <li><button id="lvl5">5</button></li>
-                <li><button id="lvl6">6</button></li>
-            </ul>
-            <ul>
-                <li><button id="lvl7">7</button></li>
-                <li><button id="lvl8">8</button></li>
-                <li><button id="lvl9">9</button></li>
-                <li><button id="lvl10">10</button></li>
-                <li><button id="lvl11">11</button></li>
-                <li><button id="lvl12">12</button></li>
-            </ul> -->
-        <canvas hidden id="queue" width = '128' height = '128'></canvas>
-        <canvas hidden id="game" width="320" height="640"></canvas>
-        <canvas hidden id="viewnext" width = '128' height = '128'></canvas>
-        <div hidden id="UI">
-            <ul id="UIlist">
-                <li><span id="scorehtml">Score: 0</span></li>
-                <li><span id="levelhtml">Level: 0</span></li>
-                <li><span id="lineshtml">Line Clears: 0</span></li>
-            </ul>
+        <div id="title">
+            <h1 class="text">Tetris</h1>
+            <h3 class="text">still in development!</h3>
+            <p class="text">works best in full screen</p>
         </div>
-        <script src="tetris_script.js"></script>
-        <script src="menuscript.js"></script>
+        <button class="buttons" id="startBtn">Play</button>
+        <button class="buttons" id="settings">Settings</button>
+        <div hidden id="allsettings">
+            <div id="soundvol">
+                <button hidden class="buttons" id="back">Back</button>
+                <p>sound volume</p>
+                <form>
+                    <input type="range" min="0" max="1" value="0.5" step="0.1" oninput="this.form.sound.value=this.value ; soundVolume = this.value">
+                    <output name="sound">0.5</output>
+                </form>
+            </div>
+            <div id="musicvol">
+                <p>music volume</p>
+                <form>
 
+                    <input type="range" min="0" max="1" value="0.3" step="0.1" oninput="this.form.music.value = this.value ; bgm.volume = this.value">
+                    <output name="music">0.3</output>
+                </form>
+            </div>
+        </div>
+        <!-- <ul>
+            <li><button id="lvl1">1</button></li>
+            <li><button id="lvl2">2</button></li>
+            <li><button id="lvl3">3</button></li>
+            <li><button id="lvl4">4</button></li>
+            <li><button id="lvl5">5</button></li>
+            <li><button id="lvl6">6</button></li>
+        </ul>
+        <ul>
+            <li><button id="lvl7">7</button></li>
+            <li><button id="lvl8">8</button></li>
+            <li><button id="lvl9">9</button></li>
+            <li><button id="lvl10">10</button></li>
+            <li><button id="lvl11">11</button></li>
+            <li><button id="lvl12">12</button></li>
+        </ul> -->
+        <div class="nan">
+            <canvas hidden id="queue" width = '128' height = '128'></canvas>
+            <canvas hidden id="game" width="320" height="640"></canvas>
+            <canvas hidden id="viewnext" width = '128' height = '128'></canvas>
+            <div hidden id="UI">
+                <ul id="UIlist">
+                    <li><span id="scorehtml">Score: 0</span></li>
+                    <li><span id="levelhtml">Level: 0</span></li>
+                    <li><span id="lineshtml">Line Clears: 0</span></li>
+                </ul>
+            </div>
+        </div>
+            <script src="tetris_script.js"></script>
+            <script src="menuscript.js"></script>
+            <script src="sound.js"></script>
     </body>
 </html>

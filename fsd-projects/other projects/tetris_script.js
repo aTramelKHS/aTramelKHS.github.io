@@ -1,26 +1,8 @@
 //not my code!!! slight additions were made by me
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-//background music and other sounds
-let clearSound = new Audio("source/sounds/line-clear.mp3");
-let bgm = new Audio("source/sounds/typeb.mp3")
-clearSound.volume = 0.4;
-bgm.volume = 0.3;
-bgm.loop = true;
-function playSong1(){
-  bgm.src = "source/sounds/typeb.mp3"
-}
-function muteMusic() {
-  bgm.pause();
-}
-
-function unmute() {
-  bgm.play();
-}
-
-//set preload to auto to not get sound delay
-
 //plays game whenever a button is pressed
+document.body.style.overflow = 'hidden';
 function game() {
   bgm.play();
   //reverts the scores and levels back to its original value whenever you reset the game
@@ -88,47 +70,12 @@ function game() {
     score += points;
     updateScore();
   }
-  // generate a new tetromino sequence
-  function generateSequence() {
-    const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
-
-    while (sequence.length) {
-      const rand = getRandomInt(0, sequence.length - 1);
-      const name = sequence.splice(rand, 1)[0];
-      tetrominoSequence.push(name);
-    }
-  }
-
-  // get the next tetromino in the sequence
-  function getNextTetromino() {
-    if (tetrominoSequence.length === 0) {
-      generateSequence();
-    }
-    const name = tetrominoSequence.pop();
-    const matrix = tetrominos[name];
-    // I and O start centered, all others start in left-middle
-    const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
-    // I starts on row 21 (-1), all others start on row 22 (-2)
-    const row = name === 'I' ? -1 : -2;
-    //do something wit this
-    //console.log(tetrominoSequence);
-    return {
-      name: name,      // name of the piece (L, O, etc.)
-      matrix: matrix,  // the current rotation matrix
-      row: row,        // current row (starts offscreen)
-      col: col         // current col
-    };
-  }
-  
-  const viewBox = document.getElementById('viewnext');
-  const ctx = viewBox.getContext('2d');
-  //finish tommorrrowwwwerrr
-
+  //DISPLAY THE NEXT TETROMINO
   function viewNext() {
     var getNext = tetrominoSequence[tetrominoSequence.length - 1];
     console.log(getNext);
     if (getNext === undefined) {
-
+      
     }
     if (getNext === 'I') {
       ctx.clearRect(0, 0, 180, 180);
@@ -166,8 +113,42 @@ function game() {
       ctx.fillStyle = 'purple';
       ctx.fillRect(20, 0, 40, 120);
     }
-    
   }
+  // generate a new tetromino sequence
+  function generateSequence() {
+    const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
+
+    while (sequence.length) {
+      const rand = getRandomInt(0, sequence.length - 1);
+      const name = sequence.splice(rand, 1)[0];
+      tetrominoSequence.push(name);
+    }
+  }
+
+  // get the next tetromino in the sequence
+  function getNextTetromino() {
+    if (tetrominoSequence.length === 0) {
+      generateSequence();
+    }
+    const name = tetrominoSequence.pop();
+    const matrix = tetrominos[name];
+    // I and O start centered, all others start in left-middle
+    const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
+    // I starts on row 21 (-1), all others start on row 22 (-2)
+    const row = name === 'I' ? -1 : -2;
+    return {
+      name: name,      // name of the piece (L, O, etc.)
+      matrix: matrix,  // the current rotation matrix
+      row: row,        // current row (starts offscreen)
+      col: col         // current col
+    };
+  }
+  
+  const viewBox = document.getElementById('viewnext');
+  const ctx = viewBox.getContext('2d');
+  //finish tommorrrowwwwerrr
+
+  
 
   // rotate an NxN matrix 90 degrees
   function rotate(matrix) {
@@ -219,6 +200,7 @@ function game() {
         lineClears += 1;
         levelUp();
         increaseScore(100);
+        
         // drop every row above this one
         for (let r = row; r >= 0; r--) {
           for (let c = 0; c < playfield[r].length; c++) {
@@ -347,7 +329,7 @@ function game() {
 
     // draw the active tetromino
     if (tetromino) {
-
+      
       // tetromino falls every few frames depending on the value of the tickSpeed variable
       if (++count > tickSpeed) {
         tetromino.row++;
@@ -379,13 +361,14 @@ function game() {
 
     // left and right arrow keys (move)
     if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
-      
       const col = e.code === "ArrowLeft"
         ? tetromino.col - 1
         : tetromino.col + 1;
       if (isValidMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
-      }
+        playMove();
+      } 
+      // if move is invalid play a different sound
     }
 
     // up arrow key (rotate)
@@ -399,7 +382,7 @@ function game() {
     // down arrow key (drop)
     if(e.code === "ArrowDown") {
       const row = tetromino.row + 1;
-
+      playDrop();
       if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row = row - 1;
         placeTetromino();
