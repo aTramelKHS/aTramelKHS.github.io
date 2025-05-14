@@ -11,7 +11,7 @@ start.addEventListener('click', () => {
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
   document.getElementById('viewnext').hidden = false;
-  document.getElementById('text').hidden = true;
+  document.getElementById('title').hidden = true;
 });
 
 settings.addEventListener('click', () => {

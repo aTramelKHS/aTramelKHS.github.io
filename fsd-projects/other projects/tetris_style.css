@@ -22,6 +22,7 @@ body {
 canvas {
   border: 1px solid white;
   background-image: url(source/images/matrix.png);
+  margin-top: 60px;
 }
 
 .buttons {
@@ -60,4 +61,16 @@ canvas {
   position: relative;
   right: 160px;
   list-style-type: square;
+}
+
+#indicator {
+  font-family: "Afacad";
+  font-size: 40px;
+  font-style: bold;
+  background: linear-gradient(rgb(199, 0, 0), rgb(255, 255, 113));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: fixed;
+  bottom: 100px;
+  right: 380px;
 }

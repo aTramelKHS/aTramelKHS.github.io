@@ -15,9 +15,11 @@ var makeLevelData = function (window) {
         number: 1,
         speed: -3,
         gameItems: [
-          { type: "sawblade", x: 400, y: groundY },
-          { type: "sawblade", x: 600, y: groundY },
-          { type: "sawblade", x: 900, y: groundY },
+          { "type": "sawblade", "x": 400, "y": groundY },
+          { "type": "sawblade", "x": 600, "y": groundY },
+          { "type": "sawblade", "x": 900, "y": groundY },
+          { "type": "reward", "x": 2000, "y": groundY - 60},
+          { type: "end", x: 1200, y: groundY - 60}
         ],
       },
       {
@@ -28,6 +30,18 @@ var makeLevelData = function (window) {
           { type: "sawblade", x: 400, y: groundY },
           { type: "sawblade", x: 600, y: groundY },
           { type: "sawblade", x: 900, y: groundY },
+          { type: "end", x: 2000, y: groundY - 60}
+        ],
+      },
+      {
+        name: "Robot Rally",
+        number: 2,
+        speed: -3,
+        gameItems: [
+          { type: "sawblade", x: 400, y: groundY },
+          { type: "sawblade", x: 600, y: groundY },
+          { type: "sawblade", x: 900, y: groundY },
+          { type: "end", x: 2000, y: groundY - 60}
         ],
       },
     ];

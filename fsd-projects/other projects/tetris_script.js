@@ -12,6 +12,7 @@ function game() {
   let score = 0;
   levelUp();
   updateScore();
+  var countInd = 0;
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -146,9 +147,6 @@ function game() {
   
   const viewBox = document.getElementById('viewnext');
   const ctx = viewBox.getContext('2d');
-  //finish tommorrrowwwwerrr
-
-  
 
   // rotate an NxN matrix 90 degrees
   function rotate(matrix) {
@@ -180,6 +178,15 @@ function game() {
     return true;
   }
 
+  function displayTetris() {
+    const tetrisIndicator = document.getElementById('indicator');
+    if (tetrisIndicator) {
+      tetrisIndicator.style.display = 'inline';
+      setTimeout(function() {
+        tetrisIndicator.style.display = 'none';
+      }, 8000);
+    }
+  }
   // place the tetromino on the playfield
   function placeTetromino() {
     for (let row = 0; row < tetromino.matrix.length; row++) {
@@ -200,7 +207,11 @@ function game() {
         lineClears += 1;
         levelUp();
         increaseScore(100);
-        
+        countInd += 1;
+        if (countInd === 4){
+          displayTetris();
+          countInd === 0;
+        }
         // drop every row above this one
         for (let r = row; r >= 0; r--) {
           for (let c = 0; c < playfield[r].length; c++) {
@@ -215,6 +226,7 @@ function game() {
     increaseScore(10);
     tetromino = getNextTetromino();
     viewNext();
+    countInd = 0;
   }
 
   // show the game over screen

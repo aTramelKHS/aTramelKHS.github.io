@@ -36,17 +36,17 @@ var runLevels = function (window) {
     createSawBlade(1364, 290);
     createSawBlade(736, 270);
     
-    function createEnemy() {
+    function createEnemy(x, y) {
       var enemy = game.createGameItem("enemy", 25);
-      var redSquare = draw.rect(50, 50, "red");
+      var redSquare = draw.bitmap("img/evilsquidthing.png");
       redSquare.x = -25;
       redSquare.y = -25;
       enemy.addChild(redSquare);
-      enemy.x = 400;
-      enemy.y = groundY - 50;
+      enemy.x = x;
+      enemy.y = y;
       game.addGameItem(enemy);
 
-      enemy.velocityx = 10;
+      enemy.velocityX = -2;
       enemy.rotationalVelocity = 20;
       enemy.onPlayerCollision = function () {
         game.changeIntegrity(-10)
@@ -57,8 +57,8 @@ var runLevels = function (window) {
       };
     }
 
-    createEnemy(400, groundY - 10);
-    createEnemy(800, groundY - 100);
+    createEnemy(400, groundY - 50);
+    createEnemy(800, groundY - 50);
     createEnemy(1200, groundY - 50);
 
     function createReward () {
@@ -67,6 +67,35 @@ var runLevels = function (window) {
       yellowSquare.x = -25;
       yellowSquare.y = -25;
       reward.addChild(yellowSquare);
+      reward.x = 400;
+      reward.y = groundY - 10;
+      reward.velocityX = 20;
+      reward.onPlayerCollision = function () {
+        var random = Math.floor(Math.random() * 1);
+        if (random === 0) {
+          game.changeIntegrity(10);
+        } else {
+          game.increaseScore(400);
+        }
+      }
+      reward.onProjectileCOllision = function () {
+        reward.fadeOut();
+      }
+    }
+    createReward();
+
+    function createMarker () {
+      var end = game.createGameItem('marker', 25);
+      var greenSquare = draw.rect(50, 50, 'green');
+      greenSquare.x = -25;
+      greenSquare.y = -25;
+      end.addChild(greenSquare);
+      end.x = 1800;
+      end.y = groundY - 10;
+      end.velocityX = 20;
+      end.onPlayerCollision = function () {
+        startLevel();
+      }
     }
 
     function startLevel() {
