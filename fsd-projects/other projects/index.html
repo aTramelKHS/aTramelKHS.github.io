@@ -13,15 +13,28 @@
         </div>
         <button class="buttons" id="startBtn">Play</button>
         <button class="buttons" id="settings">Settings</button>
+        <button class="buttons" id="skins">Skins</button>
         <div hidden id="allsettings">
+            <button hidden class="buttons" id="back">Back</button>
+            <div>
+                <p>Keybinds</p>
+                <div id="keybinds">
+                    <button onclick="changeRotate()">Rotate</button>
+                    <button onclick="changeFall()">Drop</button>
+                    <button onclick="changeLeft()">Left</button>
+                    <button onclick="changeRight()">Right</button>
+                    <button onclick="changeHD()">Hard Drop</button>
+                    <button>Pause</button>
+                    <button>Revert Changes</button>
+                </div>
+            </div>
             <div id="soundvol">
-                <button hidden class="buttons" id="back">Back</button>
                 <p>sound volume</p>
                 <form>
                     <input type="range" min="0" max="1" value="0.5" step="0.1" oninput="this.form.sound.value=this.value ; soundVolume = this.value">
                     <output name="sound">0.5</output>
                 </form>
-            </div>
+            </div> 
             <div id="musicvol">
                 <p>music volume</p>
                 <form>

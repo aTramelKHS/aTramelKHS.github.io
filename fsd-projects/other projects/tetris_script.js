@@ -75,9 +75,6 @@ function game() {
   function viewNext() {
     var getNext = tetrominoSequence[tetrominoSequence.length - 1];
     console.log(getNext);
-    if (getNext === undefined) {
-      
-    }
     if (getNext === 'I') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'cyan';
@@ -130,6 +127,8 @@ function game() {
   function getNextTetromino() {
     if (tetrominoSequence.length === 0) {
       generateSequence();
+      console.log(generateSequence);
+      viewNext();
     }
     const name = tetrominoSequence.pop();
     const matrix = tetrominos[name];
@@ -137,6 +136,7 @@ function game() {
     const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
     // I starts on row 21 (-1), all others start on row 22 (-2)
     const row = name === 'I' ? -1 : -2;
+    viewNext();
     return {
       name: name,      // name of the piece (L, O, etc.)
       matrix: matrix,  // the current rotation matrix
@@ -184,7 +184,7 @@ function game() {
       tetrisIndicator.style.display = 'inline';
       setTimeout(function() {
         tetrisIndicator.style.display = 'none';
-      }, 8000);
+      }, 4000);
     }
   }
   // place the tetromino on the playfield
@@ -203,13 +203,14 @@ function game() {
     // check for line clears starting from the bottom and working our way up
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every(cell => !!cell)) {
-        clearSound.play();
+        clearSound.play()
         lineClears += 1;
         levelUp();
         increaseScore(100);
         countInd += 1;
         if (countInd === 4){
           displayTetris();
+          //play sound ere
           countInd === 0;
         }
         // drop every row above this one
@@ -225,7 +226,7 @@ function game() {
     }
     increaseScore(10);
     tetromino = getNextTetromino();
-    viewNext();
+    
     countInd = 0;
   }
 
@@ -317,7 +318,6 @@ function game() {
 
   let count = 0;
   let tetromino = getNextTetromino();
-  viewNext();
   let rAF = null;  // keep track of the animation frame so we can cancel it
   let gameOver = false;
 
@@ -372,8 +372,8 @@ function game() {
     if (gameOver) return;
 
     // left and right arrow keys (move)
-    if (e.code === "ArrowLeft" || e.code === "ArrowRight") {
-      const col = e.code === "ArrowLeft"
+    if (e.key === leftKey || e.key === rightKey) {
+      const col = e.key === leftKey
         ? tetromino.col - 1
         : tetromino.col + 1;
       if (isValidMove(tetromino.matrix, tetromino.row, col)) {
@@ -384,7 +384,7 @@ function game() {
     }
 
     // up arrow key (rotate)
-    if (e.code === "ArrowUp") {
+    if (e.key === rotateKey) {
       const matrix = rotate(tetromino.matrix);
       if (isValidMove(matrix, tetromino.row, tetromino.col)) {
         tetromino.matrix = matrix;
@@ -392,7 +392,7 @@ function game() {
     }
 
     // down arrow key (drop)
-    if(e.code === "ArrowDown") {
+    if(e.key === fallKey) {
       const row = tetromino.row + 1;
       playDrop();
       if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
@@ -402,6 +402,18 @@ function game() {
       }
 
       tetromino.row = row;
+    }
+  
+    // space key (hard drop)
+    // thx stemisruler
+    if (e.key === hardDropKey) {
+      let row = tetromino.row;
+      while (isValidMove(tetromino.matrix, row + 1, tetromino.col)) {
+       row++;
+      }
+      tetromino.row = row;
+      placeTetromino();
+      return;
     }
   });
 
