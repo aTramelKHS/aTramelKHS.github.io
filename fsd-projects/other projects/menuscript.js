@@ -4,10 +4,10 @@ const back = document.getElementById('back');
 const skinsBtn = document.getElementById('skins');
 const keyBinds = document.getElementById('keybind');
 const correctBinds = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
-let rotateKey = "UpArrow";
-let fallKey = "DownArrow";
-let leftKey = "LeftArrow";
-let rightKey = "RightArrow";
+let rotateKey = "ArrowUp";
+let fallKey = "ArrowDown";
+let leftKey = "ArrowLeft";
+let rightKey = "ArrowRight";
 let hardDropKey = " ";
 
 // dont look at my spaghetti code!
@@ -43,7 +43,7 @@ back.addEventListener('click', () => {
 
 
 function changeRotate() {
-  let something = prompt("Change the Rotate Key (base key is up arrow)");
+  let something = prompt("Change the Rotate Key (base key is ArrowUp)");
   if (correctBinds.includes(something)) {
     rotateKey = something;
   } else {
@@ -52,7 +52,7 @@ function changeRotate() {
 }
 
 function changeFall() {
-  let something = prompt("Change the Drop Key (base key is down arrow)");
+  let something = prompt("Change the Drop Key (base key is ArrowDown)");
   if (correctBinds.includes(something)) {
     fallKey = something;
   } else {
@@ -61,7 +61,7 @@ function changeFall() {
 }
 
 function changeLeft() {
-  let something = prompt("Change the Left Key (base key is left arrow)");
+  let something = prompt("Change the Left Key (base key is ArrowLeft)");
   if (correctBinds.includes(something)) {
     leftKey = something;
   } else {
@@ -70,7 +70,7 @@ function changeLeft() {
 }
 
 function changeRight() {
-  let something = prompt("Change the Right Key (base key is right arrow)");
+  let something = prompt("Change the Right Key (base key is ArrowRight)");
   if (correctBinds.includes(something)) {
     rightKey = something;
   } else {
@@ -78,7 +78,7 @@ function changeRight() {
   }
 }
 function changeHD() {
-  let something = prompt("Change the Hard Drop Key (base key is spacebar)");
+  let something = prompt("Change the Hard Drop Key (base key is Spacebar)");
   if (correctBinds.includes(something)) {
     hardDropKey = something;
   } else {
