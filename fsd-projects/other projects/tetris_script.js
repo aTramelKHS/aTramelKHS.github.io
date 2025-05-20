@@ -246,6 +246,7 @@ function game() {
     context.textBaseline = 'middle';
     context.fillText('GAME OVER! ' + score, canvas.width / 2, canvas.height / 2);
     bgm.pause();
+    
   }
 
   const canvas = document.getElementById('game');

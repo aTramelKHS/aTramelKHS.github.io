@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="tetris_style.css"/>
         <link href='https://fonts.googleapis.com/css?family=Afacad' rel='stylesheet'>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        </style>
     </head>
     <body>
-        <div id="title">
-            <h1 class="text">Tetris</h1>
-            <h3 class="text">still in development!</h3>
-            <p class="text">works best in full screen</p>
-        </div>
+        <h1 id="text">Tetris</h1>    
+        <p id="splash"> </p>
         <button class="buttons" id="startBtn">Play</button>
         <button class="buttons" id="settings">Settings</button>
         <button class="buttons" id="skins">Skins</button>
@@ -24,9 +24,10 @@
                     <button onclick="changeLeft()">Left</button>
                     <button onclick="changeRight()">Right</button>
                     <button onclick="changeHD()">Hard Drop</button>
-                    <button>Pause</button>
-                    <button>Revert Changes</button>
+                    <button>Pause FINISH ME</button>
+                    <button>Revert Changes FINISH ME</button>
                 </div>
+                <p>Presets FINISH ME</p>
             </div>
             <div id="soundvol">
                 <p>sound volume</p>
@@ -43,6 +44,8 @@
                     <output name="music">0.3</output>
                 </form>
             </div>
+            <p>Local Storage</p>
+            <button>Clear all data (highscores and things) FINISH ME</button>
         </div>
         <!-- <ul>
             <li><button id="lvl1">1</button></li>
