@@ -4,6 +4,7 @@ const back = document.getElementById('back');
 const skinsBtn = document.getElementById('skins');
 const keyBinds = document.getElementById('keybind');
 const splash = document.getElementById('splash');
+const title = document.getElementById('text');
 const correctBinds = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -28,7 +29,9 @@ start.addEventListener('click', () => {
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
   document.getElementById('viewnext').hidden = false;
-  document.getElementById('title').hidden = true;
+  document.getElementById('skins').hidden = true;
+  title.hidden = true;
+  splash.hidden = true;
   skinsBtn.hidden = true;
 });
 
