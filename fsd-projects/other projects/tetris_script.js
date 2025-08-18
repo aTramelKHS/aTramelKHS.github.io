@@ -74,7 +74,9 @@ function game() {
   //DISPLAY THE NEXT TETROMINO
   function viewNext() {
     var getNext = tetrominoSequence[tetrominoSequence.length - 1];
-    console.log(getNext);
+    if (getNext === undefined) {
+      getNextTetromino();
+    };
     if (getNext === 'I') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'cyan';
@@ -127,7 +129,6 @@ function game() {
   function getNextTetromino() {
     if (tetrominoSequence.length === 0) {
       generateSequence();
-      console.log(generateSequence);
       viewNext();
     }
     const name = tetrominoSequence.pop();

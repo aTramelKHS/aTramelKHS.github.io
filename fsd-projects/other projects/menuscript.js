@@ -11,8 +11,7 @@ let fallKey = "ArrowDown";
 let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
-var splashText = ["No menu screen music yet!", "Am i right lads or am i right lads?", "Make music for me!", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "This text here goes so on for so long, since it goes over the max width set in the css file, to the point where the web page automatically moves the text to the next line.", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "ts pmo", "Lower the price Nintendo!", "Where will I be in the next 15 years?"];
-
+let splashText = ["No menu screen music yet!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "This text here goes so on for so long, since it goes over the max width set in the css file, to the point where the web page automatically moves the text to the next line.", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "Where will I be in the next 15 years?", "War never changes", "Let's all do the cupid shuffle", "Checkmate!", "P4$$W0RD", "This is worse than that time I was a text in an array variable", "Numerators and denominators", "Ad Victoriam", "We STAY gooning - Carson", "Java and Javascript are NOT the same language"];
 const randomIndex = Math.floor(Math.random() * splashText.length);
 const selectedText = splashText[randomIndex];
 splash.textContent = selectedText;
@@ -41,6 +40,7 @@ settings.addEventListener('click', () => {
   settings.hidden = true;
   back.hidden = false;
   skinsBtn.hidden = true;
+  document.body.style.overflow = 'auto';
 })
 
 back.addEventListener('click', () => {
@@ -49,6 +49,8 @@ back.addEventListener('click', () => {
   start.hidden = false;
   skinsBtn.hidden = false;
   document.getElementById('allsettings').hidden = true;
+  window.scrollTo(0, 0);
+  document.body.style.overflow = 'hidden';
 })
 
 
@@ -93,6 +95,18 @@ function changeHD() {
     hardDropKey = something;
   } else {
     alert('this key is unacceptable!');
+  }
+}
+
+function revertChanges() {
+  let yes = prompt("Are you sure you want to revert back to default keybinds? Y or N");
+  if (yes === "Y" || yes === "y") {
+    alert("changes reverted");
+    let rotateKey = "ArrowUp";
+    let fallKey = "ArrowDown";
+    let leftKey = "ArrowLeft";
+    let rightKey = "ArrowRight";
+    let hardDropKey = " ";
   }
 }
 

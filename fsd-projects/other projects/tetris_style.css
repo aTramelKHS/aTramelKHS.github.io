@@ -22,7 +22,7 @@ body {
 }
 
 #text {
-  font-size: 60px;
+  font-size: 100px;
   padding: 20px;
   font-family: "Press Start 2P", system-ui;
   margin-top: 180px;
@@ -33,7 +33,6 @@ body {
 }
 
 #splash {
-  font-size: 20px;
   font-family: "Press Start 2P", system-ui;
   color: darkgoldenrod;
   animation-name: hoyhoy;
@@ -41,10 +40,11 @@ body {
   animation-iteration-count: infinite;
   transform: rotate(-5deg);
   position: absolute;
-  top: 250px;
-  left: 840px;
+  top: 310px;
+  left: 820px;
   max-height: 120px;
   max-width: 530px;
+  text-align: center;
 }
 
 .nan {

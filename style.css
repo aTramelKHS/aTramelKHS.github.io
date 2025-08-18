@@ -87,6 +87,18 @@ main {
     border-width: 20px;
 }
 
+.sidebar-img2 {
+    margin: 20px;
+    float: right;
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    object-position: 75%;
+    border-style: ridge;
+    border-radius: 10px;
+    border-width: 20px;
+}
+
 .content {
     flex: 1;
     padding: 15px;
@@ -146,9 +158,6 @@ h2, h3 {
 #potato {
     height: 32px;
     width: 47px;
-}
-#cake a {
-    font-size: 10px;
 }
 .updateboard {
     border-style: outset;
