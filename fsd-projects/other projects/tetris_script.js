@@ -6,14 +6,15 @@ document.body.style.overflow = 'hidden';
 function game() {
   bgm.play();
   //reverts the scores and levels back to its original value whenever you reset the game
-  var lineClears = 0;
-  var level = 0;
-  var tickSpeed = 84;
+  let lineClears = 0;
+  let level = 0;
+  let tickSpeed = 84;
   let score = 0;
   levelUp();
   updateScore();
-  var countInd = 0;
-
+  let countInd = 0;
+  let holdBlock;
+ 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -80,38 +81,42 @@ function game() {
     if (getNext === 'I') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'cyan';
-      ctx.fillRect(40, 40, 20, 80);
+      ctx.fillRect(50, 20, 20, 80);
     }
     else if (getNext === 'J') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'blue';
-      ctx.fillRect(20, 0, 20, 80);
-      ctx.fillRect(0, 0, 20, 20);
+      ctx.fillRect(50, 20, 20, 80);
+      ctx.fillRect(70, 20, 20, 20);
     } 
     else if (getNext === 'L') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'orange';
-      ctx.fillRect(20, 0, 40, 120);
+      ctx.fillRect(50, 20, 20, 80);
+      ctx.fillRect(30, 20, 20, 20);
     } 
     else if (getNext === 'O') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'yellow';
-      ctx.fillRect(20, 0, 40, 120);
+      ctx.fillRect(36, 36, 60, 60);
     }
     else if (getNext === 'S') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'green';
-      ctx.fillRect(20, 0, 40, 120);
+      ctx.fillRect(60, 40, 40, 20);
+      ctx.fillRect(40, 60, 40, 20);
     }
     if (getNext === 'Z') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'red';
-      ctx.fillRect(20, 0, 40, 120);
+      ctx.fillRect(80, 40, -40, 20);
+      ctx.fillRect(100, 60, -40, 20);
     }
     else if (getNext === 'T') {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = 'purple';
-      ctx.fillRect(20, 0, 40, 120);
+      ctx.fillRect(40, 60, 60, 20);
+      ctx.fillRect(60, 40, 20, 20);
     }
   }
   // generate a new tetromino sequence
@@ -185,7 +190,7 @@ function game() {
       tetrisIndicator.style.display = 'inline';
       setTimeout(function() {
         tetrisIndicator.style.display = 'none';
-      }, 4000);
+      }, 8000);
     }
   }
   // place the tetromino on the playfield
@@ -227,7 +232,6 @@ function game() {
     }
     increaseScore(10);
     tetromino = getNextTetromino();
-    
     countInd = 0;
   }
 
@@ -417,6 +421,22 @@ function game() {
       placeTetromino();
       return;
     }
+
+    // save block key
+    /*if (e.key === holdBlockKey) {
+      console.log('pressed');
+      if (holdBlock === undefined) {
+        holdBlock === tetromino;
+        tetromino === getNextTetromino();
+      } else {
+        tetrominoSequence.push(holdBlock);
+        holdBlock === tetromino;
+      }
+      console.log(holdBlock);
+    }*/
+
+
+
   });
 
   // start the game
