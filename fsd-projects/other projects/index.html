@@ -1,62 +1,94 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Tetris</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="tetris_style.css"/>
-        <link href='https://fonts.googleapis.com/css?family=Afacad' rel='stylesheet'>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        </style>
-    </head>
-    <body>
-        <h1 id="text">Tetris</h1>    
-        <p id="splash"> </p>
-        <button class="buttons" id="startBtn">Play</button>
-        <button class="buttons" id="settings">Settings</button>
-        <button class="buttons" id="skins">Skins</button>
-        <!--<button class="buttons" id="credits">Credits</button>-->
-        <div hidden id="allsettings">
-            <button hidden class="buttons" id="back">Back</button>
-            <div>
-                <p>Keybinds</p>
-                <div id="keybinds">
-                    <button onclick="changeRotate()">Rotate</button>
-                    <button onclick="changeFall()">Drop</button>
-                    <button onclick="changeLeft()">Left</button>
-                    <button onclick="changeRight()">Right</button>
-                    <button onclick="changeHD()">Hard Drop</button>
-                    <button>Pause FINISH ME</button>
-                    <button onclick="revertChanges()">Revert Changes</button>
-                </div>
-                <p>Presets FINISH ME</p>
-            </div>
-            <div id="soundvol">
-                <p>Sound volume</p>
-                <form>
-                    <input type="range" min="0" max="1" value="0.5" step="0.1" oninput="this.form.sound.value=this.value ; soundVolume = this.value">
-                    <output name="sound">0.5</output>
-                </form>
-            </div> 
-            <div id="musicvol">
-                <p>Music volume</p>
-                <form>
-
-                    <input type="range" min="0" max="1" value="0.3" step="0.1" oninput="this.form.music.value = this.value ; bgm.volume = this.value">
-                    <output name="music">0.3</output>
-                </form>
-            </div>
-            <p>Saves</p>
-            <button>Clear all data (highscores and things) FINISH ME</button>
-            <p>Stats</p>
-            <p>Highest Score: unfinished</p>
-            <p>Latest Score: unfinished</p>
-            <p>Plays: unfinished</p>
-            <p>Tetrises: unfinished</p>
-            <p>Time Played: unfinished</p>
+<html id="main" class="main-style">
+  <head>
+    <title>Tetris</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="tetris_style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Afacad"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="source/images/Favicon.ico"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1 id="text">Tetris</h1>
+    <p id="splash"></p>
+    <div id="dashboard">
+      <!--          Selector Style     Functionality       -->
+      <button class="buttons normal" id="startBtn">Play</button>
+      <button class="buttons normal" id="settings">Settings</button>
+      <button class="buttons normal" id="skins">Skins</button>
+      <!--<button class="buttons" id="credits">Credits</button>-->
+      <!--<button class="buttons" id="songs">Songs</button>-->
+      <div hidden id="allsettings">
+        <button hidden class="buttons" id="back">Back</button>
+        <div>
+          <p>Keybinds</p>
+          <div id="keybinds">
+            <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
+            <button class="smallbtn btn-small" onclick="changeFall()">Drop</button>
+            <button class="smallbtn btn-small" onclick="changeLeft()">Left</button>
+            <button class="smallbtn btn-small" onclick="changeRight()">Right</button>
+            <button class="smallbtn btn-small" onclick="changeHD()">Hard Drop</button>
+            <button class="smallbtn btn-small">Pause FINISH ME</button>
+            <button class="smallbtn btn-small"onclick="revertChanges()">Revert Changes</button>
+          </div>
+          <p>Presets FINISH ME</p>
         </div>
+        <div id="soundvol">
+          <p>Sound Volume</p>
+          <form>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              value="0.5"
+              step="0.1"
+              oninput="this.form.sound.value=this.value ; soundVolume = this.value"
+            />
+            <output name="sound">0.5</output>
+          </form>
+        </div>
+        <div id="musicvol">
+          <p>Music Volume</p>
+          <form>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              value="0.3"
+              step="0.1"
+              oninput="this.form.music.value = this.value ; bgm.volume = this.value"
+            />
+            <output name="music">0.3</output>
+          </form>
+        </div>
+        <div>
+          <p>Visual Settings</p>
+          <p>Font Size (do later)</p>
+        </div>
+        <p>Saves</p>
+        <button class="smallbtn btn-small">Clear all data (highscores and things) FINISH ME</button>
+        <p>Stats</p>
+        <p>Highest Score: unfinished</p>
+        <p>Latest Score: unfinished</p>
+        <p>Plays: unfinished</p>
+        <p>Tetrises: unfinished</p>
+        <p>Time Played: unfinished</p>
+      </div>
+    </div>
 
-        <!-- <ul>
+    <!-- <ul>
             <li><button id="lvl1">1</button></li>
             <li><button id="lvl2">2</button></li>
             <li><button id="lvl3">3</button></li>
@@ -72,21 +104,21 @@
             <li><button id="lvl11">11</button></li>
             <li><button id="lvl12">12</button></li>
         </ul> -->
-        <div class="nan">
-            <canvas hidden id="queue" width = '128' height = '128'></canvas>
-            <canvas hidden id="game" width="320" height="640"></canvas>
-            <canvas hidden id="viewnext" width = '128' height = '128'></canvas>
-            <div hidden id="UI">
-                <ul id="UIlist">
-                    <li><span id="scorehtml">Score: 0</span></li>
-                    <li><span id="levelhtml">Level: 0</span></li>
-                    <li><span id="lineshtml">Line Clears: 0</span></li>
-                </ul>
-            </div>
-            <h2 hidden id="indicator">Tetris!</h2>
-        </div>
-            <script src="tetris_script.js"></script>
-            <script src="menuscript.js"></script>
-            <script src="sound.js"></script>
-    </body>
+    <div class="nan">
+      <canvas hidden id="queue" width="128" height="128"></canvas>
+      <canvas hidden id="game" width="320" height="640"></canvas>
+      <canvas hidden id="viewnext" width="128" height="128"></canvas>
+      <div hidden id="UI">
+        <ul id="UIlist">
+          <li><span id="scorehtml">Score: 0</span></li>
+          <li><span id="levelhtml">Level: 0</span></li>
+          <li><span id="lineshtml">Line Clears: 0</span></li>
+        </ul>
+      </div>
+      <h2 hidden id="indicator">Tetris!</h2>
+    </div>
+    <script src="tetris_script.js"></script>
+    <script src="menuscript.js"></script>
+    <script src="sound.js"></script>
+  </body>
 </html>

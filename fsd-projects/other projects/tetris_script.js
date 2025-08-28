@@ -2,6 +2,16 @@
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
 //plays game whenever a button is pressed
+var colors = {
+  I: "cyan",
+  O: "yellow",
+  T: "purple",
+  S: "green",
+  Z: "red",
+  J: "blue",
+  L: "orange",
+};
+
 document.body.style.overflow = "hidden";
 function game() {
   bgm.play();
@@ -13,7 +23,7 @@ function game() {
   levelUp();
   updateScore();
   let countInd = 0;
-  let holdBlock;
+  let hold = '';
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -81,36 +91,35 @@ function game() {
     }
     if (getNext === "I") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "cyan";
+      ctx.fillStyle = colors.I;
       ctx.fillRect(50, 20, 20, 80);
     } else if (getNext === "J") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "blue";
+      ctx.fillStyle = colors.J;
       ctx.fillRect(50, 20, 20, 80);
       ctx.fillRect(70, 20, 20, 20);
     } else if (getNext === "L") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "orange";
+      ctx.fillStyle = colors.L;
       ctx.fillRect(50, 20, 20, 80);
       ctx.fillRect(30, 20, 20, 20);
     } else if (getNext === "O") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "yellow";
+      ctx.fillStyle = colors.O;
       ctx.fillRect(36, 36, 60, 60);
     } else if (getNext === "S") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "green";
+      ctx.fillStyle = colors.S;
       ctx.fillRect(60, 40, 40, 20);
       ctx.fillRect(40, 60, 40, 20);
-    }
-    if (getNext === "Z") {
+    } else if (getNext === "Z") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "red";
+      ctx.fillStyle = colors.Z;
       ctx.fillRect(80, 40, -40, 20);
       ctx.fillRect(100, 60, -40, 20);
     } else if (getNext === "T") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = "purple";
+      ctx.fillStyle = colors.T;
       ctx.fillRect(40, 60, 60, 20);
       ctx.fillRect(60, 40, 20, 20);
     }
@@ -310,16 +319,7 @@ function game() {
     ],
   };
 
-  // color of each tetromino
-  const colors = {
-    I: "cyan",
-    O: "yellow",
-    T: "purple",
-    S: "green",
-    Z: "red",
-    J: "blue",
-    L: "orange",
-  };
+  
 
   let count = 0;
   let tetromino = getNextTetromino();
@@ -424,14 +424,10 @@ function game() {
     // save block key
     /*if (e.key === holdBlockKey) {
       console.log('pressed');
-      if (holdBlock === undefined) {
-        holdBlock === tetromino;
-        tetromino === getNextTetromino();
-      } else {
-        tetrominoSequence.push(holdBlock);
-        holdBlock === tetromino;
+      if (hold !== "") {
+        [hold, tetromino.name] =
       }
-      console.log(holdBlock);
+      tetromino = getNextTetromino();
     }*/
   });
 
