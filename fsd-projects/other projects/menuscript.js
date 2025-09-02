@@ -7,6 +7,7 @@ const splash = document.getElementById('splash');
 const title = document.getElementById('text');
 const main = document.getElementById('main');
 const gameCanvas = document.getElementById('game');
+const UI = document.getElementById('UI');
 const buttons = document.getElementsByClassName('buttons');
 const dashboard = document.getElementById('dashboard');
 const smallBtn = document.getElementsByClassName('smallbtn');
@@ -60,12 +61,12 @@ back.addEventListener('click', () => {
   document.body.style.overflow = 'hidden';
 });
 
-const crtContainer = document.querySelector('#main');
+const pipBoy = document.querySelector('#main');
 let failsafe = 0;
 let position = 0;
 function animateScanlines() {
-  position -= 2; // speed
-  crtContainer.style.setProperty('--scanline-position', `${position}px`);
+  position -= 1; // speed
+  pipBoy.style.setProperty('--scanline-position', `${position}px`);
   requestAnimationFrame(animateScanlines);
   if (position === -100) {
     position = 0;
@@ -73,6 +74,7 @@ function animateScanlines() {
 };
 
 skinsBtn.addEventListener('click', () => {
+  document.getElementById('allskins').hidden = false;
   var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't allow this setting. If you aren't prone to motion sickness type 'Y'");
   if (warning === 'y' || warning === 'Y') {
     splash.hidden = true;
@@ -81,6 +83,7 @@ skinsBtn.addEventListener('click', () => {
     main.classList.add('main-style2');
     gameCanvas.style.backgroundImage = 'none';
     dashboard.classList.add('dashboard-style');
+    UI.classList.add('UI-style');
     colors = {
       I: "rgb(0, 255, 0)",
       O: "rgb(0, 230, 0)",

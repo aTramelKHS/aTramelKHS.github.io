@@ -32,41 +32,8 @@ function game() {
   }
   //decreases tick speed every 10 levels
   function levelUp() {
-    if (lineClears === 10) {
-      level = 1;
-      tickSpeed -= 6;
-    } else if (lineClears === 20) {
-      level = 2;
-      tickSpeed -= 6;
-    } else if (lineClears === 30) {
-      level = 3;
-      tickSpeed -= 6;
-    } else if (lineClears === 40) {
-      level = 4;
-      tickSpeed -= 6;
-    } else if (lineClears === 50) {
-      level = 5;
-      tickSpeed -= 6;
-    } else if (lineClears === 60) {
-      level = 6;
-      tickSpeed -= 6;
-    } else if (lineClears === 70) {
-      level = 7;
-      tickSpeed -= 6;
-    } else if (lineClears === 80) {
-      level = 8;
-      tickSpeed -= 6;
-    } else if (lineClears === 90) {
-      level = 9;
-      tickSpeed -= 6;
-    } else if (lineClears === 100) {
-      level = 10;
-      tickSpeed -= 6;
-    } else if (lineClears === 110) {
-      level = 11;
-      tickSpeed -= 6;
-    } else if (lineClears === 120) {
-      level = 12;
+    if (lineClears % 10 === 0) {
+      level = lineClears / 10;
       tickSpeed -= 6;
     }
     document.getElementById("levelhtml").textContent = "Level: " + level;

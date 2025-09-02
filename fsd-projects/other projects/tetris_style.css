@@ -197,6 +197,13 @@ canvas {
   font-size: 20px;
 }
 
+.UI-style {
+  border-top: 6px solid rgb(0, 255, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 6px solid rgb(0, 255, 0);
+  padding: 10px;
+}
+
 #UIlist {
   position: relative;
   right: 160px;
