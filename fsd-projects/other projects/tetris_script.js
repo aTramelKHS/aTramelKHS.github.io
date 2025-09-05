@@ -23,8 +23,9 @@ function game() {
   levelUp();
   updateScore();
   let countInd = 0;
-  let hold = '';
-
+  let limit = false;
+  let hold = "";
+  let getNext;
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -32,7 +33,7 @@ function game() {
   }
   //decreases tick speed every 10 levels
   function levelUp() {
-    if (lineClears % 10 === 0) {
+    if (lineClears % 10 - fast === 0) {
       level = lineClears / 10;
       tickSpeed -= 6;
     }
@@ -51,44 +52,47 @@ function game() {
     updateScore();
   }
   //DISPLAY THE NEXT TETROMINO
-  function viewNext() {
-    var getNext = tetrominoSequence[tetrominoSequence.length - 1];
-    if (getNext === undefined) {
-      getNextTetromino();
+  //ctx for view next box and ct for hold box
+  function display(box, container) {
+    if (box === ctx) {
+      getNext = tetrominoSequence[tetrominoSequence.length - 1];
+      if (getNext === undefined) {
+        getNextTetromino();
+      }
     }
-    if (getNext === "I") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.I;
-      ctx.fillRect(50, 20, 20, 80);
-    } else if (getNext === "J") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.J;
-      ctx.fillRect(50, 20, 20, 80);
-      ctx.fillRect(70, 20, 20, 20);
-    } else if (getNext === "L") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.L;
-      ctx.fillRect(50, 20, 20, 80);
-      ctx.fillRect(30, 20, 20, 20);
-    } else if (getNext === "O") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.O;
-      ctx.fillRect(36, 36, 60, 60);
-    } else if (getNext === "S") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.S;
-      ctx.fillRect(60, 40, 40, 20);
-      ctx.fillRect(40, 60, 40, 20);
-    } else if (getNext === "Z") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.Z;
-      ctx.fillRect(80, 40, -40, 20);
-      ctx.fillRect(100, 60, -40, 20);
-    } else if (getNext === "T") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.T;
-      ctx.fillRect(40, 60, 60, 20);
-      ctx.fillRect(60, 40, 20, 20);
+    if (container === "I") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.I;
+      box.fillRect(50, 20, 20, 80);
+    } else if (container === "J") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.J;
+      box.fillRect(50, 20, 20, 80);
+      box.fillRect(70, 20, 20, 20);
+    } else if (container === "L") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.L;
+      box.fillRect(50, 20, 20, 80);
+      box.fillRect(30, 20, 20, 20);
+    } else if (container === "O") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.O;
+      box.fillRect(36, 36, 60, 60);
+    } else if (container === "S") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.S;
+      box.fillRect(60, 40, 40, 20);
+      box.fillRect(40, 60, 40, 20);
+    } else if (container === "Z") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.Z;
+      box.fillRect(80, 40, -40, 20);
+      box.fillRect(100, 60, -40, 20);
+    } else if (container === "T") {
+      box.clearRect(0, 0, 180, 180);
+      box.fillStyle = colors.T;
+      box.fillRect(40, 60, 60, 20);
+      box.fillRect(60, 40, 20, 20);
     }
   }
   // generate a new tetromino sequence
@@ -104,9 +108,10 @@ function game() {
 
   // get the next tetromino in the sequence
   function getNextTetromino() {
+    limit = false;
     if (tetrominoSequence.length === 0) {
       generateSequence();
-      viewNext();
+      display(ctx, getNext);
     }
     const name = tetrominoSequence.pop();
     const matrix = tetrominos[name];
@@ -114,7 +119,7 @@ function game() {
     const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
     // I starts on row 21 (-1), all others start on row 22 (-2)
     const row = name === "I" ? -1 : -2;
-    viewNext();
+    display(ctx, getNext);
     return {
       name: name, // name of the piece (L, O, etc.)
       matrix: matrix, // the current rotation matrix
@@ -125,6 +130,9 @@ function game() {
 
   const viewBox = document.getElementById("viewnext");
   const ctx = viewBox.getContext("2d");
+  const holdBox = document.getElementById('queue');
+  const cx = holdBox.getContext('2d');
+
 
   // rotate an NxN matrix 90 degrees
   function rotate(matrix) {
@@ -341,7 +349,9 @@ function game() {
     }
   }
 
+
   // listen to keyboard events to move the active tetromino
+  //held keys
   document.addEventListener("keydown", function (e) {
     if (gameOver) return;
 
@@ -387,15 +397,29 @@ function game() {
       placeTetromino();
       return;
     }
-
-    // save block key
-    /*if (e.key === holdBlockKey) {
-      console.log('pressed');
-      if (hold !== "") {
-        [hold, tetromino.name] =
+  });
+  //pressed keys
+  document.addEventListener("keyup", function (e) {
+    // hold block key
+    if (e.key === holdBlockKey) {
+      if (limit === false) {
+        if (hold !== "") {
+          tetromino.row = -1;
+          tetromino.col = 3;
+          [hold, tetromino] = [tetromino, hold];
+          tetrominoSequence.push(tetromino.name);
+        } 
+        else {
+          hold = tetromino;
+        }
+        tetromino = getNextTetromino();
+        limit = true;
+        display(cx, hold.name);
       }
-      tetromino = getNextTetromino();
-    }*/
+      else {
+        console.log('limit reached');
+      }
+    }
   });
 
   // start the game

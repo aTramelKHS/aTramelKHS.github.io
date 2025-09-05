@@ -29,17 +29,25 @@
       <button class="buttons normal" id="settings">Settings</button>
       <button class="buttons normal" id="skins">Skins</button>
       <div hidden id="allskins">
-        <button class="buttons" id="back">Back</button>
+        <button class="buttons normal" id="back" onclick="goBack(1)">Back</button>
+        <br>
+        <button class="buttons normal" onclick="reduceMotion(0)">Reduce Motion</button>
+        <button class="buttons normal" onclick="reduceMotion(1)">No Motion</button>
+        <button class="buttons normal" onclick="reduceMotion(2)">Regular Motion</button>
         <br>
         <button class="smallbtn btn-small">Reset</button>
         <br>
-        <button class="smallbtn btn-small" onclick="change('skin')">Skin 1</button>
+        <button class="smallbtn btn-small" onclick="temporary()">Skin 1</button>
+        <!--todo: change temporary() to changeSkin(skinId, requirement, isSpecial) when you are done with the code-->
       </div>
       <!--<button class="buttons" id="credits">Credits</button>-->
       <!--<button class="buttons" id="songs">Songs</button>-->
       <div hidden id="allsettings">
-        <button hidden class="buttons" id="back">Back</button>
+        <button hidden class="buttons normal" id="back2" onclick="goBack(2)">Back</button>
         <div>
+          <p>Gameplay</p>
+            <button class="smallbtn btn-small" onclick="fastMode()">Fast Mode</button>
+            <h6>Levels level up faster than normal</h6>
           <p>Keybinds</p>
           <div id="keybinds">
             <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
@@ -55,7 +63,7 @@
         <div id="soundvol">
           <p>Sound Volume</p>
           <form>
-            <input
+            <input class="slider input-bars"
               type="range"
               min="0"
               max="1"
@@ -69,7 +77,7 @@
         <div id="musicvol">
           <p>Music Volume</p>
           <form>
-            <input
+            <input class="slider input-bars"
               type="range"
               min="0"
               max="1"

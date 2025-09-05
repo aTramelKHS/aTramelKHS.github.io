@@ -1,6 +1,7 @@
 const start = document.getElementById('startBtn');
 const settings = document.getElementById('settings');
 const back = document.getElementById('back');
+const back2 = document.getElementById('back2');
 const skinsBtn = document.getElementById('skins');
 const keyBinds = document.getElementById('keybind');
 const splash = document.getElementById('splash');
@@ -11,6 +12,7 @@ const UI = document.getElementById('UI');
 const buttons = document.getElementsByClassName('buttons');
 const dashboard = document.getElementById('dashboard');
 const smallBtn = document.getElementsByClassName('smallbtn');
+const slider = document.getElementsByClassName('slider');
 const correctBinds = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -18,14 +20,14 @@ let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
 let holdBlockKey = "c"
-let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Objection!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "Now with more tv and movie refrences", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga"];
+let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Objection!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "Now with more tv and movie refrences", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Why is JSON so unbelievably difficult to learn", "MATH IS MATH"];
 const randomIndex = Math.floor(Math.random() * splashText.length);
 const selectedText = splashText[randomIndex];
 splash.textContent = selectedText;
+let fast = 0;
 
 
 // dont look at my spaghetti code!
-
 
 start.addEventListener('click', () => {
   game();
@@ -46,35 +48,61 @@ settings.addEventListener('click', () => {
   document.getElementById('allsettings').hidden = false;
   start.hidden = true;
   settings.hidden = true;
-  back.hidden = false;
+  back2.hidden = false;
   skinsBtn.hidden = true;
   document.body.style.overflow = 'auto';
 });
 
-back.addEventListener('click', () => {
-  back.hidden = true;
+function goBack(buttonId) {
   settings.hidden = false;
   start.hidden = false;
   skinsBtn.hidden = false;
-  document.getElementById('allsettings').hidden = true;
   window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
-});
+  if (buttonId === 1) {
+    back.hidden = false;
+    document.getElementById("allskins").hidden = true;
+  } else if (buttonId === 2) {
+    back2.hidden = false;
+    document.getElementById('allsettings').hidden = true;
+  }
+}
+
 
 const pipBoy = document.querySelector('#main');
 let failsafe = 0;
 let position = 0;
+let speed = 1
 function animateScanlines() {
-  position -= 1; // speed
+  position -= speed; // speed
   pipBoy.style.setProperty('--scanline-position', `${position}px`);
   requestAnimationFrame(animateScanlines);
-  if (position === -100) {
+  if (position === 10 * speed) {
     position = 0;
   }
 };
 
+function reduceMotion(val) {
+  if (val === 0) {
+    speed = 0.4;
+  } else if (val === 1) {
+    speed = 0;
+  } else if (val === 2) {
+    speed = 1;
+  }
+}
+
+
 skinsBtn.addEventListener('click', () => {
+  start.hidden = true;
+  settings.hidden = true;
+  skinsBtn.hidden = true;
+  back.hidden = false;
   document.getElementById('allskins').hidden = false;
+  document.body.style.overflow = 'auto';
+});
+
+function temporary() {
   var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't allow this setting. If you aren't prone to motion sickness type 'Y'");
   if (warning === 'y' || warning === 'Y') {
     splash.hidden = true;
@@ -101,12 +129,16 @@ skinsBtn.addEventListener('click', () => {
       smallBtn[i].classList.remove('btn-small');
       smallBtn[i].classList.add('btn-small-style');
     }
+    for (var i = 0; i < slider.length; i++) {
+      slider[i].classList.remove('input-bars');
+      slider[i].classList.add('input-bars-style');
+    }
     if (failsafe === 0) {
       animateScanlines();
     }
     failsafe += 1;
   }
-});
+}
 
 function changeRotate() {
   let something = prompt("Change the Rotate Key (base key is ArrowUp)");
@@ -164,28 +196,6 @@ function revertChanges() {
   }
 };
 
-
-
-
-/*
-document.getElementById('lvl1').addEventListener('click', (e) => {
-  level = 1;
-  console.log(level);
-});
-
-document.getElementById('lvl2').addEventListener('click', (e) => {
-  level = 2;
-  console.log(level);
-});
-
-document.getElementById('lvl3').addEventListener('click', (e) => {
-  level = 3;
-  console.log(level);
-});
-
-document.getElementById('lvl4').addEventListener('click', (e) => {
-  level = 4;
-  console.log(level);
-}); */
-
-
+function fastMode() {
+  fast = 3;
+}
