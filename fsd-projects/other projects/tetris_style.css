@@ -83,7 +83,7 @@
   animation-iteration-count: infinite;
   transform: rotate(-5deg);
   position: absolute;
-  top: 300px;
+  top: 292px;
   left: 920px;
   max-width: 800px;
   text-align: center;
@@ -221,6 +221,8 @@ canvas {
   bottom: 180px;
   left: 320px;
 }
+
+
 
 .input-bars {
   appearance: none;

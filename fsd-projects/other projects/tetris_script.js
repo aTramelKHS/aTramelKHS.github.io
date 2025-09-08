@@ -38,8 +38,7 @@ function game() {
       tickSpeed -= 6;
     }
     document.getElementById("levelhtml").textContent = "Level: " + level;
-    document.getElementById("lineshtml").textContent =
-      "Line Clears: " + lineClears;
+    document.getElementById("lineshtml").textContent = "Line Clears: " + lineClears;
   }
 
   //updates the score display
@@ -52,47 +51,44 @@ function game() {
     updateScore();
   }
   //DISPLAY THE NEXT TETROMINO
-  //ctx for view next box and ct for hold box
-  function display(box, container) {
-    if (box === ctx) {
-      getNext = tetrominoSequence[tetrominoSequence.length - 1];
-      if (getNext === undefined) {
-        getNextTetromino();
-      }
+  function display() {
+    getNext = tetrominoSequence[tetrominoSequence.length - 1];
+    if (getNext === undefined) {
+      getNextTetromino();
     }
-    if (container === "I") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.I;
-      box.fillRect(50, 20, 20, 80);
-    } else if (container === "J") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.J;
-      box.fillRect(50, 20, 20, 80);
-      box.fillRect(70, 20, 20, 20);
-    } else if (container === "L") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.L;
-      box.fillRect(50, 20, 20, 80);
-      box.fillRect(30, 20, 20, 20);
-    } else if (container === "O") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.O;
-      box.fillRect(36, 36, 60, 60);
-    } else if (container === "S") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.S;
-      box.fillRect(60, 40, 40, 20);
-      box.fillRect(40, 60, 40, 20);
-    } else if (container === "Z") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.Z;
-      box.fillRect(80, 40, -40, 20);
-      box.fillRect(100, 60, -40, 20);
-    } else if (container === "T") {
-      box.clearRect(0, 0, 180, 180);
-      box.fillStyle = colors.T;
-      box.fillRect(40, 60, 60, 20);
-      box.fillRect(60, 40, 20, 20);
+    if (getNext === "I") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.I;
+      ctx.fillRect(50, 20, 20, 80);
+    } else if (getNext === "J") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.J;
+      ctx.fillRect(50, 20, 20, 80);
+      ctx.fillRect(70, 20, 20, 20);
+    } else if (getNext === "L") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.L;
+      ctx.fillRect(50, 20, 20, 80);
+      ctx.fillRect(30, 20, 20, 20);
+    } else if (getNext === "O") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.O;
+      ctx.fillRect(36, 36, 60, 60);
+    } else if (getNext === "S") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.S;
+      ctx.fillRect(60, 40, 40, 20);
+      ctx.fillRect(40, 60, 40, 20);
+    } else if (getNext === "Z") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.Z;
+      ctx.fillRect(80, 40, -40, 20);
+      ctx.fillRect(100, 60, -40, 20);
+    } else if (getNext === "T") {
+      ctx.clearRect(0, 0, 180, 180);
+      ctx.fillStyle = colors.T;
+      ctx.fillRect(40, 60, 60, 20);
+      ctx.fillRect(60, 40, 20, 20);
     }
   }
   // generate a new tetromino sequence
@@ -111,7 +107,7 @@ function game() {
     limit = false;
     if (tetrominoSequence.length === 0) {
       generateSequence();
-      display(ctx, getNext);
+      display();
     }
     const name = tetrominoSequence.pop();
     const matrix = tetrominos[name];
@@ -119,7 +115,7 @@ function game() {
     const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
     // I starts on row 21 (-1), all others start on row 22 (-2)
     const row = name === "I" ? -1 : -2;
-    display(ctx, getNext);
+    display();
     return {
       name: name, // name of the piece (L, O, etc.)
       matrix: matrix, // the current rotation matrix
@@ -414,7 +410,40 @@ function game() {
         }
         tetromino = getNextTetromino();
         limit = true;
-        display(cx, hold.name);
+        if (hold.name === "I") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.I;
+          cx.fillRect(50, 20, 20, 80);
+        } else if (hold.name === "J") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.J;
+          cx.fillRect(50, 20, 20, 80);
+          cx.fillRect(70, 20, 20, 20);
+        } else if (hold.name === "L") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.L;
+          cx.fillRect(50, 20, 20, 80);
+          cx.fillRect(30, 20, 20, 20);
+        } else if (hold.name === "O") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.O;
+          cx.fillRect(36, 36, 60, 60);
+        } else if (hold.name === "S") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.S;
+          cx.fillRect(60, 40, 40, 20);
+          cx.fillRect(40, 60, 40, 20);
+        } else if (hold.name === "Z") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.Z;
+          cx.fillRect(80, 40, -40, 20);
+          cx.fillRect(100, 60, -40, 20);
+        } else if (hold.name === "T") {
+          cx.clearRect(0, 0, 180, 180);
+          cx.fillStyle = colors.T;
+          cx.fillRect(40, 60, 60, 20);
+          cx.fillRect(60, 40, 20, 20);
+        }
       }
       else {
         console.log('limit reached');
