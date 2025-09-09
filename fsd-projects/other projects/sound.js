@@ -9,6 +9,7 @@ clearSound.volume = soundVolume;
 bgm.volume = 0.3;
 bgm.loop = true;
 
+
 function playMove() {
   const moveClone = moveSound.cloneNode();
   moveClone.volume = soundVolume;

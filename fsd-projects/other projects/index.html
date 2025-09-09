@@ -28,6 +28,7 @@
       <button class="buttons normal" id="startBtn">Play</button>
       <button class="buttons normal" id="settings">Settings</button>
       <button class="buttons normal" id="skins">Skins</button>
+      <button class="buttons normal" id="songs">Songs</button>
       <div hidden id="allskins">
         <button class="buttons normal" id="back" onclick="goBack(1)">Back</button>
         <br>
@@ -35,13 +36,13 @@
         <button class="buttons normal" onclick="reduceMotion(1)">No Motion</button>
         <button class="buttons normal" onclick="reduceMotion(2)">Regular Motion</button>
         <br>
-        <button class="smallbtn btn-small">Reset</button>
+        <button class="smallbtn btn-small" onclick="revert()">Legacy</button>
         <br>
-        <button class="smallbtn btn-small" onclick="temporary()">Skin 1</button>
-        <!--todo: change temporary() to changeSkin(skinId) when you are done with the code-->
+        <button class="smallbtn btn-small" onclick="changeSkin('skin1')">Pip</button>
+        <!--todo: change temporary() to changeSkin(skinId, requirement) when you are done with the code-->
       </div>
       <!--<button class="buttons" id="credits">Credits</button>-->
-      <!--<button class="buttons" id="songs">Songs</button>-->
+      
       <div hidden id="allsettings">
         <button hidden class="buttons normal" id="back2" onclick="goBack(2)">Back</button>
         <div>
@@ -93,13 +94,14 @@
           <p>Font Size (do later)</p>
         </div>
         <p>Saves</p>
-        <button class="smallbtn btn-small">Clear all data (highscores and things) FINISH ME</button>
+        <button class="smallbtn btn-small" onclick="localStorage.clear()">Clear all data (highscores and things) FINISH ME</button>
         <p>Stats</p>
         <p>Highest Score: unfinished</p>
-        <p>Latest Score: unfinished</p>
-        <p>Plays: unfinished</p>
+        <p><span id="latest-score">Latest Score: 0</span></p>
+        <p><span id="plays">Plays: 0</span></p>
         <p>Tetrises: unfinished</p>
-        <p>Time Played: unfinished</p>
+        <ul>All Scores:</ul>
+          <li><span id="every-score"></span></li>
       </div>
     </div>
 
@@ -120,6 +122,7 @@
             <li><button id="lvl12">12</button></li>
         </ul> -->
     <div class="nan">
+      <button hidden class="buttons normal" id="pause">Pause</button>
       <canvas hidden id="queue" width="128" height="128"></canvas>
       <canvas hidden id="game" width="320" height="640"></canvas>
       <canvas hidden id="viewnext" width="128" height="128"></canvas>

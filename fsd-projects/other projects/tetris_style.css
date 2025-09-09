@@ -253,3 +253,9 @@ canvas {
   border-radius: 0%;
   cursor: pointer;
 }
+
+#pause {
+  position: absolute;
+  left: 350px;
+  bottom: 240px;
+}

@@ -1,7 +1,11 @@
 //not my code!!! slight additions were made by me
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-//plays game whenever a button is pressed
+//stores scores (self explanatory)
+const scoresKey = 'myScores';
+let storedScores = JSON.parse(localStorage.getItem(scoresKey)) || [];
+
+//base colors
 var colors = {
   I: "cyan",
   O: "yellow",
@@ -12,14 +16,15 @@ var colors = {
   L: "orange",
 };
 
+//plays game whenever a button is pressed
 document.body.style.overflow = "hidden";
 function game() {
   bgm.play();
   //reverts the scores and levels back to its original value whenever you reset the game
   let lineClears = 0;
+  let score = 0;
   let level = 0;
   let tickSpeed = 84;
-  let score = 0;
   levelUp();
   updateScore();
   let countInd = 0;
@@ -50,6 +55,7 @@ function game() {
     score += points;
     updateScore();
   }
+  
   //DISPLAY THE NEXT TETROMINO
   function display() {
     getNext = tetrominoSequence[tetrominoSequence.length - 1];
@@ -211,6 +217,7 @@ function game() {
     countInd = 0;
   }
 
+
   // show the game over screen
   function showGameOver() {
     cancelAnimationFrame(rAF);
@@ -231,6 +238,8 @@ function game() {
       canvas.height / 2
     );
     bgm.pause();
+    storedScores.push(score);
+    localStorage.setItem(scoresKey, JSON.stringify(storedScores));
   }
 
   const canvas = document.getElementById("game");
@@ -296,9 +305,11 @@ function game() {
   let tetromino = getNextTetromino();
   let rAF = null; // keep track of the animation frame so we can cancel it
   let gameOver = false;
+  let paused = false;
 
   // game loop
   function loop() {
+    if (gameOver || paused) return;
     rAF = requestAnimationFrame(loop);
     context.clearRect(0, 0, canvas.width, canvas.height);
     // draw the playfield
@@ -349,8 +360,7 @@ function game() {
   // listen to keyboard events to move the active tetromino
   //held keys
   document.addEventListener("keydown", function (e) {
-    if (gameOver) return;
-
+    if (gameOver || paused) return;
     // left and right arrow keys (move)
     if (e.key === leftKey || e.key === rightKey) {
       const col = e.key === leftKey ? tetromino.col - 1 : tetromino.col + 1;
@@ -396,6 +406,7 @@ function game() {
   });
   //pressed keys
   document.addEventListener("keyup", function (e) {
+    if (gameOver || paused) return;
     // hold block key
     if (e.key === holdBlockKey) {
       if (limit === false) {
@@ -447,10 +458,20 @@ function game() {
       }
       else {
         console.log('limit reached');
+        //put a sound indicator here
       }
     }
   });
-
+  // thx S0-C4lled-RYO
+  function pauseGame() {
+    paused = !paused;
+    document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
+    if (!paused) loop();
+  }
+  pause.addEventListener('click', () => {
+    pauseGame();
+    pause.blur();
+  });
   // start the game
   rAF = requestAnimationFrame(loop);
 }
