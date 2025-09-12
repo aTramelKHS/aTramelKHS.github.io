@@ -15,6 +15,7 @@ const smallBtn = document.getElementsByClassName('smallbtn');
 const slider = document.getElementsByClassName('slider');
 const indicator = document.getElementById('indicator');
 const pause = document.getElementById('pause');
+const songs = document.getElementById('songs');
 const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -41,6 +42,7 @@ if (JSON.stringify(storedScores.length) === '0') {
 }
 document.getElementById("plays").textContent = "Plays: " + JSON.stringify(storedScores.length);
 document.getElementById("every-score").textContent = JSON.stringify(storedScores.join(" "));
+document.getElementById('highscores').textContent = "Highest Score: " + highScore[0];
 
 start.addEventListener('click', () => {
   game();
@@ -48,6 +50,7 @@ start.addEventListener('click', () => {
   settings.hidden = true;
   gameCanvas.hidden = false;
   pause.hidden = false;
+  songs.hidden = true
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
   document.getElementById('viewnext').hidden = false;
@@ -62,6 +65,7 @@ settings.addEventListener('click', () => {
   document.getElementById('allsettings').hidden = false;
   start.hidden = true;
   settings.hidden = true;
+  songs.hidden = true;
   back2.hidden = false;
   skinsBtn.hidden = true;
   document.body.style.overflow = 'auto';
@@ -73,6 +77,7 @@ function goBack(buttonId) {
   settings.hidden = false;
   start.hidden = false;
   skinsBtn.hidden = false;
+  songs.hidden = false;
   window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
   if (buttonId === 1) {
@@ -109,60 +114,140 @@ function reduceMotion(val) {
 }
 
 
+
+
 skinsBtn.addEventListener('click', () => {
   start.hidden = true;
   settings.hidden = true;
   skinsBtn.hidden = true;
+  songs.hidden = true;
   back.hidden = false;
   document.getElementById('allskins').hidden = false;
   document.body.style.overflow = 'auto';
 });
 
 function revert () {
+  splash.hidden = false;
+  gameCanvas.style.backgroundImage = 'url(source/images/matrix.png)';
+  main.classList.add('main-style');
+  main.removeAttribute('style');
+  indicator.classList.add('indicator-style');
+  indicator.removeAttribute('style');
+  gameCanvas.style.backgroundImage = 'none';
+  dashboard.removeAttribute('style');
+  UI.removeAttribute('style');
+  colors = {
+    I: "cyan",
+    O: "yellow",
+    T: "purple",
+    S: "green",
+    Z: "red",
+    J: "blue",
+    L: "orange",
+  };
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].classList.add("normal");
+    buttons[i].classList.remove('button-style-pip')
+  }
+  for (var i = 0; i < smallBtn.length; i++) {
+    smallBtn[i].classList.add('btn-small');
+    smallBtn[i].classList.remove('btn-small-style-pip');
+  }
+  for (var i = 0; i < slider.length; i++) {
+    slider[i].classList.add('input-bars');
+    slider[i].classList.remove('input-bars-pip');
+  }
 
+}
+
+function removeStyles() {
+  main.classList.remove('main-style');
+  main.removeAttribute('style');
+  indicator.removeAttribute('style');
+  dashboard.removeAttribute('style');
+  UI.removeAttribute('style');
+  splash.hidden = true;
+  gameCanvas.style.backgroundImage = 'none';
 }
 
 function changeSkin(skinId) {
-  if (skinId === "skin1") {
-    var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
-    if (warning === 'y' || warning === 'Y') {
-      splash.hidden = true;
-      skinsBtn.textContent = 'still indev'
-      main.classList.remove('main-style');
-      main.classList.add('main-style2');
-      indicator.classList.remove('indicator-style');
-      indicator.classList.add('indicator-style2');
-      gameCanvas.style.backgroundImage = 'none';
-      dashboard.classList.add('dashboard-style');
-      UI.classList.add('UI-style');
-      colors = {
-        I: "rgb(0, 255, 0)",
-        O: "rgb(0, 230, 0)",
-        T: "rgb(0, 200, 0)",
-        S: "rgb(0, 175, 0)",
-        Z: "rgb(0, 160, 0)",
-        J: "rgb(0, 145, 0)",
-        L: "rgb(0, 120, 0)",
-      };
-      for (var i = 0; i < buttons.length; i++) {
-        buttons[i].classList.remove("normal");
-        buttons[i].classList.add("button-style");
+  if (highScore[0] >= 7600) {
+    //PIP
+    if (skinId === "skin1") {
+      var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
+      if (warning === 'y' || warning === 'Y') {
+        removeStyles();
+        $('#main').css({
+          "justify-content": "center",
+          "align-items": "center",
+          "text-align": "center",
+          "height": "100%",
+          "margin": "10",
+          "color": "rgb(0, 255, 0)",
+          "content": "",
+          "display": "block",
+          "position": "absolute",
+          "top": 0,
+          "left": 0,
+          "bottom": 0,
+          "right": 0,
+          "background": "linear-gradient( to bottom, #008e00 50%, #004f00 50%)",
+          "background-position-y": "var(--scanline-position, 0)",
+          "background-size": "100% 25px",
+          "z-index": -10,
+          "font-family": "'Fjalla One', sans-serif",
+          "font-weight": 400,
+          "font-style": "normal",
+          "font-size": "25px"
+        });
+        $('#dashboard').css({
+          'border-top': '6px solid rgb(0, 255, 0)',
+          'background-color': 'rgba(0, 0, 0, 0.5)',
+          'border-bottom': '6px solid rgb(0, 255, 0)',
+          'display': 'center',
+          'padding': '20px',
+          'width': '740px',
+          'align-items': 'center',
+          'margin': 'auto'
+        });
+        $('#UI').css({
+          "border-top": "6px solid rgb(0, 255, 0)",
+          "background-color": "rgba(0, 0, 0, 0.5)",
+          "border-bottom": "6px solid rgb(0, 255, 0)",
+          "padding": "10px"
+        })
+        colors = {
+          I: "rgb(0, 255, 0)",
+          O: "rgb(0, 230, 0)",
+          T: "rgb(0, 200, 0)",
+          S: "rgb(0, 175, 0)",
+          Z: "rgb(0, 160, 0)",
+          J: "rgb(0, 145, 0)",
+          L: "rgb(0, 120, 0)",
+        };
+        for (var i = 0; i < buttons.length; i++) {
+          buttons[i].classList.remove("normal");
+          buttons[i].classList.add('button-style-pip');
+        }
+        for (var i = 0; i < smallBtn.length; i++) {
+          smallBtn[i].classList.remove('btn-small');
+          smallBtn[i].classList.add('btn-small-style-pip');
+        }
+        for (var i = 0; i < slider.length; i++) {
+          slider[i].classList.remove('input-bars');
+          slider[i].classList.add('input-bars-pip');
+        }
+        if (failsafe === 0) {
+          animateScanlines();
+        }
+        failsafe += 1;
       }
-      for (var i = 0; i < smallBtn.length; i++) {
-        smallBtn[i].classList.remove('btn-small');
-        smallBtn[i].classList.add('btn-small-style');
-      }
-      for (var i = 0; i < slider.length; i++) {
-        slider[i].classList.remove('input-bars');
-        slider[i].classList.add('input-bars-style');
-      }
-      if (failsafe === 0) {
-        animateScanlines();
-      }
-      failsafe += 1;
     }
+  } else {
+    alert("You can't do that! Required points: 7600");
   }
 }
+
 
 
 function changeRotate() {

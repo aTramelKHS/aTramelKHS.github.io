@@ -4,6 +4,10 @@
 //stores scores (self explanatory)
 const scoresKey = 'myScores';
 let storedScores = JSON.parse(localStorage.getItem(scoresKey)) || [];
+let scoreConvert = storedScores.map(item => parseInt(item, 10));
+
+let highScore = scoreConvert.sort((a, b) => b - a);
+highScore = highScore.slice(0, 10);
 
 //base colors
 var colors = {

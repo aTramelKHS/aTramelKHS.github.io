@@ -19,6 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   </head>
   <body>
     <h1 id="text">Tetris</h1>
@@ -56,7 +57,6 @@
             <button class="smallbtn btn-small" onclick="changeLeft()">Left</button>
             <button class="smallbtn btn-small" onclick="changeRight()">Right</button>
             <button class="smallbtn btn-small" onclick="changeHD()">Hard Drop</button>
-            <button class="smallbtn btn-small">Pause FINISH ME</button>
             <button class="smallbtn btn-small"onclick="revertChanges()">Revert Changes</button>
           </div>
           <p>Presets FINISH ME</p>
@@ -96,7 +96,7 @@
         <p>Saves</p>
         <button class="smallbtn btn-small" onclick="localStorage.clear()">Clear all data (highscores and things) FINISH ME</button>
         <p>Stats</p>
-        <p>Highest Score: unfinished</p>
+        <p><span id="highscores">Highest Score: 0</span></p>
         <p><span id="latest-score">Latest Score: 0</span></p>
         <p><span id="plays">Plays: 0</span></p>
         <p>Tetrises: unfinished</p>

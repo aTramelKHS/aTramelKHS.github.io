@@ -1,0 +1,13 @@
+#die {
+  height: 100px;
+  width: 100px;
+  background-color: lightgray;
+  position: relative;
+}
+
+#die2 {
+  height: 100px;
+  width: 100px;
+  background-color: lightcyan;
+  position: relative;
+}
