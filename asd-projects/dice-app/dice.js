@@ -4,6 +4,8 @@ $(document).ready(function () {
     $("<div>")
       .css("height", 15)
       .css("width", 15)
+      .css("left", 2)
+      .css("top", 2)
       .css("background-color", "black")
       .css("position", "absolute")
       .css("top", top)
@@ -45,9 +47,16 @@ $(document).ready(function () {
       makeDot(75, 25, die); // top right
     }
   }
-  function handleClick() {
+  /*function handleClick() {
     rollDie('#die');
-    rollDie('#die2')
+    rollDie('#die2');
+  }*/
+  function handleClick1() {
+    rollDie('#die');
   }
-  $('#die').on("click", handleClick);
+  function handleClick2() {
+    rollDie('#die2');
+  }
+  $('#die').on("click", handleClick1);
+  $('#die2').on("click", handleClick2);
 });

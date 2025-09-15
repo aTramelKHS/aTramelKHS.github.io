@@ -30,10 +30,23 @@ const randomIndex = Math.floor(Math.random() * splashText.length);
 const selectedText = splashText[randomIndex];
 splash.textContent = selectedText;
 let fast = 0;
+let language = "eng"
 
 
 // dont look at my spaghetti code!
 
+
+function english() {
+  start.textContent = "Start";
+  settings.textContent = "Settings";
+  skinsBtn.textContent = "Skins";
+}
+
+function german() {
+  start.textContent = "Spielen";
+  settings.textContent = "Einstellungen";
+  skinsBtn.textContent = "Häute";
+}
 
 if (JSON.stringify(storedScores.length) === '0') {
   document.getElementById("latest-score").textContent = "Latest Score: " + 0;
@@ -43,6 +56,8 @@ if (JSON.stringify(storedScores.length) === '0') {
 document.getElementById("plays").textContent = "Plays: " + JSON.stringify(storedScores.length);
 document.getElementById("every-score").textContent = JSON.stringify(storedScores.join(" "));
 document.getElementById('highscores').textContent = "Highest Score: " + highScore[0];
+
+
 
 start.addEventListener('click', () => {
   game();
@@ -306,6 +321,9 @@ function revertChanges() {
   }
 };
 
+
+
 function fastMode() {
   fast = 3;
+  tickSpeed = 72;
 }
