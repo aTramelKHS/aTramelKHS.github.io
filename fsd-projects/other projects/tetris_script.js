@@ -1,7 +1,7 @@
 //not my code!!! slight additions were made by me
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-//stores scores (self explanatory)
+//store scores
 const scoresKey = 'myScores';
 let storedScores = JSON.parse(localStorage.getItem(scoresKey)) || [];
 let scoreConvert = storedScores.map(item => parseInt(item, 10));
@@ -20,10 +20,21 @@ var colors = {
   L: "orange",
 };
 
+var neonColors = {
+  I: "#50fefe",
+  O: "#FCFF00",
+  T: "#BC13FE",
+  S: "#39FF14",
+  Z: "#FF3131",
+  J: "#2323FF",
+  L: "#FF5F1F",
+};
+
 //plays game whenever a button is pressed
 document.body.style.overflow = "hidden";
 function game() {
   bgm.play();
+  bgm.currentTime = 0;
   //reverts the scores and levels back to its original value whenever you reset the game
   let lineClears = 0;
   let score = 0;
@@ -67,38 +78,106 @@ function game() {
       getNextTetromino();
     }
     if (getNext === "I") {
+      debugger;
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.I;
+      ctx.shadowColor = neonColors.I;
+      ctx.shadowBlur = 0;
       ctx.fillRect(50, 20, 20, 80);
+      if (neon) {
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(50, 20, 20, 80);
+      }
     } else if (getNext === "J") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.J;
-      ctx.fillRect(50, 20, 20, 80);
+      ctx.shadowColor = neonColors.J;
+      ctx.shadowBlur = 0;
+      ctx.fillRect(50, 20, 20, 60);
       ctx.fillRect(70, 20, 20, 20);
+      if (neon) {
+        ctx.shadowColor = neonColors.J;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(50, 20, 20, 60);
+        ctx.strokeRect(70, 20, 20, 20);
+      }
     } else if (getNext === "L") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.L;
-      ctx.fillRect(50, 20, 20, 80);
+      ctx.shadowColor = neonColors.L;
+      ctx.shadowBlur = 0;
+      ctx.fillRect(50, 20, 20, 60);
       ctx.fillRect(30, 20, 20, 20);
+      if (neon) {
+        ctx.shadowColor = neonColors.L;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(50, 20, 20, 60);
+        ctx.strokeRect(30, 20, 20, 20);
+      }
     } else if (getNext === "O") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.O;
+      ctx.shadowColor = neonColors.O;
+      ctx.shadowBlur = 0;
       ctx.fillRect(36, 36, 60, 60);
+      if (neon) {
+        ctx.shadowColor = neonColors.O;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(36, 36, 60, 60);
+      }
     } else if (getNext === "S") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.S;
+      ctx.shadowColor = neonColors.S;
+      ctx.shadowBlur = 0;
       ctx.fillRect(60, 40, 40, 20);
       ctx.fillRect(40, 60, 40, 20);
+      if (neon) {
+        ctx.shadowColor = neonColors.S;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(60, 40, 40, 20);
+        ctx.strokeRect(40, 60, 40, 20);
+      }
     } else if (getNext === "Z") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.Z;
+      ctx.shadowColor = neonColors.Z;
+      ctx.shadowBlur = 0;
       ctx.fillRect(80, 40, -40, 20);
       ctx.fillRect(100, 60, -40, 20);
+      if (neon) {
+        ctx.shadowColor = neonColors.Z;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(80, 40, -40, 20);
+        ctx.strokeRect(100, 60, -40, 20);
+      }
     } else if (getNext === "T") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.T;
+      ctx.shadowColor = neonColors.T;
+      ctx.shadowBlur = 0;
       ctx.fillRect(40, 60, 60, 20);
       ctx.fillRect(60, 40, 20, 20);
+      if (neon) {
+        ctx.shadowColor = neonColors.T;
+        ctx.shadowBlur = 25;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1; 
+        ctx.strokeRect(40, 60, 60, 20);
+        ctx.strokeRect(60, 40, 20, 20);
+      }
     }
   }
   // generate a new tetromino sequence
@@ -220,28 +299,52 @@ function game() {
     tetromino = getNextTetromino();
     countInd = 0;
   }
-
+  let test = 0;
+  let anim;
+  function animateClear() {
+    context.fillStyle = "black";
+    context.fillRect(0, 0, canvas.width, 30 * test);
+    if (test != 22) {
+      test += 1;
+    }
+    anim = requestAnimationFrame(animateClear);
+  }
 
   // show the game over screen
   function showGameOver() {
     cancelAnimationFrame(rAF);
     gameOver = true;
-
-    context.fillStyle = "black";
-    context.globalAlpha = 0.75;
-    context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
-
-    context.globalAlpha = 1;
-    context.fillStyle = "white";
-    context.font = "30px monospace";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(
-      "GAME OVER! " + score,
-      canvas.width / 2,
-      canvas.height / 2
-    );
     bgm.pause();
+    setTimeout(() => {
+      animateClear()
+    }, 1000);
+    setTimeout(() => {
+      cancelAnimationFrame(anim);
+      context.fillStyle = "gray";
+      context.globalAlpha = 0.75;
+      context.fillRect(0, canvas.height / 2 - 60, canvas.width, 140);
+      context.globalAlpha = 1;
+      context.fillStyle = "white";
+      context.font = "30px monospace";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText(
+        "GAME OVER!",
+        canvas.width / 2,
+        canvas.height / 2.2
+      );
+      context.fillText(
+        "Score: " + score,
+        canvas.width / 2,
+        canvas.height / 1.9
+      );
+      context.fillText(
+        "HS: " + highScore[0],
+        canvas.width / 2,
+        canvas.height / 1.7
+      );
+      
+    }, 2000);
     storedScores.push(score);
     localStorage.setItem(scoresKey, JSON.stringify(storedScores));
   }
@@ -325,6 +428,14 @@ function game() {
 
           // drawing 1 px smaller than the grid creates a grid effect
           context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
+          //make the neon things happen
+          if (neon) {
+            context.shadowColor = neonColors[tetromino.name];
+            context.shadowBlur = 15;
+            context.strokeStyle = "white";
+            context.lineWidth = 1; 
+            context.strokeRect(col * grid, row * grid, grid - 1, grid - 1);
+          }
         }
       }
     }
@@ -343,6 +454,9 @@ function game() {
       }
 
       context.fillStyle = colors[tetromino.name];
+      if (neon) {
+        context.shadowColor = neonColors[tetromino.name]
+      }
 
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
@@ -354,6 +468,17 @@ function game() {
               grid - 1,
               grid - 1
             );
+            if (neon) {
+              context.shadowBlur = 25;
+              context.strokeStyle = "white";
+              context.lineWidth = 1; 
+              context.strokeRect(
+                (tetromino.col + col) * grid,
+                (tetromino.row + row) * grid,
+                grid - 1,
+                grid - 1
+              );
+            }
           }
         }
       }
@@ -470,6 +595,7 @@ function game() {
   function pauseGame() {
     paused = !paused;
     document.getElementById('pause').textContent = paused ? 'Resume' : 'Pause';
+    paused ? bgm.pause() : bgm.play();
     if (!paused) loop();
   }
   pause.addEventListener('click', () => {

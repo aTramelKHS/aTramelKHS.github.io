@@ -6,7 +6,8 @@ body {
 #board {
   width: 440px;
   height: 440px;
-  border: 1px solid white;
+  outline: 7px solid white;
+  outline-offset: -7px;
   background-color: black;
 }
 

@@ -23,30 +23,20 @@ let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
 let holdBlockKey = "c";
-let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Objection!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "Now with more tv and movie refrences", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast \nresistance as Iron Doors, both of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively"];
+let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG gamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "Now with more tv and movie refrences", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, both of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "You shouldn't hate others just because of the music they listen to. \nUnless they listen to Taylor Swift"];
 const randomIndex = Math.floor(Math.random() * splashText.length);
 //for testing purposes
 //const randomIndex = splashText.length - 1
 const selectedText = splashText[randomIndex];
 splash.textContent = selectedText;
 let fast = 0;
-let language = "eng"
+let neon = false;
 
 
 // dont look at my spaghetti code!
 
 
-function english() {
-  start.textContent = "Start";
-  settings.textContent = "Settings";
-  skinsBtn.textContent = "Skins";
-}
 
-function german() {
-  start.textContent = "Spielen";
-  settings.textContent = "Einstellungen";
-  skinsBtn.textContent = "Häute";
-}
 
 if (JSON.stringify(storedScores.length) === '0') {
   document.getElementById("latest-score").textContent = "Latest Score: " + 0;
@@ -56,6 +46,7 @@ if (JSON.stringify(storedScores.length) === '0') {
 document.getElementById("plays").textContent = "Plays: " + JSON.stringify(storedScores.length);
 document.getElementById("every-score").textContent = JSON.stringify(storedScores.join(" "));
 document.getElementById('highscores').textContent = "Highest Score: " + highScore[0];
+
 
 
 
@@ -141,14 +132,14 @@ skinsBtn.addEventListener('click', () => {
   document.body.style.overflow = 'auto';
 });
 
-function revert () {
+function revert() {
   splash.hidden = false;
-  gameCanvas.style.backgroundImage = 'url(source/images/matrix.png)';
+  neon = false;
+  gameCanvas.style.backgroundImage = "url('source/images/matrix.png')";
   main.classList.add('main-style');
   main.removeAttribute('style');
   indicator.classList.add('indicator-style');
   indicator.removeAttribute('style');
-  gameCanvas.style.backgroundImage = 'none';
   dashboard.removeAttribute('style');
   UI.removeAttribute('style');
   colors = {
@@ -186,9 +177,9 @@ function removeStyles() {
 }
 
 function changeSkin(skinId) {
-  if (highScore[0] >= 7600) {
+  if (skinId === "skin1") {
     //PIP
-    if (skinId === "skin1") {
+    if (highscore[0] >= 7600) {
       var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
       if (warning === 'y' || warning === 'Y') {
         removeStyles();
@@ -230,7 +221,7 @@ function changeSkin(skinId) {
           "background-color": "rgba(0, 0, 0, 0.5)",
           "border-bottom": "6px solid rgb(0, 255, 0)",
           "padding": "10px"
-        })
+        });
         colors = {
           I: "rgb(0, 255, 0)",
           O: "rgb(0, 230, 0)",
@@ -257,10 +248,82 @@ function changeSkin(skinId) {
         }
         failsafe += 1;
       }
+    } else {
+      alert("You can't do that! Required points: 7600");
     }
-  } else {
-    alert("You can't do that! Required points: 7600");
-  }
+  } 
+  if (skinId === "skin2") {
+    //TRUE BLUE
+    if (highScore[0] >= 600) {
+      removeStyles();
+      $('#main').css({
+        
+      });
+      colors = {
+        I: "rgb(0, 175, 250)",
+        O: "rgb(0, 230, 255)",
+        T: "rgb(0, 35, 255)",
+        S: "rgb(0, 175, 233)",
+        Z: "rgb(0, 90, 170)",
+        J: "rgb(43, 223, 247)",
+        L: "rgb(0, 60, 234)",
+      };
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("normal");
+        buttons[i].classList.add('button-style-blue');
+      }
+      for (var i = 0; i < smallBtn.length; i++) {
+        smallBtn[i].classList.remove('btn-small');
+        smallBtn[i].classList.add('btn-small-style-blue');
+      }
+      for (var i = 0; i < slider.length; i++) {
+        slider[i].classList.remove('input-bars');
+      }
+    } else {
+      alert("You can't do that! Required points: 600");
+    }
+  } 
+  if (skinId === "skin3") {
+    //NEON
+    //Suggested by Presley. Thanks Presley, this was a pain
+    if (highScore[0] >= 10) {
+      removeStyles();
+      neon = true;
+      splash.hidden = false;
+      splash.textContent = "Now with more noble gasses"
+      $('#main').css({
+        "background-color": "black",
+        "justify-content": "center",
+        "align-items": "center",
+        "text-align": "center",
+        "height": "100%",
+        "margin": "10"
+      });
+      colors = {
+        I: "rgb(0, 0, 0)",
+        O: "rgb(0, 0, 0)",
+        T: "rgb(0, 0, 0)",
+        S: "rgb(0, 0, 0)",
+        Z: "rgb(0, 0, 0)",
+        J: "rgb(0, 0, 0)",
+        L: "rgb(0, 0, 0)",
+      };
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("normal");
+        buttons[i].classList.add('button-style-neon');
+      }
+      for (var i = 0; i < smallBtn.length; i++) {
+        smallBtn[i].classList.remove('btn-small');
+        smallBtn[i].classList.add('btn-small-style-neon');
+      }
+      for (var i = 0; i < slider.length; i++) {
+        slider[i].classList.remove('input-bars');
+        slider[i].classList.add('input-bars-neon');
+      }
+    }else {
+      alert("You can't do that! Required points: 600");
+    }
+  } 
 }
 
 
@@ -320,8 +383,6 @@ function revertChanges() {
     hardDropKey = " ";
   }
 };
-
-
 
 function fastMode() {
   fast = 3;
