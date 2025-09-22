@@ -181,7 +181,7 @@ function removeStyles() {
 function changeSkin(skinId) {
   if (skinId === "skin1") {
     //PIP
-    if (highscore[0] >= 7600) {
+    if (highScore[0] >= 7600) {
       var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
       if (warning === 'y' || warning === 'Y') {
         removeStyles();
