@@ -19,7 +19,17 @@
   100% {transform: rotate(-720deg); opacity: 0; font-size: 2px}
 }
 
+@keyframes glower {
+  0% {box-shadow: 0 0 42px 0 white, 0 0 23px 0 white}
+  50% {box-shadow: 0 0 44px 0 white, 0 0 24.5px 0 white}
+  100% {box-shadow:  0 0 42px 0 white, 0 0 23px 0 white}
+}
 
+@keyframes glower-hover {
+  0% {box-shadow: 0 0 10px 0 white, 0 0 13px 0 white}
+  50% {box-shadow: 0 0 12px 0 white, 0 0 14px 0 white}
+  100% {box-shadow:  0 0 10px 0 white, 0 0 13px 0 white}
+}
 
 .main-style {
   height: 100%;
@@ -112,6 +122,27 @@ canvas {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
 }
+.button-style-neon {
+  padding: 20px;
+  margin: 30px;
+  border: 4px solid white;
+  background-color: transparent;
+  font-size: 25px;
+  color: white;
+  text-shadow: 0 0 8px white, 0 0 19px white;
+  animation-name: glower;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+  transition: all 1s linear;
+}
+
+.button-style-neon:hover {
+  text-shadow: 0 0 30px white, 0 0 20px white;
+  animation-name: glower-hover;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+  transition: all 1s linear;
+}
 
 .btn-small {
   border: 4px groove blue;
@@ -137,6 +168,25 @@ canvas {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
 }
+
+.btn-small-style-neon {
+  border: 3px solid white;
+  background-color: transparent;
+  font-size: 20px;
+  padding: 10px;
+  margin: 5px;
+  margin-bottom: 10px;
+  color: white;
+  text-shadow: 0 0 8px white, 0 0 19px white;
+  animation-name: glower;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.button-style-neon:hover {
+  text-shadow: 0 0 30px white, 0 0 28px white;
+}
+
 
 
 #queue {
@@ -207,6 +257,31 @@ canvas {
   width: 15px;
   height: 40px;
   background: #00ec00;
+  border-radius: 0%;
+  cursor: pointer;
+}
+
+
+.input-bars-neon {
+  appearance: none;
+  width: 50%;
+  height: 25px;
+  background-color: transparent; 
+  border-radius: 5px;
+  color:white;
+  animation-name: glower;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  border-radius: 0%;
+  cursor: pointer;
+}
+
+.input-bars-neon::-webkit-slider-thumb {
+  appearance: none;
+  background: white;
+  width: 15px;
+  height: 25px;
+  box-shadow: 0 0 42px 0 white, 0 0 23px 0 white;
   border-radius: 0%;
   cursor: pointer;
 }

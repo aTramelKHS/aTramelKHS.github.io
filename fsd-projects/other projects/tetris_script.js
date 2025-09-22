@@ -21,13 +21,13 @@ var colors = {
 };
 
 var neonColors = {
-  I: "#50fefe",
-  O: "#FCFF00",
-  T: "#BC13FE",
-  S: "#39FF14",
-  Z: "#FF3131",
-  J: "#2323FF",
-  L: "#FF5F1F",
+  I: ["rgba(80, 254, 254, 1)", 'rgba(80, 254, 254, 0.7)', 'rgba(80, 254, 254, 0.5)'],
+  O: ["rgba(252, 255, 0, 1)", "rgba(252, 255, 0, 0.7)", "rgba(252, 255, 0, 0.5)"],
+  T: ["rgba(188, 19, 254, 1)", "rgba(188, 19, 254, 0.7)", "rgba(188, 19, 254, 0.5)"],
+  S: ["rgba(57, 255, 20, 1)", "rgba(57, 255, 20, 0.7)", "rgba(57, 255, 20, 0.5)"],
+  Z: ["rgba(255, 49, 49, 1)", "rgba(255, 49, 49, 0.7)" , "rgba(255, 49, 49, 0.5)"],
+  J: ["rgba(35, 35, 255, 1)", "rgba(35, 35, 255, 0.7)", "rgba(35, 35, 255, 0.5)"],
+  L: ["rgba(255, 95, 31, 1)", "rgba(255, 95, 31, 0.7)", "rgba(255, 95, 31, 0.5)"]
 };
 
 //plays game whenever a button is pressed
@@ -78,105 +78,310 @@ function game() {
       getNextTetromino();
     }
     if (getNext === "I") {
-      debugger;
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.I;
-      ctx.shadowColor = neonColors.I;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(50, 20, 20, 80);
-      if (neon) {
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(50, 20, 20, 80);
+      if (!neon) {
+        ctx.fillRect(50, 20, 20, 80);
+      } else if (neon) {
+        ctx.beginPath()
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.I[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.I[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.I[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.I[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 + 2, 20 + 2, 20, 80);
+        ctx.strokeRect(50 + 2, 20 + 2, 20, 80);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.I[0];
+        ctx.fillStyle = neonColors.I[2];
+        ctx.fillRect(50 + 2, 20 + 2, 20, 80);
+        ctx.closePath();
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     } else if (getNext === "J") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.J;
-      ctx.shadowColor = neonColors.J;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(50, 20, 20, 60);
-      ctx.fillRect(70, 20, 20, 20);
-      if (neon) {
-        ctx.shadowColor = neonColors.J;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(50, 20, 20, 60);
-        ctx.strokeRect(70, 20, 20, 20);
+      if (!neon) {
+        ctx.fillRect(50, 20, 20, 70);
+        ctx.fillRect(70, 20, 20, 20);
+      } else if (neon) {
+        ctx.shadowBlur = 46;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        ctx.shadowBlur = 125;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
+        ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)';
+        ctx.fillStyle = 'rgba(35, 35, 255, 0.5)';
+        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
+        ctx.shadowBlur = 46;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+        ctx.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+        ctx.shadowBlur = 125;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(80 + 2, 20 + 2, 20, 20);
+        ctx.strokeRect(80 + 2, 20 + 2, 20, 20);
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = 'rgba(35, 35, 255, 1)';
+        ctx.fillStyle = 'rgba(35, 35, 255, 0.7)';
+        ctx.fillRect(80 + 2, 20 + 2, 20, 20);
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
       }
     } else if (getNext === "L") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.L;
-      ctx.shadowColor = neonColors.L;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(50, 20, 20, 60);
-      ctx.fillRect(30, 20, 20, 20);
-      if (neon) {
-        ctx.shadowColor = neonColors.L;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(50, 20, 20, 60);
-        ctx.strokeRect(30, 20, 20, 20);
+      if (!neon) {
+        ctx.fillRect(50, 20, 20, 70);
+        ctx.fillRect(30, 20, 20, 20);
+      } else if (neon) {
+        ctx.shadowBlur = 46;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        ctx.shadowBlur = 125;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
+        ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)';
+        ctx.fillStyle = 'rgba(255, 95, 31, 0.5)';
+        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
+        ctx.shadowBlur = 46;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+        ctx.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+        ctx.shadowBlur = 125;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(18 + 2, 20 + 2, 20, 20);
+        ctx.strokeRect(18 + 2, 20 + 2, 20, 20);
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = 'rgba(255, 95, 31, 1)';
+        ctx.fillStyle = 'rgba(255, 95, 31, 0.7)';
+        ctx.fillRect(18 + 2, 20 + 2, 20, 20);
+
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     } else if (getNext === "O") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.O;
-      ctx.shadowColor = neonColors.O;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(36, 36, 60, 60);
-      if (neon) {
-        ctx.shadowColor = neonColors.O;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(36, 36, 60, 60);
+      ctx.fillStyle = colors.O
+      if (!neon) {
+        ctx.fillRect(36, 36, 60, 60);
+      } else if (neon) {
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+        ctx.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+        ctx.lineWidth = 3;
+        ctx.fillRect(40 + 2, 40 + 2, 60, 60);
+        ctx.strokeRect(40 + 2, 40 + 2, 60, 60);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = 'rgba(252, 255, 0, 1)';
+        ctx.fillStyle = 'rgba(252, 255, 0,0.5)';
+        ctx.fillRect(40 + 2, 40 + 2, 60, 60);
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     } else if (getNext === "S") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.S;
-      ctx.shadowColor = neonColors.S;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(60, 40, 40, 20);
-      ctx.fillRect(40, 60, 40, 20);
-      if (neon) {
-        ctx.shadowColor = neonColors.S;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(60, 40, 40, 20);
-        ctx.strokeRect(40, 60, 40, 20);
+      if (!neon) {
+        ctx.fillRect(60, 40, 40, 20);
+        ctx.fillRect(40, 60, 40, 20);
+      } else if (neon) {
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.S[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.S[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+        ctx.strokeRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.S[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.S[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(60 + 2, 40 + 2, 45, 20);
+        ctx.strokeRect(60 + 2, 40 + 2, 45, 20);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.S[1];
+        ctx.fillStyle = neonColors.S[2];
+        ctx.fillRect(60 + 2, 40 + 2, 45, 20);
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.S[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.S[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+        ctx.strokeRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.S[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.S[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(35 + 2, 70 + 2, 45, 20);
+        ctx.strokeRect(35 + 2, 70 + 2, 45, 20);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.S[1];
+        ctx.fillStyle = neonColors.S[2];
+        ctx.fillRect(35 + 2, 70 + 2, 45, 20);
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     } else if (getNext === "Z") {
       ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.Z;
-      ctx.shadowColor = neonColors.Z;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(80, 40, -40, 20);
-      ctx.fillRect(100, 60, -40, 20);
-      if (neon) {
-        ctx.shadowColor = neonColors.Z;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(80, 40, -40, 20);
-        ctx.strokeRect(100, 60, -40, 20);
+      ctx.fillStyle = colors.Z
+      if (!neon) {
+        ctx.fillRect(80, 40, -40, 20);
+        ctx.fillRect(100, 60, -40, 20);
+      } else if (neon) {
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.Z[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.Z[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+        ctx.strokeRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.Z[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.Z[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(20 + 2, 40 + 2, 45, 20);
+        ctx.strokeRect(20 + 2, 40 + 2, 45, 20);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.Z[1];
+        ctx.fillStyle = neonColors.Z[2];
+        ctx.fillRect(20 + 2, 40 + 2, 45, 20);
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.Z[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.Z[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+        ctx.strokeRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.Z[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.Z[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(45 + 2, 70 + 2, 45, 20);
+        ctx.strokeRect(45 + 2, 70 + 2, 45, 20);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.Z[1];
+        ctx.fillStyle = neonColors.Z[2];
+        ctx.fillRect(45 + 2, 70 + 2, 45, 20);
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     } else if (getNext === "T") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.T;
-      ctx.shadowColor = neonColors.T;
-      ctx.shadowBlur = 0;
-      ctx.fillRect(40, 60, 60, 20);
-      ctx.fillRect(60, 40, 20, 20);
-      if (neon) {
-        ctx.shadowColor = neonColors.T;
-        ctx.shadowBlur = 25;
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 1; 
-        ctx.strokeRect(40, 60, 60, 20);
-        ctx.strokeRect(60, 40, 20, 20);
+      if (!neon) {
+        ctx.fillRect(40, 60, 60, 20);
+        ctx.fillRect(60, 40, 20, 20);
+      } else if (neon) {
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.T[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.T[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+        ctx.strokeRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.T[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.T[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(40 + 2, 60 + 2, 70, 20);
+        ctx.strokeRect(40 + 2, 60 + 2, 70, 20);
+        ctx.shadowBlur = 223;
+        ctx.shadowColor = neonColors.T[1];
+        ctx.fillStyle = neonColors.T[2];
+        ctx.fillRect(40 + 2, 60 + 2, 70, 20);
+        ctx.shadowBlur = 33;
+        ctx.shadowColor = neonColors.T[0]; 
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = neonColors.T[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+        ctx.strokeRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+        ctx.shadowBlur = 63;
+        ctx.shadowColor = neonColors.T[0]; 
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = neonColors.T[1];
+        ctx.lineWidth = 3;
+        ctx.fillRect(65 + 2, 30 + 2, 20, 20);
+        ctx.strokeRect(65 + 2, 30 + 2, 20, 20);
+        ctx.shadowBlur = 9;
+        ctx.shadowColor = neonColors.T[1];
+        ctx.fillStyle = neonColors.T[2];
+        ctx.fillRect(65 + 2, 30 + 2, 20, 20);
+
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
     }
   }
@@ -430,11 +635,26 @@ function game() {
           context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
           //make the neon things happen
           if (neon) {
-            context.shadowColor = neonColors[tetromino.name];
-            context.shadowBlur = 15;
-            context.strokeStyle = "white";
-            context.lineWidth = 1; 
-            context.strokeRect(col * grid, row * grid, grid - 1, grid - 1);
+            context.shadowBlur = 23;
+            context.shadowColor = neonColors[name][0]; 
+            context.fillStyle = 'white';
+            context.strokeStyle = neonColors[name][1];
+            context.lineWidth = 1;
+            context.fillRect(col * grid, row * grid, grid - 2, grid - 2);
+            context.strokeRect(col * grid, row * grid, grid - 2, grid - 2);
+            context.shadowBlur = 33;
+            context.shadowColor = neonColors[name][0]; 
+            context.fillStyle = 'black';
+            context.strokeStyle = neonColors[name][1]; 
+            context.lineWidth = 2;
+            context.fillRect(col * grid + 4, row * grid + 4, grid - 10, grid - 10);
+            context.strokeRect(col * grid + 4, row * grid + 4, grid - 10, grid - 10);
+            context.shadowBlur = 23;
+            context.shadowColor = neonColors[name][0]; 
+            context.fillStyle = neonColors[name][2]; 
+            context.fillRect(col * grid + 4, row * grid + 4, grid - 10, grid - 10);
+            context.shadowColor = "transparent";
+            context.shadowBlur = 0;
           }
         }
       }
@@ -452,12 +672,8 @@ function game() {
           placeTetromino();
         }
       }
-
       context.fillStyle = colors[tetromino.name];
-      if (neon) {
-        context.shadowColor = neonColors[tetromino.name]
-      }
-
+      
       for (let row = 0; row < tetromino.matrix.length; row++) {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
@@ -468,17 +684,6 @@ function game() {
               grid - 1,
               grid - 1
             );
-            if (neon) {
-              context.shadowBlur = 25;
-              context.strokeStyle = "white";
-              context.lineWidth = 1; 
-              context.strokeRect(
-                (tetromino.col + col) * grid,
-                (tetromino.row + row) * grid,
-                grid - 1,
-                grid - 1
-              );
-            }
           }
         }
       }
@@ -553,36 +758,308 @@ function game() {
         if (hold.name === "I") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.I;
-          cx.fillRect(50, 20, 20, 80);
+          if (!neon) {
+            cx.fillRect(50, 20, 20, 80);
+          } else if (neon) {
+            cx.beginPath()
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.I[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.I[1];
+            cx.lineWidth = 3;
+            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.I[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.I[1];
+            cx.lineWidth = 3;
+            cx.fillRect(50 + 2, 20 + 2, 20, 80);
+            cx.strokeRect(50 + 2, 20 + 2, 20, 80);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.I[0];
+            cx.fillStyle = neonColors.I[2];
+            cx.fillRect(50 + 2, 20 + 2, 20, 80);
+            cx.closePath();
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         } else if (hold.name === "J") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.J;
-          cx.fillRect(50, 20, 20, 80);
-          cx.fillRect(70, 20, 20, 20);
+          if (!neon) {
+            cx.fillRect(50, 20, 20, 70);
+            cx.fillRect(70, 20, 20, 20);
+          } else if (neon) {
+            cx.shadowBlur = 46;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+            cx.shadowBlur = 125;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(50 + 2, 20 + 2, 20, 70);
+            cx.strokeRect(50 + 2, 20 + 2, 20, 70);
+            cx.shadowBlur = 24;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)';
+            cx.fillStyle = 'rgba(35, 35, 255, 0.5)';
+            cx.fillRect(50 + 2, 20 + 2, 20, 70);
+            cx.shadowBlur = 46;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+            cx.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+            cx.shadowBlur = 125;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(80 + 2, 20 + 2, 20, 20);
+            cx.strokeRect(80 + 2, 20 + 2, 20, 20);
+            cx.shadowBlur = 24;
+            cx.shadowColor = 'rgba(35, 35, 255, 1)';
+            cx.fillStyle = 'rgba(35, 35, 255, 0.7)';
+            cx.fillRect(80 + 2, 20 + 2, 20, 20);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+          }
         } else if (hold.name === "L") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.L;
-          cx.fillRect(50, 20, 20, 80);
-          cx.fillRect(30, 20, 20, 20);
+          if (!neon) {
+            cx.fillRect(50, 20, 20, 70);
+            cx.fillRect(30, 20, 20, 20);
+          } else if (neon) {
+            cx.shadowBlur = 46;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+            cx.shadowBlur = 125;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(50 + 2, 20 + 2, 20, 70);
+            cx.strokeRect(50 + 2, 20 + 2, 20, 70);
+            cx.shadowBlur = 24;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)';
+            cx.fillStyle = 'rgba(255, 95, 31, 0.5)';
+            cx.fillRect(50 + 2, 20 + 2, 20, 70);
+            cx.shadowBlur = 46;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+            cx.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+            cx.shadowBlur = 125;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(18 + 2, 20 + 2, 20, 20);
+            cx.strokeRect(18 + 2, 20 + 2, 20, 20);
+            cx.shadowBlur = 24;
+            cx.shadowColor = 'rgba(255, 95, 31, 1)';
+            cx.fillStyle = 'rgba(255, 95, 31, 0.7)';
+            cx.fillRect(18 + 2, 20 + 2, 20, 20);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         } else if (hold.name === "O") {
           cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.O;
-          cx.fillRect(36, 36, 60, 60);
+          cx.fillStyle = colors.O
+          if (!neon) {
+            cx.fillRect(36, 36, 60, 60);
+          } else if (neon) {
+            cx.shadowBlur = 33;
+            cx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+            cx.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+            cx.lineWidth = 3;
+            cx.fillRect(40 + 2, 40 + 2, 60, 60);
+            cx.strokeRect(40 + 2, 40 + 2, 60, 60);
+            cx.shadowBlur = 223;
+            cx.shadowColor = 'rgba(252, 255, 0, 1)';
+            cx.fillStyle = 'rgba(252, 255, 0,0.5)';
+            cx.fillRect(40 + 2, 40 + 2, 60, 60);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         } else if (hold.name === "S") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.S;
-          cx.fillRect(60, 40, 40, 20);
-          cx.fillRect(40, 60, 40, 20);
+          if (!neon) {
+            cx.fillRect(60, 40, 40, 20);
+            cx.fillRect(40, 60, 40, 20);
+          } else if (neon) {
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.S[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.S[1];
+            cx.lineWidth = 3;
+            cx.fillRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+            cx.strokeRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.S[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.S[1];
+            cx.lineWidth = 3;
+            cx.fillRect(60 + 2, 40 + 2, 45, 20);
+            cx.strokeRect(60 + 2, 40 + 2, 45, 20);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.S[1];
+            cx.fillStyle = neonColors.S[2];
+            cx.fillRect(60 + 2, 40 + 2, 45, 20);
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.S[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.S[1];
+            cx.lineWidth = 3;
+            cx.fillRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+            cx.strokeRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.S[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.S[1];
+            cx.lineWidth = 3;
+            cx.fillRect(35 + 2, 70 + 2, 45, 20);
+            cx.strokeRect(35 + 2, 70 + 2, 45, 20);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.S[1];
+            cx.fillStyle = neonColors.S[2];
+            cx.fillRect(35 + 2, 70 + 2, 45, 20);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         } else if (hold.name === "Z") {
           cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.Z;
-          cx.fillRect(80, 40, -40, 20);
-          cx.fillRect(100, 60, -40, 20);
+          cx.fillStyle = colors.Z
+          if (!neon) {
+            cx.fillRect(80, 40, -40, 20);
+            cx.fillRect(100, 60, -40, 20);
+          } else if (neon) {
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.Z[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.Z[1];
+            cx.lineWidth = 3;
+            cx.fillRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+            cx.strokeRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.Z[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.Z[1];
+            cx.lineWidth = 3;
+            cx.fillRect(20 + 2, 40 + 2, 45, 20);
+            cx.strokeRect(20 + 2, 40 + 2, 45, 20);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.Z[1];
+            cx.fillStyle = neonColors.Z[2];
+            cx.fillRect(20 + 2, 40 + 2, 45, 20);
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.Z[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.Z[1];
+            cx.lineWidth = 3;
+            cx.fillRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+            cx.strokeRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.Z[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.Z[1];
+            cx.lineWidth = 3;
+            cx.fillRect(45 + 2, 70 + 2, 45, 20);
+            cx.strokeRect(45 + 2, 70 + 2, 45, 20);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.Z[1];
+            cx.fillStyle = neonColors.Z[2];
+            cx.fillRect(45 + 2, 70 + 2, 45, 20);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         } else if (hold.name === "T") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.T;
-          cx.fillRect(40, 60, 60, 20);
-          cx.fillRect(60, 40, 20, 20);
+          if (!neon) {
+            cx.fillRect(40, 60, 60, 20);
+            cx.fillRect(60, 40, 20, 20);
+          } else if (neon) {
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.T[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.T[1];
+            cx.lineWidth = 3;
+            cx.fillRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+            cx.strokeRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.T[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.T[1];
+            cx.lineWidth = 3;
+            cx.fillRect(40 + 2, 60 + 2, 70, 20);
+            cx.strokeRect(40 + 2, 60 + 2, 70, 20);
+            cx.shadowBlur = 223;
+            cx.shadowColor = neonColors.T[1];
+            cx.fillStyle = neonColors.T[2];
+            cx.fillRect(40 + 2, 60 + 2, 70, 20);
+            cx.shadowBlur = 33;
+            cx.shadowColor = neonColors.T[0]; 
+            cx.fillStyle = 'white';
+            cx.strokeStyle = neonColors.T[1];
+            ctx.lineWidth = 3;
+            cx.fillRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+            cx.strokeRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+            cx.shadowBlur = 63;
+            cx.shadowColor = neonColors.T[0]; 
+            cx.fillStyle = 'black';
+            cx.strokeStyle = neonColors.T[1];
+            cx.lineWidth = 3;
+            cx.fillRect(65 + 2, 30 + 2, 20, 20);
+            cx.strokeRect(65 + 2, 30 + 2, 20, 20);
+            cx.shadowBlur = 9;
+            cx.shadowColor = neonColors.T[1];
+            cx.fillStyle = neonColors.T[2];
+            cx.fillRect(65 + 2, 30 + 2, 20, 20);
+
+            cx.shadowColor = "transparent";
+            cx.shadowBlur = 0;
+            cx.shadowOffsetX = 0;
+            cx.shadowOffsetY = 0;
+          }
         }
       }
       else {

@@ -152,16 +152,16 @@ function revert() {
     L: "orange",
   };
   for (var i = 0; i < buttons.length; i++) {
+    buttons[i].className = 'buttons';
     buttons[i].classList.add("normal");
-    buttons[i].classList.remove('button-style-pip')
   }
   for (var i = 0; i < smallBtn.length; i++) {
+    smallBtn[i].className = 'smallbtn';
     smallBtn[i].classList.add('btn-small');
-    smallBtn[i].classList.remove('btn-small-style-pip');
   }
   for (var i = 0; i < slider.length; i++) {
+    slider[i].className = 'slider';
     slider[i].classList.add('input-bars');
-    slider[i].classList.remove('input-bars-pip');
   }
 
 }
@@ -172,6 +172,8 @@ function removeStyles() {
   indicator.removeAttribute('style');
   dashboard.removeAttribute('style');
   UI.removeAttribute('style');
+  gameCanvas.removeAttribute('style');
+  splash.textContent = selectedText;
   splash.hidden = true;
   gameCanvas.style.backgroundImage = 'none';
 }
@@ -221,6 +223,9 @@ function changeSkin(skinId) {
           "background-color": "rgba(0, 0, 0, 0.5)",
           "border-bottom": "6px solid rgb(0, 255, 0)",
           "padding": "10px"
+        });
+        $('p').css({
+          "color": "black"
         });
         colors = {
           I: "rgb(0, 255, 0)",
@@ -286,7 +291,7 @@ function changeSkin(skinId) {
   if (skinId === "skin3") {
     //NEON
     //Suggested by Presley. Thanks Presley, this was a pain
-    if (highScore[0] >= 10) {
+    if (highScore[0] >= 10000) {
       removeStyles();
       neon = true;
       splash.hidden = false;
@@ -297,16 +302,25 @@ function changeSkin(skinId) {
         "align-items": "center",
         "text-align": "center",
         "height": "100%",
-        "margin": "10"
+        "margin": "10",
+        "color": "white",
+        "size": "20px"
+      });
+      $('#game').css({
+        "border": "5px solid white",
+        "box-shadow": "0 0 42px 0 white, 0 0 23px 0 white"
+      });
+      $('#UI').css({
+        "color": "white"
       });
       colors = {
-        I: "rgb(0, 0, 0)",
-        O: "rgb(0, 0, 0)",
-        T: "rgb(0, 0, 0)",
-        S: "rgb(0, 0, 0)",
-        Z: "rgb(0, 0, 0)",
-        J: "rgb(0, 0, 0)",
-        L: "rgb(0, 0, 0)",
+        I: "gray",
+        O: "gray",
+        T: "gray",
+        S: "gray",
+        Z: "gray",
+        J: "gray",
+        L: "gray",
       };
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove("normal");
@@ -321,7 +335,7 @@ function changeSkin(skinId) {
         slider[i].classList.add('input-bars-neon');
       }
     }else {
-      alert("You can't do that! Required points: 600");
+      alert("You can't do that! Required points: 10000");
     }
   } 
 }

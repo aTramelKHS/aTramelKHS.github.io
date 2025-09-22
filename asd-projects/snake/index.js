@@ -12,12 +12,16 @@ var highScoreElement = $("#highScore");
 // Game Variables
 var score = 0; // variable to keep track of the score
 var started = false; // variable to keep track of whether the game has started
+var colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+var colorIndex = 0;
+var isReversed = false;
 
 // TODO 4, Part 1: Create the apple variable
 const apple = {}
 
 // TODO 5, Part 1: Create the snake variable
 const snake = {};
+
 
 // Constant Variables
 var ROWS = 20;
@@ -204,11 +208,18 @@ function handleAppleCollision() {
   // Remove existing Apple and create a new one
   apple.element.remove();
   makeApple();
-
+  /*if (score % 10 === 0) {
+    isReversed = true;
+  }*/
   var row = snake.tail.row;
   var column = snake.tail.column;
   
   makeSnakeSquare(row, column);
+  snake.tail.element.css("backgroundColor", colors[colorIndex]);
+  colorIndex += 1;
+  if (colorIndex > colors.length) {
+    colorIndex = 0;
+  }
 }
 
 function hasCollidedWithSnake() {
@@ -322,6 +333,12 @@ function handleKeyDown(event) {
   ) {
     started = true; // the game starts when the first key is pressed
   }
+  /*if (isReversed) {
+    KEY.LEFT = 38
+    KEY.UP = 37
+    KEY.RIGHT = 40
+    KEY.DOWN = 39
+  }*/
 }
 
 /* Given a gameSquare (which may be a snakeSquare or the apple), position
