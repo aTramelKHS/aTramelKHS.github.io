@@ -16,6 +16,7 @@ const slider = document.getElementsByClassName('slider');
 const indicator = document.getElementById('indicator');
 const pause = document.getElementById('pause');
 const songs = document.getElementById('songs');
+const listen = document.getElementById('listen');
 const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -23,7 +24,7 @@ let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
 let holdBlockKey = "c";
-let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG gamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "Now with more tv and movie refrences", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, both of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "You shouldn't hate others just because of the music they listen to. \nUnless they listen to Taylor Swift"];
+let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Poptarts! With butter!?!", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG \ngamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, \nboth of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "Fun Fact: \nPurple doesn't have a wavelength meaning that our brain only enterprets it as a mixture of red and blue, basically our brain makes up a color for purple. This is called a non-spectral color.", "You shouldn't hate others just because of the \nmusic they listen to. Unless they listen to Taylor Swift"];
 const randomIndex = Math.floor(Math.random() * splashText.length);
 //for testing purposes
 //const randomIndex = splashText.length - 1
@@ -77,6 +78,14 @@ settings.addEventListener('click', () => {
   document.body.style.overflow = 'auto';
 });
 
+songs.addEventListener('click', () => {
+  document.getElementById('allsongs').hidden = false;
+  settings.hidden = true;
+  start.hidden = true;
+  skinsBtn.hidden = true;
+  songs.hidden = true;
+  document.body.style.overflow = 'auto';
+});
 
 
 function goBack(buttonId) {
@@ -92,6 +101,9 @@ function goBack(buttonId) {
   } else if (buttonId === 2) {
     back2.hidden = false;
     document.getElementById('allsettings').hidden = true;
+  } else if (buttonId === 3) {
+    back3.hidden = false;
+    document.getElementById('allsongs').hidden = true;
   }
 }
 
@@ -133,15 +145,12 @@ skinsBtn.addEventListener('click', () => {
 });
 
 function revert() {
-  splash.hidden = false;
   neon = false;
+  removeStyles()
   gameCanvas.style.backgroundImage = "url('source/images/matrix.png')";
   main.classList.add('main-style');
-  main.removeAttribute('style');
   indicator.classList.add('indicator-style');
-  indicator.removeAttribute('style');
-  dashboard.removeAttribute('style');
-  UI.removeAttribute('style');
+  splash.hidden = false;
   colors = {
     I: "cyan",
     O: "yellow",
@@ -173,6 +182,8 @@ function removeStyles() {
   dashboard.removeAttribute('style');
   UI.removeAttribute('style');
   gameCanvas.removeAttribute('style');
+  $('canvas').removeAttr('style');
+  $('p').removeAttr('style');
   splash.textContent = selectedText;
   splash.hidden = true;
   gameCanvas.style.backgroundImage = 'none';
@@ -203,7 +214,7 @@ function changeSkin(skinId) {
           "background-position-y": "var(--scanline-position, 0)",
           "background-size": "100% 25px",
           "z-index": -10,
-          "font-family": "'Fjalla One', sans-serif",
+          "font-family": "Monofonto",
           "font-weight": 400,
           "font-style": "normal",
           "font-size": "25px"
@@ -224,8 +235,8 @@ function changeSkin(skinId) {
           "border-bottom": "6px solid rgb(0, 255, 0)",
           "padding": "10px"
         });
-        $('p').css({
-          "color": "black"
+        $('canvas').css({
+          "border": "6px solid rgb(0, 255, 0)"
         });
         colors = {
           I: "rgb(0, 255, 0)",
@@ -306,12 +317,19 @@ function changeSkin(skinId) {
         "color": "white",
         "size": "20px"
       });
-      $('#game').css({
+      $('canvas').css({
         "border": "5px solid white",
         "box-shadow": "0 0 42px 0 white, 0 0 23px 0 white"
       });
       $('#UI').css({
-        "color": "white"
+        "color": "white",
+        "text-shadow": "0 0 10px white, 0 0 6px white",
+        "font-family": "JetBrains Mono, Fira Code, Consolas, 'Droid Sans Mono', monospace"
+      });
+      $('p').css({
+        "font-size": "30px",
+        "color": "white",
+        "text-shadow": "0 0 10px white, 0 0 12px white"
       });
       colors = {
         I: "gray",

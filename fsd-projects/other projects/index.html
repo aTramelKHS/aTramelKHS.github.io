@@ -30,6 +30,15 @@
       <button class="buttons normal" id="settings">Settings</button>
       <button class="buttons normal" id="skins">Skins</button>
       <button class="buttons normal" id="songs">Songs</button>
+      <div hidden id="allsongs">
+        <button class="buttons normal" id="back3" onclick="goBack(3)">Back</button>
+        <br>
+        <button class="buttons normal" id="listen" onclick="songListen()">Listen</button>
+        <br>
+        <button class="smallbtn btn-small" onclick="playSong(1)">Type B</button>
+        <br>
+        <button class="smallbtn btn-small" onclick="playSong(2)">Temp Song</button>
+      </div>
       <div hidden id="allskins">
         <button class="buttons normal" id="back" onclick="goBack(1)">Back</button>
         <br>
@@ -44,7 +53,6 @@
         <button class="smallbtn btn-small" onclick="changeSkin('skin2')">True Blue</button>
         <br>
         <button class="smallbtn btn-small" onclick="changeSkin('skin3')">Neon</button>
-        <!--todo: change temporary() to changeSkin(skinId, requirement) when you are done with the code-->
       </div>
       <!--<button class="buttons" id="credits">Credits</button>-->
       
@@ -53,7 +61,7 @@
         <div>
           <p>Gameplay</p>
             <button class="smallbtn btn-small" onclick="fastMode()">Fast Mode</button>
-            <h6>Levels level up faster than normal</h6>
+            <p>Levels level up faster than normal</p>
           <p>Keybinds</p>
           <div id="keybinds">
             <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
@@ -126,17 +134,19 @@
         </ul> -->
     <div class="nan">
       <button hidden class="buttons normal" id="pause">Pause</button>
-      <canvas hidden id="queue" width="128" height="128"></canvas>
+      <canvas hidden id="queue" width="130" height="130"></canvas>
       <canvas hidden id="game" width="320" height="640"></canvas>
-      <canvas hidden id="viewnext" width="128" height="128"></canvas>
+      <canvas hidden id="viewnext" width="130" height="130"></canvas>
       <div hidden id="UI" >
         <ul id = 'UIlist'>
           <li><span id="scorehtml">Score: 0</span></li>
           <li><span id="levelhtml">Level: 0</span></li>
           <li><span id="lineshtml">Line Clears: 0</span></li>
         </ul>
+        <div>
+          <h2 hidden id="indicator">Tetris!</h2>
+        </div>
       </div>
-      <h2 hidden id="indicator">Tetris!</h2>
     </div>
     <script src="tetris_script.js"></script>
     <script src="menuscript.js"></script>

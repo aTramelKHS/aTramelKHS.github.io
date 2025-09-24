@@ -461,7 +461,7 @@ function game() {
       tetrisIndicator.style.display = "inline";
       setTimeout(function () {
         tetrisIndicator.style.display = "none";
-      }, 8000);
+      }, 6000);
     }
   }
   // place the tetromino on the playfield

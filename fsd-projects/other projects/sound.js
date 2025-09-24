@@ -20,6 +20,16 @@ function playDrop() {
   dropClone.volume = soundVolume;
   dropClone.play();
 }
-function playSong1(){
-  bgm.src = "source/sounds/typeb.mp3"
+function playSong(songId){
+  if (songId === 1) {
+    bgm.src = "source/sounds/typeb.mp3";
+  } else if (songId === 2) {
+    bgm.src = "source/sounds/testsong.wav";
+  }
+}
+let daSong = false;
+function songListen() {
+  daSong = !daSong;
+  listen.textContent = daSong ? "Mute" : "Listen";
+  daSong ? bgm.play() : bgm.pause();
 }

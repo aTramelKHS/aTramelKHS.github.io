@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Monofonto';
+  src: url('source/fonts/monofonto.woff2') format('woff2');
+}
+
 @keyframes wawa {
   0% {color: yellowgreen;}
   50% {color: cyan;}
@@ -11,8 +16,8 @@
 }
 
 @keyframes derp {
-  0% {left: 940px; opacity: 0; transform: rotateY(0deg);}
-  100% {left: 990px; opacity: 1; transform: rotateY(360deg);}
+  0% {left: -40px; opacity: 0; transform: rotateY(0deg);}
+  100% {left: 0px; opacity: 1; transform: rotateY(360deg);}
 }
 
 @keyframes derp2 {
@@ -42,8 +47,6 @@
   align-items: left;
   font-size: 25px;
 }
-
-
 
 #text {
   font-size: 100px;
@@ -85,6 +88,8 @@ canvas {
   border: 1px solid white;
   background: black;
   margin-top: 60px;
+  position: relative;
+  right: 80px;
 }
 
 
@@ -99,11 +104,17 @@ canvas {
   margin: 10px;
   border: 8px groove blue;
   background-color: lightblue;
+  width: 130px;
+  height: 90px;
+  overflow: hidden;
   font-size: 20px;
 }
 .normal:hover {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);
-  margin: 14px;
+  margin: 13px;
+  width: 124px;
+  height: 84px;
+  overflow: hidden;
   font-size: 18px;
 }
 
@@ -111,12 +122,14 @@ canvas {
   background: none;
   border: none;
   color: rgba(0, 255, 0, 0.8);
-  padding: 20px;
   margin: 10px;
-  font-size: 35px;
-  font-family: "Fjalla One", sans-serif;
+  font-size: 30px;
+  font-family: "Monofonto";
   font-weight: 400;
   font-style: normal;
+  width: 145px;
+  height: 105px;
+  overflow: hidden;
 }
 .button-style-pip:hover {
   background-color: rgba(0, 255, 0, 0.5);
@@ -159,7 +172,7 @@ canvas {
   padding: 20px;
   margin: 5px;
   font-size: 25px;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: 'Monofonto';
   font-weight: 400;
   font-style: normal;
 }
@@ -187,8 +200,6 @@ canvas {
   text-shadow: 0 0 30px white, 0 0 28px white;
 }
 
-
-
 #queue {
   position: relative;
   bottom: 160px;
@@ -205,7 +216,7 @@ canvas {
 #UI {
   font-size: 20px;
   position: relative; 
-  right: 160px;
+  left: -240px;
 }
 
 
@@ -214,21 +225,27 @@ canvas {
 }
 
 #indicator {
+  width: 160px;
+  height: 120px; 
   animation:
     derp ease-in-out 2s forwards,
     derp2 2s ease-in-out 4s forwards; 
-  font-style: italic;
   font-family: "Afacad";
+  position: absolute;
+  top: 240px;
   font-size: 40px;
   font-style: bold;
+  margin: 10px;
   background: linear-gradient(rgb(199, 0, 0), rgb(255, 255, 113));
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  position: fixed;
-  bottom: 180px;
-  left: 320px;
 }
 
+#pause {
+  position: relative;
+  top: 10px;
+  left: 100px;
+}
 
 
 .input-bars {
