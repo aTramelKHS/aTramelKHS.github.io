@@ -41,16 +41,27 @@ function game() {
   let level = 0;
   let tickSpeed = 84;
   levelUp();
-  updateScore();
+  document.getElementById("scorehtml").textContent = "Score: 0";
   let countInd = 0;
   let limit = false;
   let hold = "";
   let getNext;
+  let combo = 0;
+  let comboBreak = 0;
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+  function increaseCombo() {
+    combo += 1;
+    document.getElementById("comboshtml").textContent = "Combo: X" + combo;
+    if (combo % 5 === 0) {
+      increaseScore(100);
+    }
+  } 
+
   //decreases tick speed every 10 levels
   function levelUp() {
     if (lineClears % 10 === 0) {
@@ -62,13 +73,10 @@ function game() {
   }
 
   //updates the score display
-  function updateScore() {
-    document.getElementById("scorehtml").textContent = "Score: " + score;
-  }
   //calculates whatever score is in the placeholder then updates it
   function increaseScore(points) {
     score += points;
-    updateScore();
+    document.getElementById("scorehtml").textContent = "Score: " + score;
   }
   
   //DISPLAY THE NEXT TETROMINO
@@ -480,10 +488,12 @@ function game() {
     // check for line clears starting from the bottom and working our way up
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every((cell) => !!cell)) {
-        clearSound.play();
+        playClear();
         lineClears += 1;
         levelUp();
         increaseScore(100);
+        increaseCombo();
+        comboBreak = 0;
         countInd += 1;
         if (countInd === 4) {
           displayTetris();
@@ -503,6 +513,15 @@ function game() {
     increaseScore(10);
     tetromino = getNextTetromino();
     countInd = 0;
+    if (combo > 0) {
+      comboBreak += 1;
+    }
+    console.log(comboBreak);
+    if (comboBreak === 3) {
+      combo = 0;
+      comboBreak = 0;
+      document.getElementById("comboshtml").textContent = "Combo: X0";
+    }
   }
   let test = 0;
   let anim;

@@ -6,6 +6,7 @@ const skinsBtn = document.getElementById('skins');
 const keyBinds = document.getElementById('keybind');
 const splash = document.getElementById('splash');
 const title = document.getElementById('text');
+const title2 = document.getElementById('mc-title');
 const main = document.getElementById('main');
 const gameCanvas = document.getElementById('game');
 const UI = document.getElementById('UI');
@@ -17,6 +18,8 @@ const indicator = document.getElementById('indicator');
 const pause = document.getElementById('pause');
 const songs = document.getElementById('songs');
 const listen = document.getElementById('listen');
+const output = document.getElementsByClassName('output');
+const mask = document.getElementById('mask');
 const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -24,7 +27,7 @@ let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
 let holdBlockKey = "c";
-let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Poptarts! With butter!?!", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG \ngamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, \nboth of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "Fun Fact: \nPurple doesn't have a wavelength meaning that our brain only enterprets it as a mixture of red and blue, basically our brain makes up a color for purple. This is called a non-spectral color.", "You shouldn't hate others just because of the \nmusic they listen to. Unless they listen to Taylor Swift"];
+let splashText = ["Still learning!", "Am i right lads or am i right lads?", "Poptarts! With butter!?!", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG \ngamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, \nboth of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "Fun Fact: \nPurple doesn't have a wavelength meaning that our brain only enterprets it as a mixture of red and blue, which basically our brain makes up a color for purple. This is called a non-spectral color.", "You shouldn't hate others just because of the \nmusic they listen to. Unless they listen to Taylor Swift"];
 const randomIndex = Math.floor(Math.random() * splashText.length);
 //for testing purposes
 //const randomIndex = splashText.length - 1
@@ -54,6 +57,7 @@ document.getElementById('highscores').textContent = "Highest Score: " + highScor
 start.addEventListener('click', () => {
   game();
   start.hidden = true;
+  title2.hidden = true;
   settings.hidden = true;
   gameCanvas.hidden = false;
   pause.hidden = false;
@@ -161,21 +165,24 @@ function revert() {
     L: "orange",
   };
   for (var i = 0; i < buttons.length; i++) {
-    buttons[i].className = 'buttons';
     buttons[i].classList.add("normal");
   }
   for (var i = 0; i < smallBtn.length; i++) {
-    smallBtn[i].className = 'smallbtn';
     smallBtn[i].classList.add('btn-small');
   }
   for (var i = 0; i < slider.length; i++) {
-    slider[i].className = 'slider';
     slider[i].classList.add('input-bars');
   }
 
 }
 
 function removeStyles() {
+  mask.hidden = false;
+  setTimeout(function() {
+    mask.hidden = true;
+  }, 2000);
+  title.hidden = false;
+  title2.hidden = true;
   main.classList.remove('main-style');
   main.removeAttribute('style');
   indicator.removeAttribute('style');
@@ -184,15 +191,28 @@ function removeStyles() {
   gameCanvas.removeAttribute('style');
   $('canvas').removeAttr('style');
   $('p').removeAttr('style');
+  $('#pause').removeAttr('style');
+  $('.dood').css({
+    'display': 'block'
+  });
   splash.textContent = selectedText;
   splash.hidden = true;
   gameCanvas.style.backgroundImage = 'none';
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].className = 'buttons';
+  }
+  for (var i = 0; i < smallBtn.length; i++) {
+    smallBtn[i].className = 'smallbtn';
+  }
+  for (var i = 0; i < slider.length; i++) {
+    slider[i].className = 'slider';
+  }
 }
 
 function changeSkin(skinId) {
   if (skinId === "skin1") {
     //PIP
-    if (highScore[0] >= 7600) {
+    if (highScore[0] >= 10) {
       var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
       if (warning === 'y' || warning === 'Y') {
         removeStyles();
@@ -269,11 +289,36 @@ function changeSkin(skinId) {
     }
   } 
   if (skinId === "skin2") {
-    //TRUE BLUE
-    if (highScore[0] >= 600) {
+    //MINECRAFT
+    if (highScore[0] >= 10) {
       removeStyles();
+      title.hidden = true;
+      title2.hidden = false;
       $('#main').css({
-        
+        'font-family': 'MinecraftiaRegular',
+        "justify-content": "center",
+        "align-items": "center",
+        "text-align": "center",
+        "height": "100%",
+        "margin": "10",
+        "background-image": 'url("source/images/dirt-bg.jpg")',
+        "color": "white"
+      });
+      $('.dood').css({
+        'display': 'none'
+      });
+      $('#UI').css({
+        'font-size': '15px'
+      })
+      $('#pause').css({
+        'padding': '20px',
+        'margin': '10px',
+        'width': '130px',
+        'height': '80px',
+        'font-size': '17px',
+        'position': 'relative',
+        'top': '10px',
+        'left': '100px'
       });
       colors = {
         I: "rgb(0, 175, 250)",
@@ -286,17 +331,18 @@ function changeSkin(skinId) {
       };
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove("normal");
-        buttons[i].classList.add('button-style-blue');
+        buttons[i].classList.add('minecraft-btn');
       }
       for (var i = 0; i < smallBtn.length; i++) {
         smallBtn[i].classList.remove('btn-small');
-        smallBtn[i].classList.add('btn-small-style-blue');
+        smallBtn[i].classList.add('minecraft-small-btn');
       }
       for (var i = 0; i < slider.length; i++) {
         slider[i].classList.remove('input-bars');
+        slider[i].classList.add('minecraft-input-bars');
       }
     } else {
-      alert("You can't do that! Required points: 600");
+      alert("You can't do that! Required points: 8000");
     }
   } 
   if (skinId === "skin3") {
@@ -351,6 +397,9 @@ function changeSkin(skinId) {
       for (var i = 0; i < slider.length; i++) {
         slider[i].classList.remove('input-bars');
         slider[i].classList.add('input-bars-neon');
+      }
+      for (var i = 0; i < output.length; i++) {
+        output[i].classList.add('slider-output-minecraft');
       }
     }else {
       alert("You can't do that! Required points: 10000");
