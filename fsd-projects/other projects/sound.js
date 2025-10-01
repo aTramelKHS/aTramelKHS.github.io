@@ -1,17 +1,22 @@
 //background music and other sounds
 let clearSound = new Audio("source/sounds/line-clear.mp3");
-let moveSound = new Audio("source/sounds/move.mp3")
+clearSound.preload = 'auto';
+let moveSound = new Audio("source/sounds/move.mp3");
+moveSound.preload = 'auto';
 let bgm = new Audio("source/sounds/typeb.mp3");
+bgm.preload = 'auto';
 let dropSound = new Audio("source/sounds/drop.mp3");
+dropSound.preload = 'auto';
 var soundVolume = 0.5
 
 bgm.volume = 0.3;
 bgm.loop = true;
 
+
 function playClear() {
-  const clearClone = clearSound.cloneNode();
-  clearClone.volume = soundVolume;
-  clearClone.play;
+  clearSound.volume = soundVolume;
+  clearSound.play();
+  setTimeout(function() {}, 1000);
 }
 
 function playMove() {

@@ -27,6 +27,9 @@
       <h1>LOADING</h1>
       <h1>SCREEN</h1>
     </div>
+
+    <!-- MAIN MENU -->
+
     <h1 id="text">Tetris</h1>
     <img hidden id="mc-title" src="source/images/mc-title.png">
     <p id="splash"></p>
@@ -89,7 +92,7 @@
               max="100"
               value="50"
               step="1"
-              oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value"
+              oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value / 100"
             />
             <output class="output" name="sound">%50</output>
           </form>
@@ -109,7 +112,7 @@
           </form>
         </div>
         <p>Saves</p>
-        <button class="smallbtn btn-small" onclick="localStorage.clear()">Clear all save data</button>
+        <button class="smallbtn btn-small" onclick="clearData();">Clear all save data</button>
         <p>Stats</p>
         <p><span id="highscores">Highest Score: 0</span></p>
         <p><span id="latest-score">Latest Score: 0</span></p>
@@ -119,22 +122,8 @@
       </div>
     </div>
 
-    <!-- <ul>
-            <li><button id="lvl1">1</button></li>
-            <li><button id="lvl2">2</button></li>
-            <li><button id="lvl3">3</button></li>
-            <li><button id="lvl4">4</button></li>
-            <li><button id="lvl5">5</button></li>
-            <li><button id="lvl6">6</button></li>
-        </ul>
-        <ul>
-            <li><button id="lvl7">7</button></li>
-            <li><button id="lvl8">8</button></li>
-            <li><button id="lvl9">9</button></li>
-            <li><button id="lvl10">10</button></li>
-            <li><button id="lvl11">11</button></li>
-            <li><button id="lvl12">12</button></li>
-        </ul> -->
+    <!-- GAME -->
+
     <div class="nan">
       <button hidden class="buttons normal" id="pause">Pause</button>
       <canvas hidden id="queue" width="130" height="130"></canvas>

@@ -35,13 +35,10 @@ const selectedText = splashText[randomIndex];
 splash.textContent = selectedText;
 let fast = 0;
 let neon = false;
+let minecraft = false;
 
 
-// dont look at my spaghetti code!
-
-
-
-
+//displays the scores in settings
 if (JSON.stringify(storedScores.length) === '0') {
   document.getElementById("latest-score").textContent = "Latest Score: " + 0;
 } else {
@@ -50,8 +47,6 @@ if (JSON.stringify(storedScores.length) === '0') {
 document.getElementById("plays").textContent = "Plays: " + JSON.stringify(storedScores.length);
 document.getElementById("every-score").textContent = JSON.stringify(storedScores.join(" "));
 document.getElementById('highscores').textContent = "Highest Score: " + highScore[0];
-
-
 
 
 start.addEventListener('click', () => {
@@ -111,7 +106,7 @@ function goBack(buttonId) {
   }
 }
 
-
+//animate the pip skin background
 const pipBoy = document.querySelector('#main');
 let failsafe = 0;
 let position = 0;
@@ -150,6 +145,7 @@ skinsBtn.addEventListener('click', () => {
 
 function revert() {
   neon = false;
+  minecraft = false;
   removeStyles()
   gameCanvas.style.backgroundImage = "url('source/images/matrix.png')";
   main.classList.add('main-style');
@@ -212,7 +208,7 @@ function removeStyles() {
 function changeSkin(skinId) {
   if (skinId === "skin1") {
     //PIP
-    if (highScore[0] >= 10) {
+    if (highScore[0] >= 7600) {
       var warning = prompt("Be advised: if you are prone to motion sickness its best if you don't choose this skin. But you can choose not to allow motion at any time. If you aren't prone to motion sickness type 'Y'");
       if (warning === 'y' || warning === 'Y') {
         removeStyles();
@@ -290,12 +286,13 @@ function changeSkin(skinId) {
   } 
   if (skinId === "skin2") {
     //MINECRAFT
-    if (highScore[0] >= 10) {
+    if (highScore[0] >= 8000) {
       removeStyles();
+      minecraft = true;
       title.hidden = true;
       title2.hidden = false;
       $('#main').css({
-        'font-family': 'MinecraftiaRegular',
+        'font-family': 'Minecraftia',
         "justify-content": "center",
         "align-items": "center",
         "text-align": "center",
@@ -320,15 +317,69 @@ function changeSkin(skinId) {
         'top': '10px',
         'left': '100px'
       });
-      colors = {
-        I: "rgb(0, 175, 250)",
-        O: "rgb(0, 230, 255)",
-        T: "rgb(0, 35, 255)",
-        S: "rgb(0, 175, 233)",
-        Z: "rgb(0, 90, 170)",
-        J: "rgb(43, 223, 247)",
-        L: "rgb(0, 60, 234)",
-      };
+      $('canvas').css({
+        'border': 'none',
+        'background-image': 'url(source/images/inventory.png)',
+        'background-size': 'cover'
+      })
+      gameCanvas.style.backgroundImage = 'url(source/images/mc-bg.png)';
+      //render tetrominos
+      const glass = new Image();              //S
+      glass.src = 'source/images/mc-glass-S.png';
+      const plank = new Image();              //Z
+      plank.src = 'source/images/mc-plank-Z.jpg';
+      const grass = new Image();              //L
+      grass.src = 'source/images/mc-grass-L.png';
+      const sand = new Image();               //I
+      sand.src = 'source/images/mc-sand-I.jpg';
+      const stone = new Image();              //J
+      stone.src = 'source/images/mc-stone-J.png';
+      const tnt = new Image();                //O
+      tnt.src = 'source/images/mc-tnt-O.png';
+      const wood = new Image();               //T
+      wood.src = 'source/images/mc-wood-T.png';
+      //view next render
+      const sandRender = new Image();
+      sandRender.src = 'source/images/sandrend.png';
+      const stoneRender = new Image();
+      stoneRender.src = 'source/images/stonerend.png';
+      const glassRender = new Image();
+      glassRender.src = 'source/images/glassrend.png';
+      const plankRender = new Image();
+      plankRender.src = 'source/images/plankrend.png';
+      const grassRender = new Image();
+      grassRender.src = 'source/images/grassrend.png';
+      const tntRender = new Image();
+      tntRender.src = 'source/images/tntrend.png';
+      const woodRender = new Image();
+      woodRender.src = 'source/images/logrend.png';
+
+      Promise.all([
+        new Promise(resolve => glass.onload = resolve),
+        new Promise(resolve => plank.onload = resolve),
+        new Promise(resolve => grass.onload = resolve),
+        new Promise(resolve => sand.onload = resolve),
+        new Promise(resolve => stone.onload = resolve),
+        new Promise(resolve => tnt.onload = resolve),
+        new Promise(resolve => wood.onload = resolve),
+        new Promise(resolve => glassRender.onload = resolve),
+        new Promise(resolve => plankRender.onload = resolve),
+        new Promise(resolve => grassRender.onload = resolve),
+        new Promise(resolve => sandRender.onload = resolve),
+        new Promise(resolve => stoneRender.onload = resolve),
+        new Promise(resolve => tntRender.onload = resolve),
+        new Promise(resolve => woodRender.onload = resolve)
+      ]).then(() => {
+        colors = {
+          I: [sand, sandRender],
+          O: [tnt, tntRender],
+          T: [wood, woodRender],
+          S: [glass, glassRender],
+          Z: [plank, plankRender],
+          J: [stone, stoneRender],
+          L: [grass, grassRender],
+        };
+      })
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove("normal");
         buttons[i].classList.add('minecraft-btn');
@@ -468,4 +519,12 @@ function revertChanges() {
 function fastMode() {
   fast = 3;
   tickSpeed = 72;
+}
+
+function clearData() {
+  var result = prompt('are you sure you want to delete ALL your data? (this includes saved highscores, unlocked skins, and saved key binds');
+  if (result === "Y" || result === "y") {
+    localStorage.clear();
+    alert('data successfully cleared');
+  }
 }

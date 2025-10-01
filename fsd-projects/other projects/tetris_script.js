@@ -1,7 +1,7 @@
 //not my code!!! slight additions were made by me
 //visit the site https://gist.github.com/straker/3c98304f8a6a9174efd8292800891ea1
 
-//store scores
+//stores scores
 const scoresKey = 'myScores';
 let storedScores = JSON.parse(localStorage.getItem(scoresKey)) || [];
 let scoreConvert = storedScores.map(item => parseInt(item, 10));
@@ -88,7 +88,7 @@ function game() {
     if (getNext === "I") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.I;
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(50, 20, 20, 80);
       } else if (neon) {
         ctx.beginPath()
@@ -116,96 +116,100 @@ function game() {
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.I[1], 25, 25, 80, 80);
       }
     } else if (getNext === "J") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.J;
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(50, 20, 20, 70);
         ctx.fillRect(70, 20, 20, 20);
       } else if (neon) {
         ctx.shadowBlur = 46;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.shadowColor = neonColors.J[0]; 
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.strokeStyle = neonColors.J[2];
         ctx.lineWidth = 3;
         ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         ctx.shadowBlur = 125;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.shadowColor = neonColors.J[0]; 
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.strokeStyle = neonColors.J[2];
         ctx.lineWidth = 3;
         ctx.fillRect(50 + 2, 20 + 2, 20, 70);
         ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
         ctx.shadowBlur = 24;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)';
-        ctx.fillStyle = 'rgba(35, 35, 255, 0.5)';
+        ctx.shadowColor = neonColors.J[0];
+        ctx.fillStyle = neonColors.J[1];
         ctx.fillRect(50 + 2, 20 + 2, 20, 70);
         ctx.shadowBlur = 46;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.shadowColor = neonColors.J[0]; 
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.strokeStyle = neonColors.J[2];
         ctx.lineWidth = 3;
         ctx.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
         ctx.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
         ctx.shadowBlur = 125;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)'; 
+        ctx.shadowColor = neonColors.J[0]; 
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
+        ctx.strokeStyle = neonColors.J[2];
         ctx.lineWidth = 3;
         ctx.fillRect(80 + 2, 20 + 2, 20, 20);
         ctx.strokeRect(80 + 2, 20 + 2, 20, 20);
         ctx.shadowBlur = 24;
-        ctx.shadowColor = 'rgba(35, 35, 255, 1)';
-        ctx.fillStyle = 'rgba(35, 35, 255, 0.7)';
+        ctx.shadowColor = neonColors.J[0];
+        ctx.fillStyle = neonColors.J[1];
         ctx.fillRect(80 + 2, 20 + 2, 20, 20);
 
         ctx.shadowColor = "transparent";
         ctx.shadowBlur = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.J[1], 25, 25, 80, 80);
       }
     } else if (getNext === "L") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.L;
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(50, 20, 20, 70);
         ctx.fillRect(30, 20, 20, 20);
       } else if (neon) {
         ctx.shadowBlur = 46;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.shadowColor = colors[L][0]; 
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.strokeStyle = colors[L][2];
         ctx.lineWidth = 3;
         ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         ctx.shadowBlur = 125;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.shadowColor = colors[L][0]; 
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.strokeStyle = colors[L][2];
         ctx.lineWidth = 3;
         ctx.fillRect(50 + 2, 20 + 2, 20, 70);
         ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
         ctx.shadowBlur = 24;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)';
-        ctx.fillStyle = 'rgba(255, 95, 31, 0.5)';
+        ctx.shadowColor = colors[L][0];
+        ctx.fillStyle = colors[L][1];
         ctx.fillRect(50 + 2, 20 + 2, 20, 70);
         ctx.shadowBlur = 46;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.shadowColor = colors[L][0]; 
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.strokeStyle = colors[L][2];
         ctx.lineWidth = 3;
         ctx.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
         ctx.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
         ctx.shadowBlur = 125;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)'; 
+        ctx.shadowColor = colors[L][0]; 
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
+        ctx.strokeStyle = colors[L][2];
         ctx.lineWidth = 3;
         ctx.fillRect(18 + 2, 20 + 2, 20, 20);
         ctx.strokeRect(18 + 2, 20 + 2, 20, 20);
         ctx.shadowBlur = 24;
-        ctx.shadowColor = 'rgba(255, 95, 31, 1)';
-        ctx.fillStyle = 'rgba(255, 95, 31, 0.7)';
+        ctx.shadowColor = colors[L][0];
+        ctx.fillStyle = colors[L][1];
         ctx.fillRect(18 + 2, 20 + 2, 20, 20);
 
 
@@ -213,41 +217,45 @@ function game() {
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      }else if (minecraft) {
+        ctx.drawImage(colors.L[1], 25, 25, 80, 80);
       }
     } else if (getNext === "O") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.O
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(36, 36, 60, 60);
       } else if (neon) {
         ctx.shadowBlur = 33;
-        ctx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+        ctx.shadowColor = colors[O][0]; 
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+        ctx.strokeStyle = colors[O][1];
         ctx.lineWidth = 3;
         ctx.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
         ctx.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
         ctx.shadowBlur = 63;
-        ctx.shadowColor = 'rgba(252, 255, 0, 1)'; 
+        ctx.shadowColor = colors[O][0]; 
         ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
+        ctx.strokeStyle = colors[O][1];
         ctx.lineWidth = 3;
         ctx.fillRect(40 + 2, 40 + 2, 60, 60);
         ctx.strokeRect(40 + 2, 40 + 2, 60, 60);
         ctx.shadowBlur = 223;
-        ctx.shadowColor = 'rgba(252, 255, 0, 1)';
-        ctx.fillStyle = 'rgba(252, 255, 0,0.5)';
+        ctx.shadowColor = colors[O][0];
+        ctx.fillStyle = colors[O][2];
         ctx.fillRect(40 + 2, 40 + 2, 60, 60);
 
         ctx.shadowColor = "transparent";
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.O[1], 25, 25, 80, 80);
       }
     } else if (getNext === "S") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.S;
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(60, 40, 40, 20);
         ctx.fillRect(40, 60, 40, 20);
       } else if (neon) {
@@ -292,11 +300,13 @@ function game() {
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.S[1], 25, 25, 80, 80);
       }
     } else if (getNext === "Z") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.Z
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(80, 40, -40, 20);
         ctx.fillRect(100, 60, -40, 20);
       } else if (neon) {
@@ -341,11 +351,13 @@ function game() {
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.Z[1], 25, 25, 80, 80);
       }
     } else if (getNext === "T") {
       ctx.clearRect(0, 0, 180, 180);
       ctx.fillStyle = colors.T;
-      if (!neon) {
+      if (!neon && !minecraft) {
         ctx.fillRect(40, 60, 60, 20);
         ctx.fillRect(60, 40, 20, 20);
       } else if (neon) {
@@ -390,6 +402,8 @@ function game() {
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
+      } else if (minecraft) {
+        ctx.drawImage(colors.T[1], 25, 25, 80, 80);
       }
     }
   }
@@ -517,7 +531,7 @@ function game() {
       comboBreak += 1;
     }
     console.log(comboBreak);
-    if (comboBreak === 3) {
+    if (comboBreak === 2) {
       combo = 0;
       comboBreak = 0;
       document.getElementById("comboshtml").textContent = "Combo: X0";
@@ -675,6 +689,9 @@ function game() {
             context.shadowColor = "transparent";
             context.shadowBlur = 0;
           }
+          if (minecraft) {
+            context.drawImage(colors[name][0], col * grid, row * grid, grid, grid);
+          }
         }
       }
     }
@@ -697,12 +714,22 @@ function game() {
         for (let col = 0; col < tetromino.matrix[row].length; col++) {
           if (tetromino.matrix[row][col]) {
             // drawing 1 px smaller than the grid creates a grid effect
-            context.fillRect(
-              (tetromino.col + col) * grid,
-              (tetromino.row + row) * grid,
-              grid - 1,
-              grid - 1
-            );
+            if(!minecraft) {
+              context.fillRect(
+                (tetromino.col + col) * grid,
+                (tetromino.row + row) * grid,
+                grid - 1,
+                grid - 1
+              );
+            } else {
+              context.drawImage(
+                colors[tetromino.name][0],
+                (tetromino.col + col) * grid,
+                (tetromino.row + row) * grid,
+                grid,
+                grid
+              );
+            }
           }
         }
       }
@@ -777,7 +804,7 @@ function game() {
         if (hold.name === "I") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.I;
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(50, 20, 20, 80);
           } else if (neon) {
             cx.beginPath()
@@ -805,11 +832,13 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.I[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "J") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.J;
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(50, 20, 20, 70);
             cx.fillRect(70, 20, 20, 20);
           } else if (neon) {
@@ -852,11 +881,13 @@ function game() {
 
             cx.shadowColor = "transparent";
             cx.shadowBlur = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.J[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "L") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.L;
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(50, 20, 20, 70);
             cx.fillRect(30, 20, 20, 20);
           } else if (neon) {
@@ -901,11 +932,13 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.L[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "O") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.O
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(36, 36, 60, 60);
           } else if (neon) {
             cx.shadowBlur = 33;
@@ -931,11 +964,13 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.O[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "S") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.S;
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(60, 40, 40, 20);
             cx.fillRect(40, 60, 40, 20);
           } else if (neon) {
@@ -980,11 +1015,13 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.S[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "Z") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.Z
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(80, 40, -40, 20);
             cx.fillRect(100, 60, -40, 20);
           } else if (neon) {
@@ -1029,11 +1066,13 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.Z[1], 25, 25, 80, 80);
           }
         } else if (hold.name === "T") {
           cx.clearRect(0, 0, 180, 180);
           cx.fillStyle = colors.T;
-          if (!neon) {
+          if (!neon && !minecraft) {
             cx.fillRect(40, 60, 60, 20);
             cx.fillRect(60, 40, 20, 20);
           } else if (neon) {
@@ -1078,6 +1117,8 @@ function game() {
             cx.shadowBlur = 0;
             cx.shadowOffsetX = 0;
             cx.shadowOffsetY = 0;
+          } else if (minecraft) {
+            cx.drawImage(colors.T[1], 25, 25, 80, 80);
           }
         }
       }
