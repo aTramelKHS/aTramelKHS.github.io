@@ -66,6 +66,12 @@
   font-size: 60px;
 }
 
+#toasty {
+  width: 140px;
+  height: 120px; 
+  position: absolute;
+}
+
 #ahhh::before {
   content: 'SCREEN';
   animation: animateLoading 2s infinite steps(4, jump-none);
@@ -73,6 +79,23 @@
 
 #everything {
   display: none;
+}
+
+#indicator {
+  width: 160px;
+  height: 120px; 
+  animation:
+    derp ease-in-out 2s forwards,
+    derp2 2s ease-in-out 4s forwards; 
+  font-family: "Afacad";
+  position: absolute;
+  top: 240px;
+  font-size: 40px;
+  font-style: bold;
+  margin: 10px;
+  background: linear-gradient(rgb(199, 0, 0), rgb(255, 255, 113));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .main-style {

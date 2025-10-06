@@ -7,9 +7,13 @@ let bgm = new Audio("source/sounds/typeb.mp3");
 bgm.preload = 'auto';
 let dropSound = new Audio("source/sounds/drop.mp3");
 dropSound.preload = 'auto';
+let toastySound = new Audio('source/sounds/toasty.mp3');
+toastySound.preload = 'auto';
 var soundVolume = 0.5
 
+
 bgm.volume = 0.3;
+toastySound.volume = soundVolume;
 bgm.loop = true;
 
 

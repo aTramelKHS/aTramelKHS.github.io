@@ -48,6 +48,7 @@ function game() {
   let getNext;
   let combo = 0;
   let comboBreak = 0;
+  let fixCombo = false;
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -495,6 +496,17 @@ function game() {
       }, 6000);
     }
   }
+  function displayToasty() {
+    const toasty = document.getElementById("toasty");
+    if (toasty) {
+      toasty.hidden = false;
+      toastySound.play();
+      setTimeout(function () {
+        toasty.hidden = true;
+      }, 4000);
+    }
+  }
+
   // place the tetromino on the playfield
   function placeTetromino() {
     for (let row = 0; row < tetromino.matrix.length; row++) {
@@ -535,8 +547,14 @@ function game() {
     increaseScore(10);
     tetromino = getNextTetromino();
     countInd = 0;
-    if (combo % 5 === 0) {
-      increaseScore(25);
+    if (combo % 5 === 0 && combo > 0) {
+      fixCombo = !fixCombo
+      console.log(fixCombo);
+      if (fixCombo === true) {
+        console.log(combo);
+        increaseScore(25);
+        displayToasty();
+      }
     }
     if (combo > 0) {
       comboBreak += 1;
