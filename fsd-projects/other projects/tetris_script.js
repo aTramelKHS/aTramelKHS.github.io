@@ -57,16 +57,13 @@ function game() {
   function increaseCombo() {
     combo += 1;
     document.getElementById("comboshtml").textContent = "Combo: X" + combo;
-    if (combo % 5 === 0) {
-      increaseScore(100);
-    }
   } 
 
-  //decreases tick speed every 10 levels
+  //decreases tick speed every 10 line clears
   function levelUp() {
     if (lineClears % 10 === 0) {
       level = lineClears / 10;
-      tickSpeed -= 6 + fast;
+      tickSpeed -= 6 /*+ fast*/;
     }
     document.getElementById("levelhtml").textContent = "Level: " + level;
     document.getElementById("lineshtml").textContent = "Line Clears: " + lineClears;
@@ -80,333 +77,345 @@ function game() {
   }
   
   //DISPLAY THE NEXT TETROMINO
-  function display() {
+  // view next tetromino = displayer(ctx, getNext);
+  // view held tetromino = displayer(cx, hold.name);
+  // c stands for canvas btw
+  function getViewNext() {
     getNext = tetrominoSequence[tetrominoSequence.length - 1];
     if (getNext === undefined) {
       getNextTetromino();
     }
-    if (getNext === "I") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.I;
-      if (!neon && !minecraft) {
-        ctx.fillRect(50, 20, 20, 80);
-      } else if (neon) {
-        ctx.beginPath()
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.I[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.I[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
-        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.I[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.I[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 + 2, 20 + 2, 20, 80);
-        ctx.strokeRect(50 + 2, 20 + 2, 20, 80);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.I[0];
-        ctx.fillStyle = neonColors.I[2];
-        ctx.fillRect(50 + 2, 20 + 2, 20, 80);
-        ctx.closePath();
-
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-      } else if (minecraft) {
-        ctx.drawImage(colors.I[1], 25, 25, 80, 80);
+  }
+  function displayer(c, get) {
+    if (get === getNext) {
+      get = tetrominoSequence[tetrominoSequence.length - 1];
+      if (get === undefined) {
+        getNextTetromino();
       }
-    } else if (getNext === "J") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.J;
+    }
+    if (get === "I") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.I;
       if (!neon && !minecraft) {
-        ctx.fillRect(50, 20, 20, 70);
-        ctx.fillRect(70, 20, 20, 20);
+        c.fillRect(50, 20, 20, 80);
       } else if (neon) {
-        ctx.shadowBlur = 46;
-        ctx.shadowColor = neonColors.J[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.J[2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-        ctx.shadowBlur = 125;
-        ctx.shadowColor = neonColors.J[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.J[2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
-        ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
-        ctx.shadowBlur = 24;
-        ctx.shadowColor = neonColors.J[0];
-        ctx.fillStyle = neonColors.J[1];
-        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
-        ctx.shadowBlur = 46;
-        ctx.shadowColor = neonColors.J[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.J[2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
-        ctx.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
-        ctx.shadowBlur = 125;
-        ctx.shadowColor = neonColors.J[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.J[2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(80 + 2, 20 + 2, 20, 20);
-        ctx.strokeRect(80 + 2, 20 + 2, 20, 20);
-        ctx.shadowBlur = 24;
-        ctx.shadowColor = neonColors.J[0];
-        ctx.fillStyle = neonColors.J[1];
-        ctx.fillRect(80 + 2, 20 + 2, 20, 20);
+        c.beginPath()
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.I[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.I[1];
+        c.lineWidth = 3;
+        c.fillRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+        c.strokeRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.I[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.I[1];
+        c.lineWidth = 3;
+        c.fillRect(50 + 2, 20 + 2, 20, 80);
+        c.strokeRect(50 + 2, 20 + 2, 20, 80);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.I[0];
+        c.fillStyle = neonColors.I[2];
+        c.fillRect(50 + 2, 20 + 2, 20, 80);
+        c.closePath();
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
-        ctx.drawImage(colors.J[1], 25, 25, 80, 80);
+        c.drawImage(colors.I[1], 25, 25, 80, 80);
       }
-    } else if (getNext === "L") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.L;
+    } else if (get === "J") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.J;
       if (!neon && !minecraft) {
-        ctx.fillRect(50, 20, 20, 70);
-        ctx.fillRect(30, 20, 20, 20);
+        c.fillRect(50, 20, 20, 70);
+        c.fillRect(70, 20, 20, 20);
       } else if (neon) {
-        ctx.shadowBlur = 46;
-        ctx.shadowColor = colors[L][0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = colors[L][2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-        ctx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-        ctx.shadowBlur = 125;
-        ctx.shadowColor = colors[L][0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = colors[L][2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
-        ctx.strokeRect(50 + 2, 20 + 2, 20, 70);
-        ctx.shadowBlur = 24;
-        ctx.shadowColor = colors[L][0];
-        ctx.fillStyle = colors[L][1];
-        ctx.fillRect(50 + 2, 20 + 2, 20, 70);
-        ctx.shadowBlur = 46;
-        ctx.shadowColor = colors[L][0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = colors[L][2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
-        ctx.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
-        ctx.shadowBlur = 125;
-        ctx.shadowColor = colors[L][0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = colors[L][2];
-        ctx.lineWidth = 3;
-        ctx.fillRect(18 + 2, 20 + 2, 20, 20);
-        ctx.strokeRect(18 + 2, 20 + 2, 20, 20);
-        ctx.shadowBlur = 24;
-        ctx.shadowColor = colors[L][0];
-        ctx.fillStyle = colors[L][1];
-        ctx.fillRect(18 + 2, 20 + 2, 20, 20);
+        c.shadowBlur = 46;
+        c.shadowColor = neonColors.J[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.J[2];
+        c.lineWidth = 3;
+        c.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        c.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        c.shadowBlur = 125;
+        c.shadowColor = neonColors.J[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.J[2];
+        c.lineWidth = 3;
+        c.fillRect(50 + 2, 20 + 2, 20, 70);
+        c.strokeRect(50 + 2, 20 + 2, 20, 70);
+        c.shadowBlur = 24;
+        c.shadowColor = neonColors.J[0];
+        c.fillStyle = neonColors.J[1];
+        c.fillRect(50 + 2, 20 + 2, 20, 70);
+        c.shadowBlur = 46;
+        c.shadowColor = neonColors.J[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.J[2];
+        c.lineWidth = 3;
+        c.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+        c.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
+        c.shadowBlur = 125;
+        c.shadowColor = neonColors.J[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.J[2];
+        c.lineWidth = 3;
+        c.fillRect(80 + 2, 20 + 2, 20, 20);
+        c.strokeRect(80 + 2, 20 + 2, 20, 20);
+        c.shadowBlur = 24;
+        c.shadowColor = neonColors.J[0];
+        c.fillStyle = neonColors.J[1];
+        c.fillRect(80 + 2, 20 + 2, 20, 20);
+
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+      } else if (minecraft) {
+        c.drawImage(colors.J[1], 25, 25, 80, 80);
+      }
+    } else if (get === "L") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.L;
+      if (!neon && !minecraft) {
+        c.fillRect(50, 20, 20, 70);
+        c.fillRect(30, 20, 20, 20);
+      } else if (neon) {
+        c.shadowBlur = 46;
+        c.shadowColor = colors[L][0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = colors[L][2];
+        c.lineWidth = 3;
+        c.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        c.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
+        c.shadowBlur = 125;
+        c.shadowColor = colors[L][0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = colors[L][2];
+        c.lineWidth = 3;
+        c.fillRect(50 + 2, 20 + 2, 20, 70);
+        c.strokeRect(50 + 2, 20 + 2, 20, 70);
+        c.shadowBlur = 24;
+        c.shadowColor = colors[L][0];
+        c.fillStyle = colors[L][1];
+        c.fillRect(50 + 2, 20 + 2, 20, 70);
+        c.shadowBlur = 46;
+        c.shadowColor = colors[L][0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = colors[L][2];
+        c.lineWidth = 3;
+        c.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+        c.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
+        c.shadowBlur = 125;
+        c.shadowColor = colors[L][0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = colors[L][2];
+        c.lineWidth = 3;
+        c.fillRect(18 + 2, 20 + 2, 20, 20);
+        c.strokeRect(18 + 2, 20 + 2, 20, 20);
+        c.shadowBlur = 24;
+        c.shadowColor = colors[L][0];
+        c.fillStyle = colors[L][1];
+        c.fillRect(18 + 2, 20 + 2, 20, 20);
 
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       }else if (minecraft) {
-        ctx.drawImage(colors.L[1], 25, 25, 80, 80);
+        c.drawImage(colors.L[1], 25, 25, 80, 80);
       }
-    } else if (getNext === "O") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.O
+    } else if (get === "O") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.O
       if (!neon && !minecraft) {
-        ctx.fillRect(36, 36, 60, 60);
+        c.fillRect(36, 36, 60, 60);
       } else if (neon) {
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = colors[O][0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = colors[O][1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
-        ctx.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = colors[O][0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = colors[O][1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(40 + 2, 40 + 2, 60, 60);
-        ctx.strokeRect(40 + 2, 40 + 2, 60, 60);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = colors[O][0];
-        ctx.fillStyle = colors[O][2];
-        ctx.fillRect(40 + 2, 40 + 2, 60, 60);
+        c.shadowBlur = 33;
+        c.shadowColor = colors[O][0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = colors[O][1];
+        c.lineWidth = 3;
+        c.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+        c.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = colors[O][0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = colors[O][1];
+        c.lineWidth = 3;
+        c.fillRect(40 + 2, 40 + 2, 60, 60);
+        c.strokeRect(40 + 2, 40 + 2, 60, 60);
+        c.shadowBlur = 223;
+        c.shadowColor = colors[O][0];
+        c.fillStyle = colors[O][2];
+        c.fillRect(40 + 2, 40 + 2, 60, 60);
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
-        ctx.drawImage(colors.O[1], 25, 25, 80, 80);
+        c.drawImage(colors.O[1], 25, 25, 80, 80);
       }
-    } else if (getNext === "S") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.S;
+    } else if (get === "S") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.S;
       if (!neon && !minecraft) {
-        ctx.fillRect(60, 40, 40, 20);
-        ctx.fillRect(40, 60, 40, 20);
+        c.fillRect(60, 40, 40, 20);
+        c.fillRect(40, 60, 40, 20);
       } else if (neon) {
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.S[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.S[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
-        ctx.strokeRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.S[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.S[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(60 + 2, 40 + 2, 45, 20);
-        ctx.strokeRect(60 + 2, 40 + 2, 45, 20);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.S[1];
-        ctx.fillStyle = neonColors.S[2];
-        ctx.fillRect(60 + 2, 40 + 2, 45, 20);
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.S[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.S[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
-        ctx.strokeRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.S[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.S[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(35 + 2, 70 + 2, 45, 20);
-        ctx.strokeRect(35 + 2, 70 + 2, 45, 20);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.S[1];
-        ctx.fillStyle = neonColors.S[2];
-        ctx.fillRect(35 + 2, 70 + 2, 45, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.S[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.S[1];
+        c.lineWidth = 3;
+        c.fillRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+        c.strokeRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.S[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.S[1];
+        c.lineWidth = 3;
+        c.fillRect(60 + 2, 40 + 2, 45, 20);
+        c.strokeRect(60 + 2, 40 + 2, 45, 20);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.S[1];
+        c.fillStyle = neonColors.S[2];
+        c.fillRect(60 + 2, 40 + 2, 45, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.S[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.S[1];
+        c.lineWidth = 3;
+        c.fillRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+        c.strokeRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.S[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.S[1];
+        c.lineWidth = 3;
+        c.fillRect(35 + 2, 70 + 2, 45, 20);
+        c.strokeRect(35 + 2, 70 + 2, 45, 20);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.S[1];
+        c.fillStyle = neonColors.S[2];
+        c.fillRect(35 + 2, 70 + 2, 45, 20);
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
-        ctx.drawImage(colors.S[1], 25, 25, 80, 80);
+        c.drawImage(colors.S[1], 25, 25, 80, 80);
       }
-    } else if (getNext === "Z") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.Z
+    } else if (get === "Z") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.Z
       if (!neon && !minecraft) {
-        ctx.fillRect(80, 40, -40, 20);
-        ctx.fillRect(100, 60, -40, 20);
+        c.fillRect(80, 40, -40, 20);
+        c.fillRect(100, 60, -40, 20);
       } else if (neon) {
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.Z[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.Z[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
-        ctx.strokeRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.Z[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.Z[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(20 + 2, 40 + 2, 45, 20);
-        ctx.strokeRect(20 + 2, 40 + 2, 45, 20);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.Z[1];
-        ctx.fillStyle = neonColors.Z[2];
-        ctx.fillRect(20 + 2, 40 + 2, 45, 20);
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.Z[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.Z[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
-        ctx.strokeRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.Z[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.Z[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(45 + 2, 70 + 2, 45, 20);
-        ctx.strokeRect(45 + 2, 70 + 2, 45, 20);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.Z[1];
-        ctx.fillStyle = neonColors.Z[2];
-        ctx.fillRect(45 + 2, 70 + 2, 45, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.Z[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.Z[1];
+        c.lineWidth = 3;
+        c.fillRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+        c.strokeRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.Z[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.Z[1];
+        c.lineWidth = 3;
+        c.fillRect(20 + 2, 40 + 2, 45, 20);
+        c.strokeRect(20 + 2, 40 + 2, 45, 20);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.Z[1];
+        c.fillStyle = neonColors.Z[2];
+        c.fillRect(20 + 2, 40 + 2, 45, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.Z[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.Z[1];
+        c.lineWidth = 3;
+        c.fillRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+        c.strokeRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.Z[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.Z[1];
+        c.lineWidth = 3;
+        c.fillRect(45 + 2, 70 + 2, 45, 20);
+        c.strokeRect(45 + 2, 70 + 2, 45, 20);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.Z[1];
+        c.fillStyle = neonColors.Z[2];
+        c.fillRect(45 + 2, 70 + 2, 45, 20);
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
-        ctx.drawImage(colors.Z[1], 25, 25, 80, 80);
+        c.drawImage(colors.Z[1], 25, 25, 80, 80);
       }
-    } else if (getNext === "T") {
-      ctx.clearRect(0, 0, 180, 180);
-      ctx.fillStyle = colors.T;
+    } else if (get === "T") {
+      c.clearRect(0, 0, 180, 180);
+      c.fillStyle = colors.T;
       if (!neon && !minecraft) {
-        ctx.fillRect(40, 60, 60, 20);
-        ctx.fillRect(60, 40, 20, 20);
+        c.fillRect(40, 60, 60, 20);
+        c.fillRect(60, 40, 20, 20);
       } else if (neon) {
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.T[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.T[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
-        ctx.strokeRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.T[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.T[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(40 + 2, 60 + 2, 70, 20);
-        ctx.strokeRect(40 + 2, 60 + 2, 70, 20);
-        ctx.shadowBlur = 223;
-        ctx.shadowColor = neonColors.T[1];
-        ctx.fillStyle = neonColors.T[2];
-        ctx.fillRect(40 + 2, 60 + 2, 70, 20);
-        ctx.shadowBlur = 33;
-        ctx.shadowColor = neonColors.T[0]; 
-        ctx.fillStyle = 'white';
-        ctx.strokeStyle = neonColors.T[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
-        ctx.strokeRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
-        ctx.shadowBlur = 63;
-        ctx.shadowColor = neonColors.T[0]; 
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = neonColors.T[1];
-        ctx.lineWidth = 3;
-        ctx.fillRect(65 + 2, 30 + 2, 20, 20);
-        ctx.strokeRect(65 + 2, 30 + 2, 20, 20);
-        ctx.shadowBlur = 9;
-        ctx.shadowColor = neonColors.T[1];
-        ctx.fillStyle = neonColors.T[2];
-        ctx.fillRect(65 + 2, 30 + 2, 20, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.T[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.T[1];
+        c.lineWidth = 3;
+        c.fillRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+        c.strokeRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.T[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.T[1];
+        c.lineWidth = 3;
+        c.fillRect(40 + 2, 60 + 2, 70, 20);
+        c.strokeRect(40 + 2, 60 + 2, 70, 20);
+        c.shadowBlur = 223;
+        c.shadowColor = neonColors.T[1];
+        c.fillStyle = neonColors.T[2];
+        c.fillRect(40 + 2, 60 + 2, 70, 20);
+        c.shadowBlur = 33;
+        c.shadowColor = neonColors.T[0]; 
+        c.fillStyle = 'white';
+        c.strokeStyle = neonColors.T[1];
+        c.lineWidth = 3;
+        c.fillRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+        c.strokeRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
+        c.shadowBlur = 63;
+        c.shadowColor = neonColors.T[0]; 
+        c.fillStyle = 'black';
+        c.strokeStyle = neonColors.T[1];
+        c.lineWidth = 3;
+        c.fillRect(65 + 2, 30 + 2, 20, 20);
+        c.strokeRect(65 + 2, 30 + 2, 20, 20);
+        c.shadowBlur = 9;
+        c.shadowColor = neonColors.T[1];
+        c.fillStyle = neonColors.T[2];
+        c.fillRect(65 + 2, 30 + 2, 20, 20);
 
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        c.shadowColor = "transparent";
+        c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
-        ctx.drawImage(colors.T[1], 25, 25, 80, 80);
+        c.drawImage(colors.T[1], 25, 25, 80, 80);
       }
     }
   }
+
   // generate a new tetromino sequence
   function generateSequence() {
     const sequence = ["I", "J", "L", "O", "S", "T", "Z"];
@@ -423,7 +432,7 @@ function game() {
     limit = false;
     if (tetrominoSequence.length === 0) {
       generateSequence();
-      display();
+      displayer(ctx, getNext);
     }
     const name = tetrominoSequence.pop();
     const matrix = tetrominos[name];
@@ -431,7 +440,7 @@ function game() {
     const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
     // I starts on row 21 (-1), all others start on row 22 (-2)
     const row = name === "I" ? -1 : -2;
-    display();
+    displayer(ctx, getNext);
     return {
       name: name, // name of the piece (L, O, etc.)
       matrix: matrix, // the current rotation matrix
@@ -511,7 +520,6 @@ function game() {
         countInd += 1;
         if (countInd === 4) {
           displayTetris();
-          //play sound ere
           countInd === 0;
         }
         // drop every row above this one
@@ -527,10 +535,12 @@ function game() {
     increaseScore(10);
     tetromino = getNextTetromino();
     countInd = 0;
+    if (combo % 5 === 0) {
+      increaseScore(25);
+    }
     if (combo > 0) {
       comboBreak += 1;
     }
-    console.log(comboBreak);
     if (comboBreak === 2) {
       combo = 0;
       comboBreak = 0;
@@ -665,7 +675,9 @@ function game() {
           context.fillStyle = colors[name];
 
           // drawing 1 px smaller than the grid creates a grid effect
-          context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
+          if (!neon && !minecraft) {
+            context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
+          }
           //make the neon things happen
           if (neon) {
             context.shadowBlur = 23;
@@ -737,6 +749,7 @@ function game() {
   }
 
 
+  // REDO SO THAT IT DETECTS MULTIPLE KEY INPUTS
   // listen to keyboard events to move the active tetromino
   //held keys
   document.addEventListener("keydown", function (e) {
@@ -801,326 +814,7 @@ function game() {
         }
         tetromino = getNextTetromino();
         limit = true;
-        if (hold.name === "I") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.I;
-          if (!neon && !minecraft) {
-            cx.fillRect(50, 20, 20, 80);
-          } else if (neon) {
-            cx.beginPath()
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.I[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.I[1];
-            cx.lineWidth = 3;
-            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
-            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 80 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.I[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.I[1];
-            cx.lineWidth = 3;
-            cx.fillRect(50 + 2, 20 + 2, 20, 80);
-            cx.strokeRect(50 + 2, 20 + 2, 20, 80);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.I[0];
-            cx.fillStyle = neonColors.I[2];
-            cx.fillRect(50 + 2, 20 + 2, 20, 80);
-            cx.closePath();
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.I[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "J") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.J;
-          if (!neon && !minecraft) {
-            cx.fillRect(50, 20, 20, 70);
-            cx.fillRect(70, 20, 20, 20);
-          } else if (neon) {
-            cx.shadowBlur = 46;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-            cx.shadowBlur = 125;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(50 + 2, 20 + 2, 20, 70);
-            cx.strokeRect(50 + 2, 20 + 2, 20, 70);
-            cx.shadowBlur = 24;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)';
-            cx.fillStyle = 'rgba(35, 35, 255, 0.5)';
-            cx.fillRect(50 + 2, 20 + 2, 20, 70);
-            cx.shadowBlur = 46;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
-            cx.strokeRect(80 - 2, 20 - 2, 20 + 8, 20 + 8);
-            cx.shadowBlur = 125;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)'; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = 'rgba(35, 35, 255, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(80 + 2, 20 + 2, 20, 20);
-            cx.strokeRect(80 + 2, 20 + 2, 20, 20);
-            cx.shadowBlur = 24;
-            cx.shadowColor = 'rgba(35, 35, 255, 1)';
-            cx.fillStyle = 'rgba(35, 35, 255, 0.7)';
-            cx.fillRect(80 + 2, 20 + 2, 20, 20);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.J[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "L") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.L;
-          if (!neon && !minecraft) {
-            cx.fillRect(50, 20, 20, 70);
-            cx.fillRect(30, 20, 20, 20);
-          } else if (neon) {
-            cx.shadowBlur = 46;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-            cx.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
-            cx.shadowBlur = 125;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(50 + 2, 20 + 2, 20, 70);
-            cx.strokeRect(50 + 2, 20 + 2, 20, 70);
-            cx.shadowBlur = 24;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)';
-            cx.fillStyle = 'rgba(255, 95, 31, 0.5)';
-            cx.fillRect(50 + 2, 20 + 2, 20, 70);
-            cx.shadowBlur = 46;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
-            cx.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
-            cx.shadowBlur = 125;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)'; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = 'rgba(255, 95, 31, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(18 + 2, 20 + 2, 20, 20);
-            cx.strokeRect(18 + 2, 20 + 2, 20, 20);
-            cx.shadowBlur = 24;
-            cx.shadowColor = 'rgba(255, 95, 31, 1)';
-            cx.fillStyle = 'rgba(255, 95, 31, 0.7)';
-            cx.fillRect(18 + 2, 20 + 2, 20, 20);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.L[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "O") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.O
-          if (!neon && !minecraft) {
-            cx.fillRect(36, 36, 60, 60);
-          } else if (neon) {
-            cx.shadowBlur = 33;
-            cx.shadowColor = 'rgba(252, 255, 0, 1)'; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
-            cx.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = 'rgba(252, 255, 0, 1)'; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = 'rgba(252, 255, 0, 0.6)';
-            cx.lineWidth = 3;
-            cx.fillRect(40 + 2, 40 + 2, 60, 60);
-            cx.strokeRect(40 + 2, 40 + 2, 60, 60);
-            cx.shadowBlur = 223;
-            cx.shadowColor = 'rgba(252, 255, 0, 1)';
-            cx.fillStyle = 'rgba(252, 255, 0,0.5)';
-            cx.fillRect(40 + 2, 40 + 2, 60, 60);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.O[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "S") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.S;
-          if (!neon && !minecraft) {
-            cx.fillRect(60, 40, 40, 20);
-            cx.fillRect(40, 60, 40, 20);
-          } else if (neon) {
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.S[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.S[1];
-            cx.lineWidth = 3;
-            cx.fillRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
-            cx.strokeRect(60 - 2, 40 - 2, 45 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.S[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.S[1];
-            cx.lineWidth = 3;
-            cx.fillRect(60 + 2, 40 + 2, 45, 20);
-            cx.strokeRect(60 + 2, 40 + 2, 45, 20);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.S[1];
-            cx.fillStyle = neonColors.S[2];
-            cx.fillRect(60 + 2, 40 + 2, 45, 20);
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.S[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.S[1];
-            cx.lineWidth = 3;
-            cx.fillRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
-            cx.strokeRect(35 - 2, 70 - 2, 45 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.S[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.S[1];
-            cx.lineWidth = 3;
-            cx.fillRect(35 + 2, 70 + 2, 45, 20);
-            cx.strokeRect(35 + 2, 70 + 2, 45, 20);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.S[1];
-            cx.fillStyle = neonColors.S[2];
-            cx.fillRect(35 + 2, 70 + 2, 45, 20);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.S[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "Z") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.Z
-          if (!neon && !minecraft) {
-            cx.fillRect(80, 40, -40, 20);
-            cx.fillRect(100, 60, -40, 20);
-          } else if (neon) {
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.Z[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.Z[1];
-            cx.lineWidth = 3;
-            cx.fillRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
-            cx.strokeRect(20 - 2, 40 - 2, 45 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.Z[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.Z[1];
-            cx.lineWidth = 3;
-            cx.fillRect(20 + 2, 40 + 2, 45, 20);
-            cx.strokeRect(20 + 2, 40 + 2, 45, 20);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.Z[1];
-            cx.fillStyle = neonColors.Z[2];
-            cx.fillRect(20 + 2, 40 + 2, 45, 20);
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.Z[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.Z[1];
-            cx.lineWidth = 3;
-            cx.fillRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
-            cx.strokeRect(45 - 2, 70 - 2, 45 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.Z[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.Z[1];
-            cx.lineWidth = 3;
-            cx.fillRect(45 + 2, 70 + 2, 45, 20);
-            cx.strokeRect(45 + 2, 70 + 2, 45, 20);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.Z[1];
-            cx.fillStyle = neonColors.Z[2];
-            cx.fillRect(45 + 2, 70 + 2, 45, 20);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.Z[1], 25, 25, 80, 80);
-          }
-        } else if (hold.name === "T") {
-          cx.clearRect(0, 0, 180, 180);
-          cx.fillStyle = colors.T;
-          if (!neon && !minecraft) {
-            cx.fillRect(40, 60, 60, 20);
-            cx.fillRect(60, 40, 20, 20);
-          } else if (neon) {
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.T[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.T[1];
-            cx.lineWidth = 3;
-            cx.fillRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
-            cx.strokeRect(40 - 2, 60 - 2, 70 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.T[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.T[1];
-            cx.lineWidth = 3;
-            cx.fillRect(40 + 2, 60 + 2, 70, 20);
-            cx.strokeRect(40 + 2, 60 + 2, 70, 20);
-            cx.shadowBlur = 223;
-            cx.shadowColor = neonColors.T[1];
-            cx.fillStyle = neonColors.T[2];
-            cx.fillRect(40 + 2, 60 + 2, 70, 20);
-            cx.shadowBlur = 33;
-            cx.shadowColor = neonColors.T[0]; 
-            cx.fillStyle = 'white';
-            cx.strokeStyle = neonColors.T[1];
-            ctx.lineWidth = 3;
-            cx.fillRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
-            cx.strokeRect(65 - 2, 30 - 2, 20 + 8, 20 + 8);
-            cx.shadowBlur = 63;
-            cx.shadowColor = neonColors.T[0]; 
-            cx.fillStyle = 'black';
-            cx.strokeStyle = neonColors.T[1];
-            cx.lineWidth = 3;
-            cx.fillRect(65 + 2, 30 + 2, 20, 20);
-            cx.strokeRect(65 + 2, 30 + 2, 20, 20);
-            cx.shadowBlur = 9;
-            cx.shadowColor = neonColors.T[1];
-            cx.fillStyle = neonColors.T[2];
-            cx.fillRect(65 + 2, 30 + 2, 20, 20);
-
-            cx.shadowColor = "transparent";
-            cx.shadowBlur = 0;
-            cx.shadowOffsetX = 0;
-            cx.shadowOffsetY = 0;
-          } else if (minecraft) {
-            cx.drawImage(colors.T[1], 25, 25, 80, 80);
-          }
-        }
+        displayer(cx, hold.name);
       }
       else {
         console.log('limit reached');

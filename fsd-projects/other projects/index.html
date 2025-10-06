@@ -23,121 +23,122 @@
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
   </head>
   <body>
-    <div hidden id="mask">
+    <div id="mask">
       <h1>LOADING</h1>
-      <h1>SCREEN</h1>
+      <h1>SCREEN<span id="ahhh"><span></h1>
     </div>
 
     <!-- MAIN MENU -->
-
-    <h1 id="text">Tetris</h1>
-    <img hidden id="mc-title" src="source/images/mc-title.png">
-    <p id="splash"></p>
-    <div id="dashboard">
-      <!--          Selector Style     Functionality       -->
-      <button class="buttons normal" id="startBtn">Play</button>
-      <button class="buttons normal" id="settings">Settings</button>
-      <button class="buttons normal" id="skins">Skins</button>
-      <button class="buttons normal" id="songs">Songs</button>
-      <div hidden id="allsongs">
-        <button class="buttons normal" id="back3" onclick="goBack(3)">Back</button>
-        <br>
-        <button class="buttons normal" id="listen" onclick="songListen()">Listen</button>
-        <br>
-        <button class="smallbtn btn-small" onclick="playSong(1)">Type B</button>
-        <br class="dood">
-        <button class="smallbtn btn-small" onclick="playSong(2)">Temp Song</button>
-      </div>
-      <div hidden id="allskins">
-        <button class="buttons normal" id="back" onclick="goBack(1)">Back</button>
-        <br>
-        <button class="buttons normal" onclick="reduceMotion(0)">Reduce Motion</button>
-        <button class="buttons normal" onclick="reduceMotion(1)">No Motion</button>
-        <button class="buttons normal" onclick="reduceMotion(2)">Regular Motion</button>
-        <br>
-        <button class="smallbtn btn-small" onclick="revert()">Legacy</button>
-        <br class="dood">
-        <button class="smallbtn btn-small" onclick="changeSkin('skin1')">Pip</button>
-        <br>
-        <button class="smallbtn btn-small" onclick="changeSkin('skin2')">Minecraft (WIP)</button>
-        <br class="dood">
-        <button class="smallbtn btn-small" onclick="changeSkin('skin3')">Neon</button>
-      </div>
-      <!--<button class="buttons" id="credits">Credits</button>-->
-      
-      <div hidden id="allsettings">
-        <button hidden class="buttons normal" id="back2" onclick="goBack(2)">Back</button>
-        <div>
-          <p>Gameplay</p>
-            <button class="smallbtn btn-small" onclick="fastMode()">Fast Mode</button>
-            <p>Levels level up faster than normal</p>
-          <p>Keybinds</p>
-          <div id="keybinds">
-            <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
-            <button class="smallbtn btn-small" onclick="changeFall()">Drop</button>
-            <button class="smallbtn btn-small" onclick="changeLeft()">Left</button>
-            <br>
-            <button class="smallbtn btn-small" onclick="changeRight()">Right</button>
-            <button class="smallbtn btn-small" onclick="changeHD()">Hard Drop</button>
-            <button class="smallbtn btn-small"onclick="revertChanges()">Revert Changes</button>
+    <div id = "everything" hidden>
+      <h1 id="text">Tetris</h1>
+      <img hidden id="mc-title" src="source/images/mc-title.png">
+      <p id="splash"></p>
+      <div id="dashboard">
+        <!--          Selector Style     Functionality       -->
+        <button class="buttons normal" id="startBtn">Play</button>
+        <button class="buttons normal" id="settings">Settings</button>
+        <button class="buttons normal" id="skins">Skins</button>
+        <button class="buttons normal" id="songs">Songs</button>
+        <!--<button class="buttons" id="credits">Credits</button>-->
+        <div hidden id="allsongs">
+          <button class="buttons normal" id="back3" onclick="goBack(3)">Back</button>
+          <br>
+          <button class="buttons normal" id="listen" onclick="songListen()">Listen</button>
+          <br>
+          <button class="smallbtn btn-small" onclick="playSong(1)">Type B</button>
+          <br class="dood">
+          <button class="smallbtn btn-small" onclick="playSong(2)">Temp Song</button>
+        </div>
+        <div hidden id="allskins">
+          <button class="buttons normal" id="back" onclick="goBack(1)">Back</button>
+          <br>
+          <button class="buttons normal" onclick="reduceMotion(0)">Reduce Motion</button>
+          <button class="buttons normal" onclick="reduceMotion(1)">No Motion</button>
+          <button class="buttons normal" onclick="reduceMotion(2)">Regular Motion</button>
+          <br>
+          <button class="smallbtn btn-small" onclick="revert()">Legacy</button>
+          <br class="dood">
+          <button class="smallbtn btn-small" onclick="changeSkin('skin1')">Pip</button>
+          <br>
+          <button class="smallbtn btn-small" onclick="changeSkin('skin2')">Minecraft (WIP)</button>
+          <br class="dood">
+          <button class="smallbtn btn-small" onclick="changeSkin('skin3')">Neon</button>
+        </div>
+        
+        <div hidden id="allsettings">
+          <button hidden class="buttons normal" id="back2" onclick="goBack(2)">Back</button>
+          <div>
+            <!--<p>Gameplay</p>
+              <button class="smallbtn btn-small" onclick="fastMode()">Fast Mode</button>
+              <p>Levels level up faster than normal</p>-->
+            <p>Keybinds</p>
+            <div id="keybinds">
+              <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
+              <button class="smallbtn btn-small" onclick="changeFall()">Drop</button>
+              <button class="smallbtn btn-small" onclick="changeLeft()">Left</button>
+              <br>
+              <button class="smallbtn btn-small" onclick="changeRight()">Right</button>
+              <button class="smallbtn btn-small" onclick="changeHD()">Hard Drop</button>
+              <button class="smallbtn btn-small"onclick="revertChanges()">Revert Changes</button>
+            </div>
+            <p>Presets FINISH ME</p>
           </div>
-          <p>Presets FINISH ME</p>
+          <div id="soundvol">
+            <p>Sound Volume</p>
+            <form>
+              <input class="slider input-bars"
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                step="1"
+                oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value / 100"
+              />
+              <output class="output" name="sound">%50</output>
+            </form>
+          </div>
+          <div id="musicvol">
+            <p>Music Volume</p>
+            <form>
+              <input class="slider input-bars"
+                type="range"
+                min="0"
+                max="100"
+                value="30"
+                step="1"
+                oninput="this.form.music.value = '%' + this.value ; bgm.volume = this.value / 100"
+              />
+              <output class="output" name="music">%30</output>
+            </form>
+          </div>
+          <p>Saves</p>
+          <button class="smallbtn btn-small" onclick="clearData();">Clear all save data</button>
+          <p>Stats</p>
+          <p><span id="highscores">Highest Score: 0</span></p>
+          <p><span id="latest-score">Latest Score: 0</span></p>
+          <p><span id="plays">Plays: 0</span></p>
+          <ul>All Scores:</ul>
+            <li><span id="every-score"></span></li>
         </div>
-        <div id="soundvol">
-          <p>Sound Volume</p>
-          <form>
-            <input class="slider input-bars"
-              type="range"
-              min="0"
-              max="100"
-              value="50"
-              step="1"
-              oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value / 100"
-            />
-            <output class="output" name="sound">%50</output>
-          </form>
-        </div>
-        <div id="musicvol">
-          <p>Music Volume</p>
-          <form>
-            <input class="slider input-bars"
-              type="range"
-              min="0"
-              max="100"
-              value="30"
-              step="1"
-              oninput="this.form.music.value = '%' + this.value ; bgm.volume = this.value / 100"
-            />
-            <output class="output" name="music">%30</output>
-          </form>
-        </div>
-        <p>Saves</p>
-        <button class="smallbtn btn-small" onclick="clearData();">Clear all save data</button>
-        <p>Stats</p>
-        <p><span id="highscores">Highest Score: 0</span></p>
-        <p><span id="latest-score">Latest Score: 0</span></p>
-        <p><span id="plays">Plays: 0</span></p>
-        <ul>All Scores:</ul>
-          <li><span id="every-score"></span></li>
       </div>
-    </div>
 
-    <!-- GAME -->
+      <!-- GAME -->
 
-    <div class="nan">
-      <button hidden class="buttons normal" id="pause">Pause</button>
-      <canvas hidden id="queue" width="130" height="130"></canvas>
-      <canvas hidden id="game" width="320" height="640"></canvas>
-      <canvas hidden id="viewnext" width="130" height="130"></canvas>
-      <div hidden id="UI" >
-        <ul id = 'UIlist'>
-          <li><span id="scorehtml">Score: 0</span></li>
-          <li><span id="levelhtml">Level: 0</span></li>
-          <li><span id="lineshtml">Line Clears: 0</span></li>
-          <li><span id="comboshtml">Combo: X0</span></li>
-        </ul>
-        <div>
-          <h2 hidden id="indicator">Tetris!</h2>
+      <div class="nan">
+        <button hidden class="buttons normal" id="pause">Pause</button>
+        <canvas hidden id="queue" width="130" height="130"></canvas>
+        <canvas hidden id="game" width="320" height="640"></canvas>
+        <canvas hidden id="viewnext" width="130" height="130"></canvas>
+        <div hidden id="UI" >
+          <ul id = 'UIlist'>
+            <li><span id="scorehtml">Score: 0</span></li>
+            <li><span id="levelhtml">Level: 0</span></li>
+            <li><span id="lineshtml">Line Clears: 0</span></li>
+            <li><span id="comboshtml">Combo: X0</span></li>
+          </ul>
+          <div>
+            <h2 hidden id="indicator">Tetris!</h2>
+          </div>
         </div>
       </div>
     </div>

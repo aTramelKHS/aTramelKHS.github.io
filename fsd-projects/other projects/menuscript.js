@@ -1,3 +1,15 @@
+
+// MAKE EVERYTHING LOAD WITH A LOADING SCREEN
+window.addEventListener('load', function() {
+  const mask = document.getElementById('mask');
+  const everything = document.getElementById('everything');
+  $('#mask').css('animation', 'load 2s');
+  this.setTimeout(function() {
+    $('#mask').css('display', 'none');
+    $('#everything').css('display', 'block');
+  }, 2000)
+})
+
 const start = document.getElementById('startBtn');
 const settings = document.getElementById('settings');
 const back = document.getElementById('back');
@@ -19,7 +31,6 @@ const pause = document.getElementById('pause');
 const songs = document.getElementById('songs');
 const listen = document.getElementById('listen');
 const output = document.getElementsByClassName('output');
-const mask = document.getElementById('mask');
 const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
@@ -144,8 +155,6 @@ skinsBtn.addEventListener('click', () => {
 });
 
 function revert() {
-  neon = false;
-  minecraft = false;
   removeStyles()
   gameCanvas.style.backgroundImage = "url('source/images/matrix.png')";
   main.classList.add('main-style');
@@ -173,10 +182,8 @@ function revert() {
 }
 
 function removeStyles() {
-  mask.hidden = false;
-  setTimeout(function() {
-    mask.hidden = true;
-  }, 2000);
+  neon = false;
+  minecraft = false;
   title.hidden = false;
   title2.hidden = true;
   main.classList.remove('main-style');
@@ -435,7 +442,7 @@ function changeSkin(skinId) {
         S: "gray",
         Z: "gray",
         J: "gray",
-        L: "gray",
+        L: "gray"
       };
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove("normal");
@@ -522,7 +529,7 @@ function fastMode() {
 }
 
 function clearData() {
-  var result = prompt('are you sure you want to delete ALL your data? (this includes saved highscores, unlocked skins, and saved key binds');
+  var result = prompt('are you sure you want to delete ALL your data? (this includes highscores, unlocked skins, and saved key binds');
   if (result === "Y" || result === "y") {
     localStorage.clear();
     alert('data successfully cleared');
