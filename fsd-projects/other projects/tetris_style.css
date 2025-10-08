@@ -81,7 +81,7 @@
   position: absolute;
   animation: 
     TOASTY 0.2s linear forwards,
-    TOASTY1 0.2s linear 4s forwards;
+    TOASTY1 0.2s linear 3s forwards;
 }
 
 #ahhh::before {

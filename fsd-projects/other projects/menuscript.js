@@ -294,7 +294,7 @@ function changeSkin(skinId) {
   } 
   if (skinId === "skin2") {
     //MINECRAFT
-    if (highScore[0] >= 80) {
+    if (highScore[0] >= 8000) {
       removeStyles();
       minecraft = true;
       title.hidden = true;
