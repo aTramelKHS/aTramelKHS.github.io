@@ -30,6 +30,7 @@ var neonColors = {
   L: ["rgba(255, 95, 31, 1)", "rgba(255, 95, 31, 0.7)", "rgba(255, 95, 31, 0.5)"]
 };
 
+
 //plays game whenever a button is pressed
 document.body.style.overflow = "hidden";
 function game() {
@@ -48,7 +49,6 @@ function game() {
   let getNext;
   let combo = 0;
   let comboBreak = 0;
-  let fixCombo = false;
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -59,6 +59,26 @@ function game() {
     combo += 1;
     document.getElementById("comboshtml").textContent = "Combo: X" + combo;
   } 
+  var goalReached;
+  function comboFunctionality() {
+    if (combo > 0) {
+      comboBreak += 1;
+    }
+    if (comboBreak === 3) {
+      combo = 0;
+      comboBreak = 0;
+      document.getElementById("comboshtml").textContent = "Combo: X0";
+    }
+    if (goalReached) {
+      displayToasty();
+      if (combo >= 10) {
+        increaseScore(100);
+      } else {
+        increaseScore(25);
+      }
+      goalReached = false;
+    }
+  }
 
   //decreases tick speed every 10 line clears
   function levelUp() {
@@ -81,12 +101,6 @@ function game() {
   // view next tetromino = displayer(ctx, getNext);
   // view held tetromino = displayer(cx, hold.name);
   // c stands for canvas btw
-  function getViewNext() {
-    getNext = tetrominoSequence[tetrominoSequence.length - 1];
-    if (getNext === undefined) {
-      getNextTetromino();
-    }
-  }
   function displayer(c, get) {
     if (get === getNext) {
       get = tetrominoSequence[tetrominoSequence.length - 1];
@@ -530,6 +544,9 @@ function game() {
         increaseCombo();
         comboBreak = 0;
         countInd += 1;
+        if (combo % 5 === 0 && combo > 0) {
+          goalReached = true;
+        }
         if (countInd === 4) {
           displayTetris();
           countInd === 0;
@@ -547,23 +564,7 @@ function game() {
     increaseScore(10);
     tetromino = getNextTetromino();
     countInd = 0;
-    if (combo % 5 === 0 && combo > 0) {
-      fixCombo = !fixCombo
-      console.log(fixCombo);
-      if (fixCombo === true) {
-        console.log(combo);
-        increaseScore(25);
-        displayToasty();
-      }
-    }
-    if (combo > 0) {
-      comboBreak += 1;
-    }
-    if (comboBreak === 2) {
-      combo = 0;
-      comboBreak = 0;
-      document.getElementById("comboshtml").textContent = "Combo: X0";
-    }
+    comboFunctionality();
   }
   let test = 0;
   let anim;

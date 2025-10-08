@@ -15,9 +15,9 @@
 }
 
 @keyframes hoyhoy {
-  0% {font-size: 12px;}
-  50% {font-size: 12.4px;}
-  100% {font-size: 12px;}
+  0% {font-size: 10px;}
+  50% {font-size: 10.4px;}
+  100% {font-size: 10px;}
 }
 @keyframes derp {
   0% {left: -40px; opacity: 0; transform: rotateY(0deg);}
@@ -54,6 +54,15 @@
   100% {content: '.'}
 }
 
+@keyframes TOASTY {
+  0% { transform: translateX(100px); }
+  100% { transform: translateX(0px); }
+}
+
+@keyframes TOASTY2 {
+  100% { transform: translateX(100px); }
+}
+
 #mask {
   position: fixed;
   display: block;
@@ -70,6 +79,9 @@
   width: 140px;
   height: 120px; 
   position: absolute;
+  animation: 
+    TOASTY 0.2s linear forwards,
+    TOASTY1 0.2s linear 4s forwards;
 }
 
 #ahhh::before {
@@ -122,6 +134,7 @@
   position: relative;
 }
 
+
 #mc-title {
   margin-top: 180px;
   margin-bottom: 40px;
@@ -142,7 +155,14 @@
   left: 880px;
   max-width: 800px;
   text-align: center;
-  
+}
+
+#splash-special {
+  color: transparent;
+  -webkit-background-clip: text;
+  font-size: 20px;
+  background-clip: text;
+  background-color: linear-gradient(45deg, #FF0000, #FFA500, #FFFF00, #008000, #0000FF, #4B0082, #8f00ff);
 }
 
 .nan {

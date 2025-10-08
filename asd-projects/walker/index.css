@@ -4,18 +4,24 @@ body {
 }
 
 #board {
-  width: 440px;
-  height: 440px;
+  width: 640px;
+  height: 640px;
   border: 1px solid white;
   background-color: black;
   position: relative;
 }
 
-#gameItem {
+#walker2 {
   background-color: teal;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   position: absolute;
-/*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
-/*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
+}
+
+#walker {
+  width: 60px;
+  height: 60px;
+  background-color: maroon;
+  position: absolute;
+  /*background-image: url(https://st.depositphotos.com/1001911/1554/v/450/depositphotos_15540341-stock-illustration-thumb-up-emoticon.jpg);*/
 }
