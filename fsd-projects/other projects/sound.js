@@ -1,4 +1,4 @@
-//background music and other sounds
+// set and preload background music and other sounds
 let clearSound = new Audio("source/sounds/line-clear.mp3");
 clearSound.preload = 'auto';
 let moveSound = new Audio("source/sounds/move.mp3");
@@ -16,11 +16,10 @@ bgm.volume = 0.3;
 toastySound.volume = soundVolume;
 bgm.loop = true;
 
-
+// play clones of sounds
 function playClear() {
   clearSound.volume = soundVolume;
   clearSound.play();
-  setTimeout(function() {}, 1000);
 }
 
 function playMove() {
@@ -33,6 +32,7 @@ function playDrop() {
   dropClone.volume = soundVolume;
   dropClone.play();
 }
+// choose song based on id
 function playSong(songId){
   if (songId === 1) {
     bgm.src = "source/sounds/typeb.mp3";
@@ -40,6 +40,7 @@ function playSong(songId){
     bgm.src = "source/sounds/testsong.wav";
   }
 }
+// listen button
 let daSong = false;
 function songListen() {
   daSong = !daSong;

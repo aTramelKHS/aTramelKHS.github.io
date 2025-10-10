@@ -111,11 +111,25 @@ main {
 }
 
 h2, h3 {
-    margin: 0px;
+    margin: 15px;
 }
 
 .content h1 {
     color: black;
+}
+
+#tetris {
+    font-size: 55px;
+    text-align: center;
+    font-family: fantasy;
+    -webkit-text-stroke: 2px orange;
+    letter-spacing: 0.2em;
+    border-style: inset;
+    border-width: 7px;
+    border-color: lightgray;
+}
+#tetris:hover {
+    border-color: rgb(195, 195, 195);
 }
 
 #portfolio {

@@ -11,17 +11,26 @@ body {
   position: relative;
 }
 
-#walker2 {
-  background-color: teal;
-  width: 60px;
-  height: 60px;
-  position: absolute;
-}
-
 #walker {
   width: 60px;
   height: 60px;
   background-color: maroon;
   position: absolute;
-  /*background-image: url(https://st.depositphotos.com/1001911/1554/v/450/depositphotos_15540341-stock-illustration-thumb-up-emoticon.jpg);*/
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
+#walker2 {
+  background-color: teal;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  text-align: center;
+}
+
+h1 {
+  color: white;
 }

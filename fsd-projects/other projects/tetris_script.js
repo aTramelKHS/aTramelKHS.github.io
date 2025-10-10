@@ -74,7 +74,7 @@ function game() {
       if (combo >= 10) {
         increaseScore(100);
       } else {
-        increaseScore(25);
+        increaseScore(50);
       }
       goalReached = false;
     }
@@ -535,10 +535,13 @@ function game() {
       }
     }
     // check for line clears starting from the bottom and working our way up
+    let rows = 0;
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every((cell) => !!cell)) {
         playClear();
         lineClears += 1;
+        rows += 1;
+        //animateLineClear(rows);
         levelUp();
         increaseScore(100);
         increaseCombo();
@@ -566,13 +569,28 @@ function game() {
     countInd = 0;
     comboFunctionality();
   }
-  let test = 0;
+  // animations
+  /*
+  let clearAnim;
+  let frame = 0;
+  function animateLineClear(row) {
+    context.fillStyle = "white";
+    //                  x                                y     width   height
+    context.fillRect((canvas.width / 2) - (10 * frame), 180, 2 * frame, row);
+    if (frame != 20) {
+      frame++;
+    } 
+
+    clearAnim = requestAnimationFrame(animateLineClear);
+    rows = 0;
+  } */
+  let clearFrame = 0;
   let anim;
   function animateClear() {
     context.fillStyle = "black";
-    context.fillRect(0, 0, canvas.width, 30 * test);
-    if (test != 22) {
-      test += 1;
+    context.fillRect(0, 0, canvas.width, 30 * clearFrame);
+    if (clearFrame != 22) {
+      clearFrame += 1;
     }
     anim = requestAnimationFrame(animateClear);
   }
@@ -697,7 +715,6 @@ function game() {
           if (!neon && !minecraft) {
             context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
           }
-          //make the neon things happen
           if (neon) {
             context.shadowBlur = 23;
             context.shadowColor = neonColors[name][0]; 
@@ -772,6 +789,7 @@ function game() {
   // listen to keyboard events to move the active tetromino
   //held keys
   document.addEventListener("keydown", function (e) {
+    // disable keys when game ends or is paused
     if (gameOver || paused) return;
     // left and right arrow keys (move)
     if (e.key === leftKey || e.key === rightKey) {

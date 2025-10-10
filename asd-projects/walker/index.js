@@ -31,18 +31,22 @@ function runProgram(){
     speedY: 0,
     width: $('#walker').width(),
     height: $('#walker').height(),
-    it: true,
+    isIt: true,
+    speedIncrement: 5,
+    totalTags: 0,
   }
   var WALKER_RIGHT = walker.x + walker.width;
   var WALKER_BOTTOM = walker.y + walker.height;
   var walker2 = {
-    x: 0,
-    y: 560,
+    x: 580,
+    y: 580,
     speedX: 0,
     speedY: 0,
     width: $('#walker2').width(),
     height: $('#walker2').height(),
-    it: false,
+    isIt: false,
+    speedIncrement: 5,
+    totalTags: 0,
   }
   var WALKER2_RIGHT = walker2.x + walker2.width;
   var WALKER2_BOTTOM = walker2.y + walker2.height;
@@ -58,7 +62,7 @@ function runProgram(){
   */
   $(document).on('keydown', handleKeyDown);                          
   $(document).on('keyup', handleKeyUp);
-  $('#change').on('click', function() {
+  /*$('#change').on('click', function() {
     var randomColor = "#000000".replace(/0/g, function () {
       return (~~(Math.random() * 16)).toString(16);
     });
@@ -67,7 +71,7 @@ function runProgram(){
       return (~~(Math.random() * 16)).toString(16);
     });
     $('#walker2').css('background-color', randomColor);
-  });
+  });*/
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -81,37 +85,39 @@ function runProgram(){
     wallCollision();
     redrawGameItem();
     tag();
+    updateTags();
   }
-  
   /* 
   This section is where you set up the event handlers for user input.
   For example, if you wanted to make an event handler for a click event, you should rename this function to 'handleClick', then write the code that should execute when the click event occurs.
   
   Note: You can have multiple event handlers for different types of events.
   */
-  
   function handleKeyDown(event) {
     //player 1 controls
     if (event.which === KEY.LEFT) {
-      walker.speedX = -5;
+      walker.speedX = -walker.speedIncrement;
     } else if (event.which === KEY.UP) {
-      walker.speedY = -5;
+      walker.speedY = -walker.speedIncrement;
     } else if (event.which === KEY.RIGHT) {
-      walker.speedX = 5;
+      walker.speedX = walker.speedIncrement;
     } else if (event.which === KEY.DOWN) {
-      walker.speedY = 5;
+      walker.speedY = walker.speedIncrement;
     }
     //player 2 controls
     if (event.which === KEY.A) {
-      walker2.speedX = -5;
+      walker2.speedX = -walker2.speedIncrement;
     } else if (event.which === KEY.W) {
-      walker2.speedY = -5;
+      walker2.speedY = -walker2.speedIncrement;
     } else if (event.which === KEY.D) {
-      walker2.speedX = 5;
+      walker2.speedX = walker2.speedIncrement;
     } else if (event.which === KEY.S) {
-      walker2.speedY = 5;
+      walker2.speedY = walker2.speedIncrement;
     }
   }
+  /*
+    stops players from moving if a key stops being pressed
+  */
   function handleKeyUp(event){
     // player 1
     if (event.which === KEY.LEFT || event.which === KEY.RIGHT) {
@@ -133,11 +139,17 @@ function runProgram(){
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  /* redraws the position of both players */
   function redrawGameItem() {
     $('#walker').css('left', walker.x);
     $('#walker').css('top', walker.y);
     $('#walker2').css('left', walker2.x);
     $('#walker2').css('top', walker2.y);
+  }
+
+  function updateTags() {
+    $('#p1score').text(walker.totalTags);
+    $('#p2score').text(walker2.totalTags);
   }
 
   function endGame() {
@@ -160,7 +172,10 @@ function runProgram(){
     WALKER2_RIGHT = walker2.x + walker2.width;
     WALKER2_BOTTOM = walker2.y + walker2.height;
   }
-
+  /* 
+    detects if a player touches a wall
+    then prevents them from going any further 
+  */
   function wallCollision() {
     //player 1
     if (walker.x < BOARD_STARTING_X_VALUE || WALKER_RIGHT > $('#board').width()) {
@@ -177,17 +192,37 @@ function runProgram(){
       walker2.y -= walker2.speedY;
     }
   }
-
+  /*
+    detects when players overlap 
+    then changes their isIt value
+  */
+  let tagged = false;
   function tag() {
-    if (walker.x === walker2.x || walker.y === walker2.y || WALKER_RIGHT === WALKER2_RIGHT || WALKER_BOTTOM === WALKER2_BOTTOM) {
-      walker.it = !walker.it;
-      walker2.it = !walker.it;
-      console.log('tagged');
+    if (walker.x < WALKER2_RIGHT && WALKER_RIGHT > walker2.x && walker.y < WALKER2_BOTTOM && WALKER_BOTTOM > walker2.y) {
+      if (tagged === false) {
+        tagged = true;
+        walker.isIt = !walker.isIt;
+        walker2.isIt = !walker2.isIt;
+        if (walker.isIt) {
+          walker2.totalTags++;
+        } else if (walker2.isIt) {
+          walker.totalTags++;
+        }
+      }
+    } else {
+      tagged = false;
     }
-    if (walker.it === true) {
-      $('#walker').css('background-image', 'url(https://st.depositphotos.com/1001911/1554/v/450/depositphotos_15540341-stock-illustration-thumb-up-emoticon.jpg)')
-    } else if (walker2.it === true) {
-      $('#walker2').css('background-image', 'url(https://st.depositphotos.com/1001911/1554/v/450/depositphotos_15540341-stock-illustration-thumb-up-emoticon.jpg)')
+    // changes the taggers color and also makes the tagger slightly slower
+    if (walker.isIt === true) {
+      $('#walker').css('background-color', 'purple');
+      $('#walker2').css('background-color', 'blue');
+      walker.speedIncrement = 4;
+      walker2.speedIncrement = 5;
+    } else if (walker2.isIt === true) {
+      $('#walker2').css('background-color', 'purple');
+      $('#walker').css('background-color', 'blue')
+      walker2.speedIncrement = 4;
+      walker.speedIncrement = 5;
     }
   }
 }

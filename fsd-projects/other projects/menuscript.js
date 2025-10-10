@@ -10,6 +10,7 @@ window.addEventListener('load', function() {
   }, 2000)
 })
 
+// HTML elements
 const start = document.getElementById('startBtn');
 const settings = document.getElementById('settings');
 const back = document.getElementById('back');
@@ -31,26 +32,52 @@ const pause = document.getElementById('pause');
 const songs = document.getElementById('songs');
 const listen = document.getElementById('listen');
 const output = document.getElementsByClassName('output');
-const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "];
+// splash text
+let splashText = ["Still learning!", "Am i right lads or am i right lads?", "MAX VERSTAPPEN AND LANDO NORRIS THE GOATS", "Poptarts! With butter!?!", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate.", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG gamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, \nboth of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "Fun Fact: \nPurple doesn't have a wavelength meaning that our brain only enterprets it as a mixture of red and blue, which basically our brain makes up a color for purple. This is called a non-spectral color.", "GIVE ME FUEL, GIVE ME FIRE, GIVE ME THAT WHICH I DESIRE", "Get  gud, kid."];
+const randomIndex = Math.floor(Math.random() * splashText.length);
+/* for testing purposes
+const randomIndex = splashText.length - 1 */
+const selectedText = splashText[randomIndex];
+splash.textContent = selectedText;
+// Date
+let date = new Date();
+let day = date.getUTCDate();
+let month = date.getUTCMonth() + 1;
+if (day === 31 && month === 10) {
+  splash.textContent = "Happy Halloween!";
+}
+if (day === 23 && month === 10) {
+  splash.textContent = "Happy Fallout Day! Ad Victoriam!";
+}
+if (day === 1 && month === 4) {
+  splash.textContent = "Happy April Fools!";
+}
+if (day === 25 && month === 12) {
+  splash.textContent = "Merry Christmas!";
+}
+if (day === 4 && month === 7) {
+  splash.textContent = "Happy 4th of July! AMERICAAAAAAAAAAAAA";
+}
+if (day === 4 && month === 5) {
+  splash.textContent = "May the Fourth be With You!";
+}
+// Keybinds
+const validKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", 'Alt'];
 let rotateKey = "ArrowUp";
 let fallKey = "ArrowDown";
 let leftKey = "ArrowLeft";
 let rightKey = "ArrowRight";
 let hardDropKey = " ";
 let holdBlockKey = "c";
-let splashText = ["Still learning!", "Am i right lads or am i right lads?", "MAX VERSTAPPEN AND LANDO NORRIS THE GOATS", "Poptarts! With butter!?!", "Currently has no original music", "Alright", "Hello", "Boots with the fur!", "Works best in fullscreen!", "Lorem ipsum", "To be, or not to be. That is the question.", "Still in development!", "Wunderbar!", "If im a 0 then you could be the 1 for me.", "Sponsored by Vault-Tec.", "Press Alt + F4 for a secret!", "Listen to Tame Impala!", "Made with my blood, sweat, and (mostly) tears.", "Wisely done Mr. Freeman", "You underestimate my power!", "This idea wasn't stolen from Minecraft!", "War never changes", "Checkmate!", "P4$$W0RD", "Numerators and denominators", "Ad Victoriam", "FRESHAVOCADO", "Java and Javascript are NOT the same language", "Who can it be now?", "Hello, World!", "The Game", "Game over man, game over!", "Open your gaming juice and take a SWIG \ngamers!!!!!", "Feo, fuerte y formal", "ROFL", "You get the gist of it", "Clever girl...", "You drive like you fix roads, lousy.", "You've got to ac-cent-uate the positive", "I'm not crazy... You're crazy!!!", "Still no pickles!", "Stop, drop, and roll!", "jhuioyg3osjk,wxamdnfigyuwkik3l3jswhihuoirn3c4833hd7830azijsd73qqsj82;la", "Not to be confused with: Tetroise", "That's no moon", "Syntax Error", "use PEMDAS", "Im just a bill on capital hill", "Bazinga", "Mobile phones are not and will never be supported so don't ask", "I AM CORNHOLIO!!!", "Fun Fact: \nJavascript was only made in 10 days.", "Fun Fact: \nTellurium-128 has the longest half-life out of \nany radioactive isotope, which is estimated \nto be 2.2 septillion years (2.2 × 10^24)", "Fun Fact: \nThe sounds that lightsabers make where made by combining the hum of a motor from an old movie projector and a malfunctioning CRT TV. The whooshing sounds were made using the Doppler Effect.", "Fun Fact: \nIn Minecraft, bells have the same blast resistance as Iron Doors, \nboth of their values being 5.", "Fun Fact: \nmicrowaves, post-it notes, penicillin, and silly putty were created by accident.", "Fun Fact: \ncombos in Street Fighter II, creepers in \nMinecraft, and the Space Invaders adaptive \ndifficulty were all the result of a coding error.", "Fun Fact: \nthe closest linguistic cousin to the English language is Frisian, which is a West Germanic language spoken by ~500k people in the northern parts of the Netherlands and certain parts of Germany.", "Fun Fact: \nThe sunset on Mars appears blue. This is because the fine dust particles in Mars' thin atmosphere scatters blue light the most effectively", "Fun Fact: \nPurple doesn't have a wavelength meaning that our brain only enterprets it as a mixture of red and blue, which basically our brain makes up a color for purple. This is called a non-spectral color.", "GIVE ME FUEL, GIVE ME FIRE, GIVE ME THAT WHICH I DESIRE"];
-const randomIndex = Math.floor(Math.random() * splashText.length);
-//for testing purposes
-//const randomIndex = splashText.length - 1
-const selectedText = splashText[randomIndex];
-splash.textContent = selectedText;
-let fast = 0;
+// Styles
 let neon = false;
 let minecraft = false;
+// other variablse
+let fast = 0;
 
 
 
-//displays the scores in settings
+// displays the scores in settings
 if (JSON.stringify(storedScores.length) === '0') {
   document.getElementById("latest-score").textContent = "Latest Score: " + 0;
 } else {
@@ -60,7 +87,7 @@ document.getElementById("plays").textContent = "Plays: " + JSON.stringify(stored
 document.getElementById("every-score").textContent = JSON.stringify(scoreConvert.join(" "));
 document.getElementById('highscores').textContent = "Highest Score: " + highScore[0];
 
-
+// menu buttons
 start.addEventListener('click', () => {
   game();
   start.hidden = true;
@@ -118,11 +145,11 @@ function goBack(buttonId) {
   }
 }
 
-//animate the pip skin background
+// animate the pip skin background
 const pipBoy = document.querySelector('#main');
 let failsafe = 0;
 let position = 0;
-let speed = 1
+let speed = 1;
 function animateScanlines() {
   position -= speed; // speed
   pipBoy.style.setProperty('--scanline-position', `${position}px`);
@@ -512,6 +539,15 @@ function changeHD() {
   }
 };
 
+function changeHold() {
+  let something = prompt("Change the Hard Drop Key (base key is Spacebar)");
+  if (validKeys.includes(something)) {
+    hardDropKey = something;
+  } else {
+    alert('this key is unacceptable!');
+  }
+};
+
 function revertChanges() {
   let yes = prompt("Are you sure you want to revert back to default keybinds? Y or N");
   if (yes === "Y" || yes === "y") {
@@ -523,11 +559,6 @@ function revertChanges() {
     hardDropKey = " ";
   }
 };
-
-function fastMode() {
-  fast = 3;
-  tickSpeed = 72;
-}
 
 function clearData() {
   var result = prompt('are you sure you want to delete ALL your data? (this includes highscores, unlocked skins, and saved key binds');
