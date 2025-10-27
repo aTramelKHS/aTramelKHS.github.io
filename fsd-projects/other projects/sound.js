@@ -51,3 +51,6 @@ function songListen() {
   daSong ? bgm.play() : bgm.pause();
 }
 
+function songRestart() {
+  bgm.currentTime = 0;
+}

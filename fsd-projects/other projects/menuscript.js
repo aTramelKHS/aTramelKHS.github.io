@@ -255,7 +255,6 @@ function changeSkin(skinId) {
           "text-align": "center",
           "height": "100%",
           "margin": "10",
-          "color": "rgba(0, 255, 0, 0.7)",
           // animated bg
           "content": " ",
           "display": "block",
@@ -269,15 +268,16 @@ function changeSkin(skinId) {
           "background-size": "100% 10px",
           "z-index": -10,
           // font
+          "color": "rgba(0, 255, 0, 0.7)",
           "font-family": "Monofonto",
           "font-weight": 400,
           "font-style": "normal",
           "font-size": "25px"
         });
         $('#dashboard').css({
-          'border-top': '6px solid rgba(0, 255, 0, 0.7)',
+          'border-top': '6px solid rgba(0, 255, 0, 0.6)',
           'background-color': 'rgba(0, 0, 0, 0.6)',
-          'border-bottom': '6px solid rgba(0, 255, 0, 0.7)',
+          'border-bottom': '6px solid rgba(0, 255, 0, 0.6)',
           'display': 'center',
           'padding': '20px',
           'width': '740px',
@@ -285,13 +285,13 @@ function changeSkin(skinId) {
           'margin': 'auto'
         });
         $('#UI').css({
-          "border-top": "6px solid rgba(0, 255, 0, 0.7)",
+          "border-top": "6px solid rgba(0, 255, 0, 0.6)",
           "background-color": "rgba(0, 0, 0, 0.6)",
-          "border-bottom": "6px solid rgba(0, 255, 0, 0.7)",
+          "border-bottom": "6px solid rgba(0, 255, 0, 0.6)",
           "padding": "10px"
         });
         $('canvas').css({
-          "border": "6px solid rgba(0, 255, 0, 0.7)",
+          "border": "6px solid rgba(0, 255, 0, 0.6)",
           "background-color": "rgba(0, 0, 0, 0.6)"
         });
         colors = {
