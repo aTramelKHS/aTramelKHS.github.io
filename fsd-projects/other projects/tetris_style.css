@@ -25,7 +25,7 @@
 }
 
 @keyframes derp2 {
-  100% {transform: rotate(-720deg); opacity: 0; font-size: 2px}
+  100% {transform: rotate(-720deg); opacity: 0; font-size: 2px;}
 }
 
 @keyframes glower {
@@ -63,6 +63,22 @@
   100% { transform: translateX(100px); }
 }
 
+@keyframes vault {
+  0% { height: 1px; }
+  100% { transform: rotate(360deg); height: 160px; }
+}
+
+#vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 200px rgba(0, 0, 0, 1) inset, 0 0 300px rgba(0, 0, 0, 0.8) inset;
+  pointer-events: none;
+}
+
+
 #mask {
   position: fixed;
   display: block;
@@ -94,15 +110,13 @@
 }
 
 #indicator {
-  width: 160px;
-  height: 120px; 
+  font-size: 120px;
   animation:
     derp ease-in-out 2s forwards,
     derp2 2s ease-in-out 4s forwards; 
   font-family: "Afacad";
   position: absolute;
-  top: 240px;
-  font-size: 40px;
+  top: 220px;
   font-style: bold;
   margin: 10px;
   background: linear-gradient(rgb(199, 0, 0), rgb(255, 255, 113));
@@ -110,12 +124,24 @@
   -webkit-text-fill-color: transparent;
 }
 
+#indicatorPip {
+  animation: vault linear 0.4s forwards;
+  margin: auto;
+  height: 160px;
+  position: absolute;
+  justify-content: center;
+  top: 220px;
+  left: -40;
+  opacity: 0.7;
+}
+
 .main-style {
   height: 100%;
   margin: 10;
   position: relative;
   color: white;
-  background: linear-gradient(blue, rgb(1, 209, 224));
+  /*background: linear-gradient(blue, rgb(1, 209, 224));*/
+  background: linear-gradient(rgb(101, 0, 101), rgb(255, 170, 13));
   text-align: center;
   justify-content: center;
   align-items: left;
@@ -136,10 +162,18 @@
 
 
 #mc-title {
-  margin-top: 180px;
+  margin-top: 140px;
   margin-bottom: 40px;
   height: 140px;
   width: 580px;
+}
+
+#pip-title {
+  margin-top: 120px;
+  margin-bottom: 40px;
+  height: 140px;
+  width: 580px;
+  opacity: 0.7;
 }
 
 #splash {
@@ -175,7 +209,7 @@
 canvas {
   border: 1px solid white;
   background: black;
-  margin-top: 60px;
+  margin-top: 40px;
   position: relative;
   right: 60px;
 }
@@ -310,7 +344,7 @@ canvas {
 .btn-small-style-pip {
   background: none;
   border: none;
-  color: rgba(0, 255, 0, 0.8);
+  color: rgba(0, 255, 0, 0.5);
   padding: 20px;
   margin: 5px;
   font-size: 25px;
@@ -342,8 +376,6 @@ canvas {
 .button-style-neon:hover {
   text-shadow: 0 0 30px white, 0 0 28px white;
 }
-
-
 
 #queue {
   position: relative;
@@ -418,7 +450,7 @@ canvas {
   appearance: none;
   width: 15px;
   height: 40px;
-  background: #00ec00;
+  background: rgba(0, 236, 0, 0.9);
   border-radius: 0%;
   cursor: pointer;
 }

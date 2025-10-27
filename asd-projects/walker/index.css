@@ -31,6 +31,13 @@ body {
   text-align: center;
 }
 
-h1 {
+h1, h2 {
+  color: white;
+  padding: 5px;
+}
+
+#timer {
+  margin: 5px;
+  font-size: 45px;
   color: white;
 }

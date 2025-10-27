@@ -20,22 +20,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/minecraftia" type="text/css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
   </head>
   <body>
     <div id="mask">
       <h1>LOADING</h1>
       <h1>SCREEN<span id="ahhh"><span></h1>
     </div>
-
+    <div hidden id="vignette"></div>
+    <img hidden src="source/images/vignette.png">
     <!-- MAIN MENU -->
     <div id = "everything" hidden>
       <h1 id="text">Tetris</h1>
       <img hidden id="mc-title" src="source/images/mc-title.png">
+      <img hidden id="pip-title" src="source/images/falloutTetris.png">
       <p id="splash"></p>
 
       <div id="dashboard">
-        <!--          Selector Style     Functionality       -->
+        <!--          Selector Style    Functionality       -->
         <button class="buttons normal" id="startBtn">Play</button>
         <button class="buttons normal" id="settings">Settings</button>
         <button class="buttons normal" id="skins">Skins</button>
@@ -61,7 +63,7 @@
           <br class="dood">
           <button class="smallbtn btn-small" onclick="changeSkin('skin1')">Pip</button>
           <br>
-          <button class="smallbtn btn-small" onclick="changeSkin('skin2')">Minecraft (WIP)</button>
+          <button class="smallbtn btn-small" onclick="changeSkin('skin2')">Minecraft</button>
           <br class="dood">
           <button class="smallbtn btn-small" onclick="changeSkin('skin3')">Neon</button>
         </div>
@@ -72,7 +74,7 @@
             <!--<p>Gameplay</p>
               <button class="smallbtn btn-small" onclick="fastMode()">Fast Mode</button>
               <p>Levels level up faster than normal</p>-->
-            <p>Keybinds</p>
+            <h2>Keybinds</h2>
             <div id="keybinds">
               <button class="smallbtn btn-small" onclick="changeRotate()">Rotate</button>
               <button class="smallbtn btn-small" onclick="changeFall()">Drop</button>
@@ -85,42 +87,55 @@
               <button class="smallbtn btn-small"onclick="revertChanges()">Revert Changes</button>
             </div>
           </div>
-          <div id="soundvol">
-            <p>Sound Volume</p>
-            <form>
-              <input class="slider input-bars"
-                type="range"
-                min="0"
-                max="100"
-                value="50"
-                step="1"
-                oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value / 100"
-              />
-              <output id="output" name="sound">%50</output>
-            </form>
+          <div>
+            <h2>Volume</h2>
+            <div id="soundvol">
+              <p>Sound Volume</p>
+              <form>
+                <input class="slider input-bars"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  step="1"
+                  oninput="this.form.sound.value='%' + this.value ; soundVolume = this.value / 100"
+                />
+                <output id="output" name="sound">%50</output>
+              </form>
+            </div>
+            <div id="musicvol">
+              <p>Music Volume</p>
+              <form>
+                <input class="slider input-bars"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="30"
+                  step="1"
+                  oninput="this.form.music.value = '%' + this.value ; bgm.volume = this.value / 100"
+                />
+                <output id="output2" name="music">%30</output>
+              </form>
+            </div>
           </div>
-          <div id="musicvol">
-            <p>Music Volume</p>
-            <form>
-              <input class="slider input-bars"
-                type="range"
-                min="0"
-                max="100"
-                value="30"
-                step="1"
-                oninput="this.form.music.value = '%' + this.value ; bgm.volume = this.value / 100"
-              />
-              <output id="output2" name="music">%30</output>
-            </form>
+          <div>
+            <h2>Debug</h2>
+            <p>Sound Test</p>
+            <div>
+
+            </div>
           </div>
-          <p>Saves</p>
-          <button class="smallbtn btn-small" onclick="clearData();">Clear all save data</button>
-          <p>Stats</p>
-          <p><span id="highscores">Highest Score: 0</span></p>
-          <p><span id="latest-score">Latest Score: 0</span></p>
-          <p><span id="plays">Plays: 0</span></p>
-          <ul>All Scores:</ul>
-            <li><span id="every-score"></span></li>
+          <div>
+            <h2>Data</h2>
+            <p>Saves</p>
+            <button class="smallbtn btn-small" onclick="clearData();">Clear all save data</button>
+            <p>Stats</p>
+            <p><span id="highscores">Highest Score: 0</span></p>
+            <p><span id="latest-score">Latest Score: 0</span></p>
+            <p><span id="plays">Plays: 0</span></p>
+            <p>All Scores:</p>
+            <p><span id="every-score"></span></p>
+          </div>
         </div>
       </div>
 
@@ -142,6 +157,7 @@
             <h2 hidden id="indicator">Tetris!</h2>
             <img hidden id="toasty" src="source/images/toasty.png">
           </div>
+          <img hidden id="indicatorPip" src="source/images/vault-boy.png">
         </div>
       </div>
     </div>

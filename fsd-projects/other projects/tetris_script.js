@@ -36,7 +36,7 @@ document.body.style.overflow = "hidden";
 function game() {
   bgm.play();
   bgm.currentTime = 0;
-  //reverts the scores and levels back to its original value whenever you reset the game
+  //reverts every value back to its original value whenever you reset the game
   let lineClears = 0;
   let score = 0;
   let level = 0;
@@ -59,7 +59,7 @@ function game() {
     combo += 1;
     document.getElementById("comboshtml").textContent = "Combo: X" + combo;
   } 
-  var goalReached;
+  let goalReached;
   function comboFunctionality() {
     if (combo > 0) {
       comboBreak += 1;
@@ -70,7 +70,10 @@ function game() {
       document.getElementById("comboshtml").textContent = "Combo: X0";
     }
     if (goalReached) {
-      displayToasty();
+      let randomNum = Math.floor(Math.random() * 25);
+      if (randomNum === 17 || randomNum === 3) {
+        displayToasty();
+      }
       if (combo >= 10) {
         increaseScore(100);
       } else {
@@ -97,7 +100,7 @@ function game() {
     document.getElementById("scorehtml").textContent = "Score: " + score;
   }
   
-  //DISPLAY THE NEXT TETROMINO
+  //DISPLAY THE TETROMINOS IN THE SIDE BOXES
   // view next tetromino = displayer(ctx, getNext);
   // view held tetromino = displayer(cx, hold.name);
   // c stands for canvas btw
@@ -114,7 +117,6 @@ function game() {
       if (!neon && !minecraft) {
         c.fillRect(50, 20, 20, 80);
       } else if (neon) {
-        c.beginPath()
         c.shadowBlur = 33;
         c.shadowColor = neonColors.I[0]; 
         c.fillStyle = 'white';
@@ -133,8 +135,7 @@ function game() {
         c.shadowColor = neonColors.I[0];
         c.fillStyle = neonColors.I[2];
         c.fillRect(50 + 2, 20 + 2, 20, 80);
-        c.closePath();
-
+      //Remove styles after drawing
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -185,9 +186,10 @@ function game() {
         c.shadowColor = neonColors.J[0];
         c.fillStyle = neonColors.J[1];
         c.fillRect(80 + 2, 20 + 2, 20, 20);
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
+        c.shadowOffsetX = 0;
+        c.shadowOffsetY = 0;
       } else if (minecraft) {
         c.drawImage(colors.J[1], 25, 25, 80, 80);
       }
@@ -199,43 +201,41 @@ function game() {
         c.fillRect(30, 20, 20, 20);
       } else if (neon) {
         c.shadowBlur = 46;
-        c.shadowColor = colors[L][0]; 
+        c.shadowColor = neonColors.L[0]; 
         c.fillStyle = 'white';
-        c.strokeStyle = colors[L][2];
+        c.strokeStyle = neonColors.L[2];
         c.lineWidth = 3;
         c.fillRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         c.strokeRect(50 - 2, 20 - 2, 20 + 8, 70 + 8);
         c.shadowBlur = 125;
-        c.shadowColor = colors[L][0]; 
+        c.shadowColor = neonColors.L[0]; 
         c.fillStyle = 'black';
-        c.strokeStyle = colors[L][2];
+        c.strokeStyle = neonColors.L[2];
         c.lineWidth = 3;
         c.fillRect(50 + 2, 20 + 2, 20, 70);
         c.strokeRect(50 + 2, 20 + 2, 20, 70);
         c.shadowBlur = 24;
-        c.shadowColor = colors[L][0];
-        c.fillStyle = colors[L][1];
+        c.shadowColor = neonColors.L[0];
+        c.fillStyle = neonColors.L[1];
         c.fillRect(50 + 2, 20 + 2, 20, 70);
         c.shadowBlur = 46;
-        c.shadowColor = colors[L][0]; 
+        c.shadowColor = neonColors.L[0]; 
         c.fillStyle = 'white';
-        c.strokeStyle = colors[L][2];
+        c.strokeStyle = neonColors.L[2];
         c.lineWidth = 3;
         c.fillRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
         c.strokeRect(18 - 2, 20 - 2, 20 + 8, 20 + 8);
         c.shadowBlur = 125;
-        c.shadowColor = colors[L][0]; 
+        c.shadowColor = neonColors.L[0]; 
         c.fillStyle = 'black';
-        c.strokeStyle = colors[L][2];
+        c.strokeStyle = neonColors.L[2];
         c.lineWidth = 3;
         c.fillRect(18 + 2, 20 + 2, 20, 20);
         c.strokeRect(18 + 2, 20 + 2, 20, 20);
         c.shadowBlur = 24;
-        c.shadowColor = colors[L][0];
-        c.fillStyle = colors[L][1];
+        c.shadowColor = neonColors.L[0];
+        c.fillStyle = neonColors.L[1];
         c.fillRect(18 + 2, 20 + 2, 20, 20);
-
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -250,24 +250,23 @@ function game() {
         c.fillRect(36, 36, 60, 60);
       } else if (neon) {
         c.shadowBlur = 33;
-        c.shadowColor = colors[O][0]; 
+        c.shadowColor = neonColors.O[0]; 
         c.fillStyle = 'white';
-        c.strokeStyle = colors[O][1];
+        c.strokeStyle = neonColors.O[1];
         c.lineWidth = 3;
         c.fillRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
         c.strokeRect(40 - 2, 40 - 2, 60 + 8, 60 + 8);
         c.shadowBlur = 63;
-        c.shadowColor = colors[O][0]; 
+        c.shadowColor = neonColors.O[0]; 
         c.fillStyle = 'black';
-        c.strokeStyle = colors[O][1];
+        c.strokeStyle = neonColors.O[1];
         c.lineWidth = 3;
         c.fillRect(40 + 2, 40 + 2, 60, 60);
         c.strokeRect(40 + 2, 40 + 2, 60, 60);
         c.shadowBlur = 223;
-        c.shadowColor = colors[O][0];
-        c.fillStyle = colors[O][2];
+        c.shadowColor = neonColors.O[0];
+        c.fillStyle = neonColors.O[2];
         c.fillRect(40 + 2, 40 + 2, 60, 60);
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -318,7 +317,6 @@ function game() {
         c.shadowColor = neonColors.S[1];
         c.fillStyle = neonColors.S[2];
         c.fillRect(35 + 2, 70 + 2, 45, 20);
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -369,7 +367,6 @@ function game() {
         c.shadowColor = neonColors.Z[1];
         c.fillStyle = neonColors.Z[2];
         c.fillRect(45 + 2, 70 + 2, 45, 20);
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -420,7 +417,6 @@ function game() {
         c.shadowColor = neonColors.T[1];
         c.fillStyle = neonColors.T[2];
         c.fillRect(65 + 2, 30 + 2, 20, 20);
-
         c.shadowColor = "transparent";
         c.shadowBlur = 0;
         c.shadowOffsetX = 0;
@@ -469,7 +465,6 @@ function game() {
   const holdBox = document.getElementById('queue');
   const cx = holdBox.getContext('2d');
 
-
   // rotate an NxN matrix 90 degrees
   function rotate(matrix) {
     const N = matrix.length - 1;
@@ -502,12 +497,21 @@ function game() {
   }
 
   function displayTetris() {
-    const tetrisIndicator = document.getElementById("indicator");
-    if (tetrisIndicator) {
-      tetrisIndicator.style.display = "inline";
+    if (pip) {
+      const vaultBoy = document.getElementById("indicatorPip");
+      vaultBoy.style.display = "flex";
+      vatsCritical.play();
       setTimeout(function () {
-        tetrisIndicator.style.display = "none";
-      }, 6000);
+        vaultBoy.style.display = "none";
+      }, 5000);
+    } else {
+      const tetrisIndicator = document.getElementById("indicator");
+      if (tetrisIndicator) {
+        tetrisIndicator.style.display = "inline";
+        setTimeout(function () {
+          tetrisIndicator.style.display = "none";
+        }, 6000);
+      }
     }
   }
   function displayToasty() {
@@ -535,13 +539,10 @@ function game() {
       }
     }
     // check for line clears starting from the bottom and working our way up
-    let rows = 0;
     for (let row = playfield.length - 1; row >= 0; ) {
       if (playfield[row].every((cell) => !!cell)) {
         playClear();
         lineClears += 1;
-        rows += 1;
-        //animateLineClear(rows);
         levelUp();
         increaseScore(100);
         increaseCombo();
@@ -569,21 +570,7 @@ function game() {
     countInd = 0;
     comboFunctionality();
   }
-  // animations
-  /*
-  let clearAnim;
-  let frame = 0;
-  function animateLineClear(row) {
-    context.fillStyle = "white";
-    //                  x                                y     width   height
-    context.fillRect((canvas.width / 2) - (10 * frame), 180, 2 * frame, row);
-    if (frame != 20) {
-      frame++;
-    } 
-
-    clearAnim = requestAnimationFrame(animateLineClear);
-    rows = 0;
-  } */
+  
   let clearFrame = 0;
   let anim;
   function animateClear() {
@@ -785,7 +772,6 @@ function game() {
   }
 
 
-  // REDO SO THAT IT DETECTS MULTIPLE KEY INPUTS
   // listen to keyboard events to move the active tetromino
   //held keys
   document.addEventListener("keydown", function (e) {
@@ -845,8 +831,7 @@ function game() {
           tetromino.col = 3;
           [hold, tetromino] = [tetromino, hold];
           tetrominoSequence.push(tetromino.name);
-        } 
-        else {
+        } else {
           hold = tetromino;
         }
         tetromino = getNextTetromino();
