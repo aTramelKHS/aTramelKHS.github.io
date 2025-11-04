@@ -20,7 +20,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
   </head>
   <body>
     <div id="mask">
@@ -28,9 +27,8 @@
       <h1>SCREEN<span id="ahhh"><span></h1>
     </div>
     <div hidden id="vignette"></div>
-    <img hidden src="source/images/vignette.png">
     <!-- MAIN MENU -->
-    <div id = "everything" hidden>
+    <div id = "everything">
       <h1 id="text">Tetris</h1>
       <img hidden id="mc-title" src="source/images/mc-title.png">
       <img hidden id="pip-title" src="source/images/falloutTetris.png">
@@ -67,6 +65,8 @@
           <button class="smallbtn btn-small" onclick="changeSkin('skin2')">Minecraft</button>
           <br class="dood">
           <button class="smallbtn btn-small" onclick="changeSkin('skin3')">Neon</button>
+          <br>
+          <button class="smallbtn btn-small" onclick="changeSkin('skin4')">Crimson (W.I.P)</button>
         </div>
         
         <div hidden id="allsettings">
@@ -142,7 +142,7 @@
 
       <!-- GAME -->
 
-      <div class="nan">
+      <div class="game">
         <button hidden class="buttons normal" id="pause">Pause</button>
         <canvas hidden id="queue" width="130" height="130"></canvas>
         <canvas hidden id="game" width="320" height="640"></canvas>

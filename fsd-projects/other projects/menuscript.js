@@ -93,7 +93,7 @@ start.addEventListener('click', () => {
   settings.hidden = true;
   gameCanvas.hidden = false;
   pause.hidden = false;
-  songs.hidden = true
+  songs.hidden = true;
   document.getElementById('queue').hidden = false;
   document.getElementById('UI').hidden = false;
   document.getElementById('viewnext').hidden = false;
@@ -238,6 +238,8 @@ function removeStyles() {
     slider[i].className = 'slider';
   }
 }
+
+// if you're seeing this and were thinking about changing the point requirement value. you are a jerk
 
 function changeSkin(skinId) {
   if (skinId === "skin1") {
@@ -430,6 +432,9 @@ function changeSkin(skinId) {
         slider[i].classList.remove('input-bars');
         slider[i].classList.add('minecraft-input-bars');
       }
+      for (var i = 0; i < output.length; i++) {
+        output[i].classList.add('slider-output-minecraft');
+      }
     } else {
       alert("You can't do that! Required points: 8000");
     }
@@ -465,8 +470,9 @@ function changeSkin(skinId) {
       $('p').css({
         "font-size": "30px",
         "color": "white",
-        "text-shadow": "0 0 10px white, 0 0 12px white"
+        "text-shadow": "0 0 10px white, 0 0 12px white",
       });
+
       colors = {
         I: "gray",
         O: "gray",
@@ -488,16 +494,64 @@ function changeSkin(skinId) {
         slider[i].classList.remove('input-bars');
         slider[i].classList.add('input-bars-neon');
       }
-      for (var i = 0; i < output.length; i++) {
-        output[i].classList.add('slider-output-minecraft');
-      }
-    }else {
+      
+    } else {
       alert("You can't do that! Required points: 10000");
     }
   } 
+  if (skinId === 'skin4') {
+    if (highScore[0] >= 50) {
+      removeStyles();
+      title.hidden = false;
+      $('#main').css({
+        'height': '100%',
+        'margin': '10',
+        'position': 'relative',
+        'color': 'white',
+        'background': 'radial-gradient(farthest-corner at 85% 35%, rgba(189, 30, 30, 1) 35%, rgba(50, 50, 50, 1) 75%)',
+        'background-attachment': 'fixed',
+        'display': 'flex',
+        'text-align': 'center',
+        'justify-content': 'center',
+        'font-size': '25px',
+        'font-family': "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"
+      });
+      $('#pause').css({
+        'font-size': '20px',
+        'position': 'relative',
+        'top': '10px',
+        'left': '90px',
+        'width': '110px'
+      });
+      $('canvas').css({
+        "border": "5px outset rgba(222, 6, 6, 1)"
+      });
+      $('#UI').css({
+        'background-color': 'rgba(226, 8, 8, 1)',
+        "border": "5px outset rgba(200, 14, 14, 1)"
+      });
+      colors = {
+        I: "rgba(227, 0, 0, 1)",
+        O: "rgba(255, 65, 65, 1)",
+        T: "rgba(164, 9, 9, 1)",
+        S: "rgba(219, 22, 22, 1)",
+        Z: "rgba(108, 50, 50, 1)",
+        J: "rgba(132, 12, 12, 1)",
+        L: "rgba(194, 53, 53, 1)"
+      };
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("normal");
+        buttons[i].classList.add('button-style-crimson');
+      }
+      for (var i = 0; i < smallBtn.length; i++) {
+        smallBtn[i].classList.remove('btn-small');
+        smallBtn[i].classList.add('btn-small-style-crimson');
+      }
+    } else {
+      alert("You can't do that! Required points: 5000");
+    }
+  }
 }
-
-
 
 function changeRotate() {
   let something = prompt("Change the Rotate Key (base key is ArrowUp)");

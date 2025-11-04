@@ -140,8 +140,8 @@
   margin: 10;
   position: relative;
   color: white;
-  /*background: linear-gradient(blue, rgb(1, 209, 224));*/
-  background: linear-gradient(rgb(101, 0, 101), rgb(255, 170, 13));
+  background: linear-gradient(blue, rgb(1, 209, 224));
+  background-attachment: fixed;
   text-align: center;
   justify-content: center;
   align-items: left;
@@ -198,7 +198,7 @@
   background-color: linear-gradient(45deg, #FF0000, #FFA500, #FFFF00, #008000, #0000FF, #4B0082, #8f00ff);
 }
 
-.nan {
+.game {
   position: relative;
   left: 80px;
   display: flex;
@@ -219,6 +219,11 @@ canvas {
   background-image: url(source/images/matrix.png);
 }
 
+a {
+  background-color: white;
+  padding: 10px;
+  margin-top: 25px;
+}
 
 .normal {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -307,6 +312,26 @@ canvas {
   transition: all 1s linear;
 }
 
+
+.button-style-crimson {
+  padding: 10px;
+  min-width: 50px;
+  min-height: 30px;
+  margin: 5px;
+  font-size: 35px;
+  font-weight: bold;
+  color: white;
+  font-weight: 20px;
+  background-color: rgb(146, 2, 2);
+  border: 7px outset rgb(255, 40, 40);
+}
+
+
+.button-style-crimson:hover {
+  background-color: rgb(108, 0, 0);
+  border: 7px inset rgb(227, 26, 26);
+}
+
 .btn-small {
   border: 4px groove blue;
   background-color: lightblue;
@@ -373,8 +398,26 @@ canvas {
   animation-iteration-count: infinite;
 }
 
-.button-style-neon:hover {
+.btn-small-style-neon:hover {
   text-shadow: 0 0 30px white, 0 0 28px white;
+}
+
+.btn-small-style-crimson {
+  padding: 7px;
+  min-width: 50px;
+  min-height: 30px;
+  margin: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  font-weight: 20px;
+  background-color: maroon;
+  border: 7px outset rgb(255, 40, 40);
+}
+
+.btn-small-style-crimson:hover {
+  background-color: rgb(108, 0, 0);
+  border: 7px inset rgb(227, 26, 26);
 }
 
 #queue {
@@ -394,6 +437,7 @@ canvas {
   font-size: 20px;
   position: relative; 
   left: -220px;
+  padding-right: 15px;
 }
 
 

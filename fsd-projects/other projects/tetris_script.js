@@ -59,6 +59,8 @@ function game() {
     combo += 1;
     document.getElementById("comboshtml").textContent = "Combo: X" + combo;
   } 
+
+  
   let goalReached;
   function comboFunctionality() {
     if (combo > 0) {
@@ -70,14 +72,14 @@ function game() {
       document.getElementById("comboshtml").textContent = "Combo: X0";
     }
     if (goalReached) {
-      let randomNum = Math.floor(Math.random() * 25);
-      if (randomNum === 17 || randomNum === 3) {
+      let randomNum = Math.random();
+      if (randomNum < 0.27) { // 27% chance of displaying the easter egg
         displayToasty();
       }
       if (combo >= 10) {
         increaseScore(100);
       } else {
-        increaseScore(50);
+        increaseScore(70);
       }
       goalReached = false;
     }
@@ -85,7 +87,7 @@ function game() {
 
   //decreases tick speed every 10 line clears
   function levelUp() {
-    if (lineClears % 10 === 0) {
+    if (lineClears % 10 === 0 && level >= 12) {
       level = lineClears / 10;
       tickSpeed -= 6 /*+ fast*/;
     }
@@ -499,11 +501,13 @@ function game() {
   function displayTetris() {
     if (pip) {
       const vaultBoy = document.getElementById("indicatorPip");
-      vaultBoy.style.display = "flex";
-      vatsCritical.play();
-      setTimeout(function () {
-        vaultBoy.style.display = "none";
-      }, 5000);
+      if (vaultBoy) {
+        vaultBoy.style.display = "flex";
+        vatsCritical.play();
+        setTimeout(function () {
+          vaultBoy.style.display = "none";
+        }, 5000);
+      }
     } else {
       const tetrisIndicator = document.getElementById("indicator");
       if (tetrisIndicator) {
