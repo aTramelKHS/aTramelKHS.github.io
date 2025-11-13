@@ -262,6 +262,7 @@ a {
 .button-style-pip:hover {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
+  cursor: url('source/images/cursor-pip.png') 1 1, auto;
 }
 
 .minecraft-btn {
@@ -381,6 +382,7 @@ a {
 .btn-small-style-pip:hover {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
+  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 
@@ -487,7 +489,7 @@ a {
   border-radius: 5px;
   color:#004f00;
   border-radius: 0%;
-  cursor: pointer;
+  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 .input-bars-pip::-webkit-slider-thumb {
@@ -496,7 +498,7 @@ a {
   height: 40px;
   background: rgba(0, 236, 0, 0.9);
   border-radius: 0%;
-  cursor: pointer;
+  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 .minecraft-input-bars {

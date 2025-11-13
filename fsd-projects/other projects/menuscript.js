@@ -274,7 +274,8 @@ function changeSkin(skinId) {
           "font-family": "Monofonto",
           "font-weight": 400,
           "font-style": "normal",
-          "font-size": "25px"
+          "font-size": "25px",
+          "cursor": "url('source/images/cursor-pip.png'), auto"
         });
         $('#dashboard').css({
           'border-top': '6px solid rgba(0, 255, 0, 0.6)',

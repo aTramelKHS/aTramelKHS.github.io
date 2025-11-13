@@ -33,7 +33,7 @@ function runProgram(){
   }*/
 
   // all keys are in a FALSE state unless pressed
-  const KEYSTATES = {
+  let KEYSTATES = {
     ArrowLeft: false,
     ArrowUp: false,
     ArrowRight: false,

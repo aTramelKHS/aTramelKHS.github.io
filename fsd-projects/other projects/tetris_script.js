@@ -87,9 +87,11 @@ function game() {
 
   //decreases tick speed every 10 line clears
   function levelUp() {
-    if (lineClears % 10 === 0 && level >= 12) {
+    if (lineClears % 10 === 0) {
       level = lineClears / 10;
-      tickSpeed -= 6 /*+ fast*/;
+      if (level >= 12) {
+        tickSpeed -= 6;
+      }
     }
     document.getElementById("levelhtml").textContent = "Level: " + level;
     document.getElementById("lineshtml").textContent = "Line Clears: " + lineClears;
