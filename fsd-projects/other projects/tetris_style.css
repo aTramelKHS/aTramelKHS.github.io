@@ -67,6 +67,15 @@
   0% { height: 1px; }
   100% { transform: rotate(360deg); height: 160px; }
 }
+body.cursor-pip,
+body.cursor-pip button,
+body.cursor-pip input[type="button"],
+body.cursor-pip input[type="submit"],
+body.cursor-pip input[type="range"] {
+  cursor: url('source/images/cursor-pip.png') 1 1, auto;
+}
+
+
 
 #vignette {
   position: fixed;
@@ -262,7 +271,6 @@ a {
 .button-style-pip:hover {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
-  cursor: url('source/images/cursor-pip.png') 1 1, auto;
 }
 
 .minecraft-btn {
@@ -382,7 +390,6 @@ a {
 .btn-small-style-pip:hover {
   background-color: rgba(0, 255, 0, 0.5);
   color: rgb(0, 0, 0);
-  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 
@@ -489,7 +496,6 @@ a {
   border-radius: 5px;
   color:#004f00;
   border-radius: 0%;
-  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 .input-bars-pip::-webkit-slider-thumb {
@@ -498,7 +504,6 @@ a {
   height: 40px;
   background: rgba(0, 236, 0, 0.9);
   border-radius: 0%;
-  cursor: url('source/images/cursor-pip.png'), auto;
 }
 
 .minecraft-input-bars {

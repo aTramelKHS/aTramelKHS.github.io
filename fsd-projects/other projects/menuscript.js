@@ -213,6 +213,7 @@ function removeStyles() {
   title.hidden = true;
   title2.hidden = true;
   title3.hidden = true;
+  $('body').removeClass('cursor-pip');
   main.classList.remove('main-style');
   main.removeAttribute('style');
   indicator.removeAttribute('style');
@@ -251,6 +252,7 @@ function changeSkin(skinId) {
         pip = true;
         title3.hidden = false;
         vignette.hidden = false;
+        $('body').addClass('cursor-pip');
         $('#main').css({
           "justify-content": "center",
           "align-items": "center",
@@ -275,7 +277,6 @@ function changeSkin(skinId) {
           "font-weight": 400,
           "font-style": "normal",
           "font-size": "25px",
-          "cursor": "url('source/images/cursor-pip.png'), auto"
         });
         $('#dashboard').css({
           'border-top': '6px solid rgba(0, 255, 0, 0.6)',
@@ -621,7 +622,7 @@ function revertChanges() {
 };
 
 function clearData() {
-  var result = prompt('are you sure you want to delete ALL your data? (this includes highscores, unlocked skins, and saved key binds');
+  var result = prompt('are you sure you want to delete ALL your data? (this includes highscores and unlocked skins)');
   if (result === "Y" || result === "y") {
     localStorage.clear();
     alert('data successfully cleared');
