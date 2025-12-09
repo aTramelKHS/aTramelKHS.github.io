@@ -1,7 +1,97 @@
 /* global $, sessionStorage */
 
-$(document).ready(runProgram); // wait for the HTML / CSS elements of the page to fully load, then execute runProgram()
-  
+$(document).ready(unhideMenu); // wait for the HTML / CSS elements of the page to fully load, then execute unhideMenu()
+
+function unhideMenu() {
+  $('#menu').css('display', 'flex');
+}
+
+function playGame() {
+  $('#menu').hide();
+  $('#board').show();
+  $('#readyMsg').css('display', 'flex').text('GET READY...');
+  setTimeout(() => {
+    $('#readyMsg').text('GO!!!!!');
+    runProgram();
+    setTimeout(() => { $('#readyMsg').hide() }, 2000);
+  }, 3000);
+}
+
+function showSettings(){
+  $('#menu').hide();
+  $('#settings').css('display', 'flex');
+}
+
+function goBack() {
+  $('#settings').hide();
+  $('#how2play').hide();
+  $('#modes').hide();
+  $('#menu').css('display', 'flex');
+  window.scrollTo(0, 0);
+  $('body').css('overflow', 'hidden');
+}
+
+function showTutorial() {
+  $('#menu').hide();
+  $('#how2play').css('display', 'flex');
+}
+
+function showModes() {
+  window.scrollTo(0, 0);
+  $('#menu').hide();
+  $('#modes').css('display', 'flex');
+  $('body').css('overflow', 'scroll');
+}
+
+let red = 127;
+let green = 127;
+let blue = 127;
+
+function showChange() {
+  $('#showColor').css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')')
+}
+
+/*function apply() {
+  let input = prompt('to? (paddleL, paddleR, BG, Board, or Ball)');
+  let toChange;
+  if (input === 'paddleL' || input === 'paddlel') { toChange = '#paddleL'; }
+  else if (input === 'paddleR' || input === 'paddler') { toChange = '#paddleR'; }
+  else if (input === 'BG' || input === 'bg') { toChange = 'body'; }
+  else if (input === 'Ball' || input === 'ball') { toChange = '#ball'; }
+  else if (input === 'Board' || input === 'board') { toChange = '#board'; }
+
+  if ( !toChange) {
+    alert("invalid object");
+    return;
+  }
+  $(toChange).css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')');
+}*/
+
+function apply(element) {
+  if (element === 'font') {
+    $('h1, h2, p, output, button, #scoreL, #scoreR').css('color', 'rgb(' + red + ', ' + green + ', ' + blue + ')')
+    return;
+  }
+  $(element).css('background-color', 'rgb(' + red + ', ' + green + ', ' + blue + ')');
+}
+
+function applyCustomBG() {
+  let input = prompt('provide an image url');
+  if (input === '') {
+    alert('try again');
+    return;
+  } 
+  $('#board').css('background-image', 'url(' + input + ')');
+}
+
+function fastMode(speed) {
+  startingSpeed = speed;
+}
+
+// changable variables variables
+let winCondition = 12; // base value is 12
+let startingSpeed = 2; // base value is 2
+
 function runProgram(){
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// SETUP /////////////////////////////////////////////
@@ -17,8 +107,7 @@ function runProgram(){
   const BOARD_Y = parseFloat($('#board').css('top'));
   const BOARD_RIGHT = BOARD_X + BOARD_WIDTH;
   const BOARD_BOTTOM = BOARD_Y + BOARD_HEIGHT;
-  const WIN_CONDITION = 12;
-  
+
   // keys (with true false values)
   const KEYSTATES = {
     w: false,
@@ -84,9 +173,9 @@ function runProgram(){
       handleBallPaddleCollision(paddleR);
     }
     redrawItems();
-    if (scoreL === WIN_CONDITION || scoreR === WIN_CONDITION) {
+    if (scoreL === winCondition || scoreR === winCondition) {
       endGame();
-      if (scoreL === WIN_CONDITION) {
+      if (scoreL === winCondition) {
         $('#scoreL').text('WINNER');
         $('#scoreR').text('LOSER');
       } else {
@@ -187,20 +276,20 @@ function runProgram(){
     center is away from the paddle's center
   */
   function handleBallPaddleCollision(paddle) {
-    ball.speedX *= -1;
+    ball.speedX *= -1.07;
 
     let paddleCenter = paddle.posY + paddle.height / 2;
     let ballCenter = ball.posY + ball.height / 2;
     let offset = ballCenter - paddleCenter;
-    ball.speedY += offset * 0.08;
+    ball.speedY += offset / (paddle.height / 2) * 5;
     ball.speedY = Math.max(Math.min(ball.speedY, 10), -10);
   
     // Prevent sticking
     // might change later (feels unsatisfying)
     if (paddle === paddleL) {
-      ball.posX = paddle.posX + paddle.width;
+      ball.posX = paddle.posX + paddle.width + 1;
     } else {
-      ball.posX = paddle.posX - ball.width;
+      ball.posX = paddle.posX - ball.width - 1;
     }
   }
 
@@ -215,8 +304,8 @@ function runProgram(){
 
   // starts the ball at startup
   function startBall() {
-    ball.speedX = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
-    ball.speedY = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
+    ball.speedX = (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
+    ball.speedY = (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
   }
   
   //stops ball and resets position after a point is gained

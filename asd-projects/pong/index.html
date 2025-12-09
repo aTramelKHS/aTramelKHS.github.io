@@ -11,7 +11,102 @@
   </head>
   
   <body>
-    <div id='board'>
+    <div hidden id="menu" class='MENU'>
+      <h1 id="title">PONG</h1>
+      <button onclick='playGame()'>PLAY</button>
+      <button onclick='showSettings()'>SETTINGS</button>
+      <button onclick="showTutorial()">HOW TO PLAY</button>
+      <button onclick="showModes()">MODES (W.I.P)</button>
+    </div>
+    <div hidden id="settings" class='MENU'>
+      <h1>SETTINGS</h1>
+      <button onclick='goBack()'>GO BACK</button>
+      <form>
+        <p>Red</p>
+        <input class="slider"
+          type="range"
+          min="0"
+          max="255"
+          value="127"
+          step="1"
+          oninput="this.form.val.value = this.value ; red = this.value ; showChange()"
+        />
+        <br>
+        <output name="val">127</output>
+      </form>
+      <form>
+        <p>Green</p>
+        <input class="slider"
+          type="range"
+          min="0"
+          max="255"
+          value="127"
+          step="1"
+          oninput="this.form.val.value = this.value ; green = this.value ; showChange()"
+        />
+        <br>
+        <output name="val">127</output>
+      </form>
+      <form>
+        <p>Blue</p>
+        <input class="slider"
+          type="range"
+          min="0"
+          max="255"
+          value="127"
+          step="1"
+          oninput="this.form.val.value = this.value ; blue = this.value ; showChange()"
+        />
+        <br>
+        <output name="val">127</output>
+      </form>
+      <div id="showColor"></div>
+      <p>Apply To:</p>
+      <div id="selection">
+        <button onclick="apply('#paddleL')">LEFT PADDLE</button>
+        <button onclick="apply('#paddleR')">RIGHT PADDLE</button>
+        <button onclick="apply('body')">BACKGROUND</button>
+        <br>
+        <button onclick="apply('#board')">BOARD</button>
+        <button onclick="apply('#ball')">BALL</button>
+        <button onclick="apply('font')">FONT</button>
+        <button onclick="apply('button')">BUTTON</button>
+      </div>
+      <button onclick="applyCustomBG()">CUSTOM BOARD</button>
+      <button>MOBILE CONTROLS</button>
+    </div>
+    <div id="how2play" hidden class='MENU'>
+      <button onclick="goBack()">BACK</button>
+      <h2>How To Play:</h2>
+      <p>Controls: W, A, S, D, ←, ↑, ↓, →</p>
+      <p>To play this game, let the ball go into your side and you automatically win /gen /srs.</p>
+    </div>
+    <div id="modes" hidden class='MENU'>
+      <button onclick="goBack()">BACK</button>
+      <button>RESET</button>
+      <p>Pressed a mode you didn't want? Start all over again!</p>
+      <button onclick="fastMode(8)">FAST</button>
+      <p>Makes the ball move fast (go figure)</p>
+      <button onclick="fastMode(20)">ULTRA FAST</button>
+      <p>Makes the ball move really fast (again go figure)</p>
+      <button>BOUNCY</button>
+      <p>Idk what ima do with this yet. perhaps give it physics?</p>
+      <button>GHOST</button>
+      <p>Makes the ball transparent</p>
+      <button>CUSTOM ROUNDS</button>
+      <p>Set the point requirement to whatever you want</p>
+      <button>WUMBO</button>
+      <p>Makes everything big</p>
+      <p>M is for Mini. W is for Wumbo.</p>
+      <button>CONCRETE</button>
+      <p>Makes the paddles move veeeeerrrrryyyyy sssssllloooowwwwwllllyyyyyyy</p>
+      <button>FLIGHT CONTROLS</button>
+      <p>Swaps the up and down buttons. (W goes down and S goes up etc.)</p>
+      <button>MULTI BALL</button>
+      <p>Oops! All the balls</p>
+    </div>
+    <div id='board' hidden>
+      <h2 id="readyMsg" hidden></h2>
       <div id="line"></div>
       <div id='gameItem'></div>
       <div id='paddleL'></div>
