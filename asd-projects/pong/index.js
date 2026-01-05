@@ -567,8 +567,6 @@ function runProgram() {
     ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
     ball.speedX = 0;
     ball.speedY = 0;
-    // short grace period before the ball moves
-    setTimeout(startBall, 2000);
   }
 
   // end the game at a certain limit
