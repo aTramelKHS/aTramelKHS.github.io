@@ -3,31 +3,32 @@
   <head>
     <title>Pingin Pongin</title>
     <!-- Load CSS files -->
-    <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="icon" type="image/x-icon" href="img/src/ball-icon.ico">
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="icon" type="image/x-icon" href="img/src/ball-icon.ico" />
     <!-- Load JavaScript files -->
     <script src="jquery.min.js"></script>
     <script src="index.js"></script>
     <script src="audio.js"></script>
   </head>
-  
+
   <body>
     <div class="loadingScreen">
       <h1 id="loadingText">Loading, please wait</h1>
     </div>
-    <div hidden id="menu" class='MENU'>
+    <div hidden id="menu" class="MENU">
       <h1 id="title">PONG</h1>
-      <button onclick='playGame()'>PLAY</button>
-      <button onclick='showSettings()'>SETTINGS</button>
+      <button onclick="playGame()">PLAY</button>
+      <button onclick="showSettings()">SETTINGS</button>
       <button onclick="showTutorial()">HOW TO PLAY/CREDITS</button>
       <button onclick="showModes()">MODES (W.I.P)</button>
     </div>
-    <div hidden id="settings" class='MENU'>
+    <div hidden id="settings" class="MENU">
       <h1>SETTINGS</h1>
-      <button class='back' onclick='goBack()'>GO BACK</button>
+      <button class="back" onclick="goBack()">GO BACK</button>
       <form>
         <p>Red</p>
-        <input class="slider"
+        <input
+          class="slider"
           type="range"
           min="0"
           max="255"
@@ -35,12 +36,13 @@
           step="1"
           oninput="this.form.val.value = this.value ; red = this.value ; showChange()"
         />
-        <br>
+        <br />
         <output name="val">127</output>
       </form>
       <form>
         <p>Green</p>
-        <input class="slider"
+        <input
+          class="slider"
           type="range"
           min="0"
           max="255"
@@ -48,12 +50,13 @@
           step="1"
           oninput="this.form.val.value = this.value ; green = this.value ; showChange()"
         />
-        <br>
+        <br />
         <output name="val">127</output>
       </form>
       <form>
         <p>Blue</p>
-        <input class="slider"
+        <input
+          class="slider"
           type="range"
           min="0"
           max="255"
@@ -61,7 +64,7 @@
           step="1"
           oninput="this.form.val.value = this.value ; blue = this.value ; showChange()"
         />
-        <br>
+        <br />
         <output name="val">127</output>
       </form>
       <div id="showColor"></div>
@@ -70,35 +73,43 @@
         <button onclick="apply('#paddleL')">LEFT PADDLE</button>
         <button onclick="apply('#paddleR')">RIGHT PADDLE</button>
         <button onclick="apply('body')">BACKGROUND</button>
-        <br>
+        <br />
         <button onclick="apply('#board')">BOARD</button>
         <button onclick="apply('#ball')">BALL</button>
         <button onclick="apply('font')">FONT</button>
         <button onclick="apply('button')">BUTTONS</button>
       </div>
       <button onclick="applyCustomBG()">CUSTOM BOARD</button>
-      <br>
+      <br />
       <button id="muteBtn">Mute Music</button>
       <button id="otherMuteBtn">Mute Sounds</button>
     </div>
-    <div id="how2play" hidden class='MENU'>
-      <button class='back' onclick="goBack()">BACK</button>
+    <div id="how2play" hidden class="MENU">
+      <button class="back" onclick="goBack()">BACK</button>
       <h2>How To Play:</h2>
       <p>Controls: W, A, S, D, ←, ↑, ↓, →</p>
-      <p>To play this game, let the ball go into your side and you automatically win /gen /srs.</p>
+      <p>
+        To play this game, let the ball go into your side and you automatically
+        win /gen /srs.
+      </p>
       <h2>Credits:</h2>
       <p>Music From:</p>
       <p>パチスロ 逆転 裁判 (Ace Attorney Pachislot)</p>
     </div>
-    <div id="modes" hidden class='MENU'>
-      <button class='back' onclick="goBack()">BACK</button>
-      <br>
+    <div id="modes" hidden class="MENU">
+      <button class="back" onclick="goBack()">BACK</button>
+      <br />
       <button id="random">SURPRISE ME (does nothing yet)</button>
       <p>randomly turns on modes to offer a new unique game.</p>
       <button id="ai">SINGLEPLAYER</button>
       <p>Alone? Play with a bot!</p>
-      <p>Easy and Regular mode will only try to follow the ball's y position.</p>
-      <p>Hard mode will accurately predict where the ball will cross its paddle's x position.</p>
+      <p>
+        Easy and Regular mode will only try to follow the ball's y position.
+      </p>
+      <p>
+        Hard mode will accurately predict where the ball will cross its paddle's
+        x position.
+      </p>
       <button id="fast">FAST</button>
       <p>Makes the ball move fast (go figure)</p>
       <button id="ufast">ULTRA FAST</button>
@@ -113,13 +124,20 @@
       <p>Makes everything big</p>
       <p>M is for Mini. W is for Wumbo.</p>
       <button id="conc">CONCRETE</button>
-      <p>Makes the paddles move veeeeerrrrryyyyy sssssllloooowwwwwllllyyyyyyy</p>
+      <p>
+        Makes the paddles move veeeeerrrrryyyyy sssssllloooowwwwwllllyyyyyyy
+      </p>
       <button id="fcontrols">FLIGHT CONTROLS</button>
       <p>Swaps the up and down buttons. (W goes down and S goes up etc.)</p>
       <button id="multball">MULTI BALL</button>
       <p>Oops! All the balls</p>
+      <button id="crt">CRT MODE</button>
+      <p>
+        Fits the board into a 960x540 aspect ratio (16:9), equivalent to a CRT
+        display.
+      </p>
     </div>
-    <div id='board' hidden>
+    <div id="board" hidden>
       <h2 id="readyMsg" hidden></h2>
       <h2 id="pausedMsg" hidden>PAUSED</h2>
       <button id="pauseBtn">| |</button>
@@ -128,8 +146,8 @@
         <button id="restart" hidden>Restart</button>
       </div>
       <div id="line"></div>
-      <div id='gameItem'></div>
-      <div id='paddleL'></div>
+      <div id="gameItem"></div>
+      <div id="paddleL"></div>
       <div id="ball"></div>
       <div id="paddleR"></div>
       <div id="scoreL">0</div>
