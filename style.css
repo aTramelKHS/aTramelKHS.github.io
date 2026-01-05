@@ -118,37 +118,23 @@ h2, h3 {
     color: black;
 }
 
-#tetris {
-    font-size: 55px;
-    text-align: center;
-    font-family: fantasy;
-    -webkit-text-stroke: 2px orange;
-    letter-spacing: 0.2em;
-    border-style: inset;
-    border-width: 7px;
-    border-color: lightgray;
-}
-#tetris:hover {
-    border-color: rgb(195, 195, 195);
-}
-
-#portfolio {
+.portfolio {
     list-style-type: none;
     padding-left: 0;
 }
 
-#portfolio li {
+.portfolio li {
     background: #fff;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
 }
 
-#portfolio li:hover {
+.portfolio li:hover {
     background: #eee;
 }
 
-#portfolio a {
+.portfolio a {
     text-decoration: none;
     color: red;
 }
@@ -204,4 +190,29 @@ h2, h3 {
     list-style-type: square;
     padding-top: 10px;
     font-size:18px;
+}
+
+.main-projects {
+    text-align: center;
+    border-style: inset;
+    border-width: 7px;
+    border-color: lightgray;
+}
+#tetris a {
+    font-size: 55px;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    font-family: "VT323", monospace;
+    -webkit-text-stroke: 2px orange;
+}
+#pong a {
+    color: forestgreen;
+    font-size: 50px;
+    font-family: "Bungee", sans-serif;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    transform: scaleX(1.6);
+}
+.main-projects:hover {
+    border-color: rgb(195, 195, 195);
 }
