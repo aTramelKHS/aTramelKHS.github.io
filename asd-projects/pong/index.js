@@ -339,7 +339,6 @@ function runProgram() {
   // one-time setup
   clearInterval(interval); // removes previous loops before starting a new one
   interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
-  
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
@@ -431,7 +430,7 @@ function runProgram() {
 
   // checks what side the ball collides with
   function wallCollision() {
-    if (ball.posX < BOARD_X / 2) {
+    if (ball.posX < BOARD_X) {
       // left side
       // give right a point and reset the ball's position after 1 second
       scoreR += 1;
@@ -468,15 +467,13 @@ function runProgram() {
 
   // ai reads every certain amount of frame and reacts accordingly
   function aiMoves(paddle) {
+    if (difficulty === "OFF") return;
     aiReactFrames++;
     mode = difficVals[difficulty];
-    if (
-      aiReactFrames %
-        (mode.reactRange[0] +
-          Math.floor(Math.random() * mode.reactRange[1])) !==
-      0
-    )
-      return; // reacts every 8-12 frames
+    const min = mode.reactRange[0];
+    const max = mode.reactRange[1];
+    const reactInterval = min + Math.floor(Math.random() * (max - min + 1));
+    if (aiReactFrames % reactInterval !== 0) return;
 
     if (ball.speedX > 0) {
       // reacts when the ball is heading towards it
@@ -567,6 +564,7 @@ function runProgram() {
     ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
     ball.speedX = 0;
     ball.speedY = 0;
+    setTimeout(startBall, 1000);
   }
 
   // end the game at a certain limit
