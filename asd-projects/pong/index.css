@@ -10,6 +10,18 @@
   }
 }
 
+@keyframes pulsate {
+  0% {
+    background-color: rgba(227, 0, 0, 0.2);
+  }
+  50% {
+    background-color: rgba(227, 0, 0, 0.5);
+  }
+  100% {
+    background-color: rgba(227, 0, 0, 0.2);
+  }
+}
+
 .loadingScreen {
   position: fixed;
   display: block;
@@ -22,6 +34,19 @@
   font-size: 60px;
   font-size: 280px;
   text-align: center;
+}
+
+#red-screen {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(227, 0, 0, 0.4);
+  z-index: 50;
+  animation: pulsate 0.638s ease-in-out infinite;
+  pointer-events: none;
 }
 
 body {
@@ -135,7 +160,7 @@ h2 {
 
 #board {
   width: 1440px;
-  height: 700px;
+  height: 740px;
   border: 3px dashed white;
   background-color: rgb(62, 77, 77);
   position: relative;
@@ -173,6 +198,10 @@ h2 {
   white-space: nowrap;
 }
 
+#pauseBtn:disabled {
+  filter:invert(1);
+}
+
 #pausedMsg {
   -webkit-text-stroke: 2px black;
   position: absolute;
@@ -197,7 +226,7 @@ h2 {
 #paddleL {
   background-color: red;
   width: 25px;
-  height: 180px;
+  height: 160px;
   position: absolute;
   left: 5%;
   top: 250px;
@@ -208,7 +237,7 @@ h2 {
 #paddleR {
   background-color: blue;
   width: 25px;
-  height: 180px;
+  height: 160px;
   position: absolute;
   left: calc(95% - 25px);
   top: 250px;
@@ -226,18 +255,6 @@ h2 {
   border-radius: 50%;
   box-shadow: -2px -4px 10px rgb(18, 18, 18) inset;
   z-index: 1;
-}
-
-#ball-1 {
-  left: calc(50% - 20px);
-}
-
-#ball-2 {
-  left: calc(50% - 40px);
-}
-
-#ball-3 {
-  left: calc(50% + 20px);
 }
 
 .ghost {

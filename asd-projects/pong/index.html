@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
     <link rel="icon" type="image/x-icon" href="img/src/ball-icon.ico" />
     <!-- Load JavaScript files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
     <script src="jquery.min.js"></script>
     <script src="index.js"></script>
     <script src="audio.js"></script>
@@ -15,6 +16,7 @@
     <div class="loadingScreen">
       <h1 id="loadingText">Loading, please wait</h1>
     </div>
+    <div id="red-screen"></div>
     <div hidden id="menu" class="MENU">
       <h1 id="title">PONG</h1>
       <button onclick="playGame()">PLAY</button>
@@ -99,6 +101,8 @@
     <div id="modes" hidden class="MENU">
       <button class="back" onclick="goBack()">BACK</button>
       <br />
+      <p>Click the buttons to toggle them on and again to toggle them off</p>
+
       <button id="random">SURPRISE ME (does nothing yet)</button>
       <p>randomly turns on modes to offer a new unique game.</p>
       <button id="ai">SINGLEPLAYER</button>

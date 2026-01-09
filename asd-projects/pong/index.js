@@ -13,16 +13,17 @@ $(document).ready(() => {
 });
 
 function playGame() {
+  $("#pauseBtn").prop("disabled", true);
   $("#menu").hide();
   $("#board").show();
   $("#readyMsg").show().text("GET READY...");
   menuMusic.pause();
-  gameMusic.currentTime = 0.26;
-  fadeIn(gameMusic, 1, 0.05, 200);
+  startGameMusic();
   setTimeout(() => {
     $("#readyMsg").text("GO!!!!!");
     runProgram();
     startBall();
+    $("#pauseBtn").prop("disabled", false);
     setTimeout(() => {
       $("#readyMsg").hide();
     }, 2000);
@@ -108,7 +109,7 @@ $(document).ready(() => {
     restartGame();
     $("#board").hide();
     $("#menu").show();
-    menuMusic.currentTime = 0;
+    menuMusic.seek(0);
     menuMusic.play();
   });
   $("#restart").on("click", () => {
@@ -444,6 +445,9 @@ function runProgram() {
       $("#scoreL").text(scoreL);
       stopBall();
     }
+    if (scoreR === winCondition - 1 || scoreL === winCondition - 1) {
+      panicMode();
+    }
     // if the ball collides with the top or bottom it should bounce in the opposite direction
     if (ball.posY < BOARD_Y) {
       ball.posY = BOARD_Y;
@@ -570,11 +574,15 @@ function runProgram() {
   // end the game at a certain limit
   function endGame() {
     // stop the interval timer
+    stopPanic();
+    gameMusic.fade(gameMusic.volume(), 0, 1000);
+    setTimeout(() => gameMusic.stop(), 1000);
     clearInterval(interval);
     $("#restart").show();
   }
 
   function restartGame() {
+    gameMusic.stop();
     clearInterval(interval);
     scoreL = 0;
     scoreR = 0;
@@ -593,7 +601,5 @@ function runProgram() {
 
     $("#ball").css("left", ball.posX);
     $("#ball").css("top", ball.posY);
-
-    playGame();
   }
 }
