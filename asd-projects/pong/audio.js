@@ -97,7 +97,7 @@ function panicMode() {
   gameMusic.fade(gameMusic.volume(), 0.35, 800);
   filterNode.frequency.setTargetAtTime(400, aCtx.currentTime, 0.5);
   if (!heartBeat.playing()) {
-    heartBeat.rate(1)
+    heartBeat.rate(1);
     heartBeat.play();
   }
 }

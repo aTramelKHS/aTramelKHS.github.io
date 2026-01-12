@@ -20,6 +20,13 @@ function playGame() {
   menuMusic.pause();
   startGameMusic();
   setTimeout(() => {
+    $('#board').css('transform', 'scale(1)');
+    $('#ball').css({
+      'opacity': '1',
+      'transform': 'scale(1)'
+    }); 
+  }, 500);
+  setTimeout(() => {
     $("#readyMsg").text("GO!!!!!");
     runProgram();
     startBall();
@@ -211,8 +218,6 @@ $(document).on("keyup", (e) => {
   }
 });
 
-// buttons should change things inside of the runProgram() function
-// to do: turn the ball object into a factory function to allow multiple balls
 
 let paddleL = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let paddleR = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
@@ -223,6 +228,7 @@ function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
 
   // board initialization
   BOARD_WIDTH = $("#board").width();
@@ -537,7 +543,6 @@ function runProgram() {
     ball.speedY += (offset / (paddle.height / 2)) * 5;
     ball.speedX = Math.max(Math.min(ball.speedX, maxSpeed), -maxSpeed);
     ball.speedY = Math.max(Math.min(ball.speedY, maxSpeed), -maxSpeed);
-
     // Prevent sticking
     if (paddle === paddleL) {
       ball.posX = paddle.posX + paddle.width + 1;
@@ -599,7 +604,16 @@ function runProgram() {
     ball.speedX = 0;
     ball.speedY = 0;
 
-    $("#ball").css("left", ball.posX);
-    $("#ball").css("top", ball.posY);
+    $('#ball').css({
+      "left": ball.posX,
+      'top': ball.posY,
+      'opacity': '0',
+      'transform': 'scale(2.7)'
+    }); 
+
+    $('#board').css({
+      'transition': 'transform 2.5s ease-in-out',
+      'transform': 'scale(1.7)'
+    });
   }
 }
