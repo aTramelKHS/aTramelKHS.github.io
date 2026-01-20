@@ -255,6 +255,7 @@ function runProgram() {
 
   // ai values
   let difficulty = difficulties[spIndex];
+  let aiBaseSpeed = 0.1 * FPS;
   /* difficulty values used to make things harder
   imperfectionRate: the rate of which the ai screws up
   deadZone: 
@@ -282,7 +283,7 @@ function runProgram() {
     },
   };
 
-  // variables that cant change (like counting variables)
+  // variables that you shouldnt change (like counting variables)
   let aiReactFrames = 0;
   let gameOver = false;
 
@@ -534,9 +535,9 @@ function runProgram() {
 
       let diff = target - paddleCenter;
       if (diff < -mode.deadZone) {
-        paddle.speedY = Math.max(diff * 0.1, -paddleMovementRate);
+        paddle.speedY = Math.max(diff * aiBaseSpeed, -paddleMovementRate);
       } else if (diff > mode.deadZone) {
-        paddle.speedY = Math.min(diff * 0.1, paddleMovementRate);
+        paddle.speedY = Math.min(diff * aiBaseSpeed, paddleMovementRate);
       } else {
         paddle.speedY *= 0.9;
       }
