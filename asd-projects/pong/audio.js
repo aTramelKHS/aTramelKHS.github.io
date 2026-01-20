@@ -63,13 +63,13 @@ $(document).ready(() => {
   });
   $("#muteBtn").on("click", () => {
     musicMuted = !musicMuted;
-    $("#muteBtn").text(musicMuted ? "Unmute Music" : "Mute Music");
+    $("#muteBtn").text(musicMuted ? "UNMUTE MUSIC" : "MUTE MUSIC");
     menuMusic.mute(musicMuted);
     gameMusic.mute(musicMuted);
   });
   $("#otherMuteBtn").on("click", () => {
     muteSfx = !muteSfx;
-    $("#otherMuteBtn").text(muteSfx ? "Unmute Sounds" : "Mute Sounds");
+    $("#otherMuteBtn").text(muteSfx ? "UNMUTE SOUNDS" : "MUTE SOUNDS");
     hoverSound.mute(muteSfx);
     clickSound.mute(muteSfx);
     backSound.mute(muteSfx);

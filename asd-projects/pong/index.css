@@ -108,13 +108,21 @@ button:active:after {
   border: 2px solid #adadad;
 }
 
+#fpsdisplay {
+  position:absolute;
+  z-index: 9999;
+  font-size: 35px;
+  -webkit-text-stroke: 1px black;
+  font-weight: bold;
+}
+
 #showColor {
   position: absolute;
   text-align: center;
   width: 140px;
   height: 140px;
   left: calc(70% - 140px);
-  top: calc(50% - 70px);
+  top: calc(50% - 170px);
   background-color: rgb(127, 127, 127);
   border: 5px solid black;
 }

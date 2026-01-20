@@ -20,11 +20,11 @@ function playGame() {
   menuMusic.pause();
   startGameMusic();
   setTimeout(() => {
-    $('#board').css('transform', 'scale(1)');
-    $('#ball').css({
-      'opacity': '1',
-      'transform': 'scale(1)'
-    }); 
+    $("#board").css("transform", "scale(1)");
+    $("#ball").css({
+      opacity: "1",
+      transform: "scale(1)",
+    });
   }, 500);
   setTimeout(() => {
     $("#readyMsg").text("GO!!!!!");
@@ -38,8 +38,10 @@ function playGame() {
 }
 
 function showSettings() {
+  window.scrollTo(0, 0);
   $("#menu").hide();
   $("#settings").show();
+  $("body").css("overflow", "scroll");
 }
 
 function goBack() {
@@ -125,7 +127,7 @@ $(document).ready(() => {
     if (typeof restartGame === "function") {
       // makes sure it only restarts if the restartGame function is declared
       restartGame();
-      playGame();
+      setTimeout(playGame(), 2000);
     }
   });
 });
@@ -146,6 +148,7 @@ const mBtns = {
   isConcrete: false,
   hasFlightControls: false,
   hasMultiBall: false,
+  showFps: false,
 };
 
 // button functions
@@ -194,6 +197,11 @@ $(document).ready(() => {
     mBtns.hasMultiBall = !mBtns.hasMultiBall;
     $("#multball").text(mBtns.hasMultiBall ? "ON" : "MULTI BALL");
   });
+  $("#showfps").on("click", () => {
+    mBtns.showFps = !mBtns.showFps;
+    $("#showfps").text(mBtns.showFps ? "ON" : "SHOW FPS");
+    $("#fpsdisplay").toggle(mBtns.showFps);
+  });
 });
 
 // keys (with true false values)
@@ -218,7 +226,6 @@ $(document).on("keyup", (e) => {
   }
 });
 
-
 let paddleL = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let paddleR = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let ball = { posX: 0, posY: 0, speedX: 0, speedY: 0, width: 0, height: 0 };
@@ -229,7 +236,6 @@ function runProgram() {
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
-
   // board initialization
   BOARD_WIDTH = $("#board").width();
   BOARD_HEIGHT = $("#board").height();
@@ -238,15 +244,14 @@ function runProgram() {
   const BOARD_RIGHT = BOARD_X + BOARD_WIDTH;
   const BOARD_BOTTOM = BOARD_Y + BOARD_HEIGHT;
 
-  // Constant Variables
-  const FRAME_RATE = 60;
-  const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+  // fps var
+  const FPS = 60;
 
   // interchangable variables
   let winCondition = 5;
-  let startingSpeed = 3;
-  let maxSpeed = 20;
-  let paddleMovementRate = 13;
+  let startingSpeed = 3 * FPS;
+  let maxSpeed = 35 * FPS;
+  let paddleMovementRate = 13 * FPS;
 
   // ai values
   let difficulty = difficulties[spIndex];
@@ -279,6 +284,7 @@ function runProgram() {
 
   // variables that cant change (like counting variables)
   let aiReactFrames = 0;
+  let gameOver = false;
 
   // Game Item Objects
   // red paddle (left)
@@ -309,11 +315,11 @@ function runProgram() {
   // mode functionality
   if (mBtns.isFast) {
     startingSpeed = 9;
-    maxSpeed = 40;
+    maxSpeed = 55;
   }
   if (mBtns.isUltraFast) {
     startingSpeed = 17;
-    maxSpeed = 60;
+    maxSpeed = 70;
   }
   if (mBtns.isGhost) {
     $("#ball").addClass("ghost");
@@ -344,21 +350,30 @@ function runProgram() {
   window.startBall = startBall;
 
   // one-time setup
+  /* old iterator
   clearInterval(interval); // removes previous loops before starting a new one
   interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
-
+  */
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  let lastTimeStamp = 0;
+  let rafID;
   /* 
   On each "tick" of the timer, a new frame is dynamically drawn using JavaScript
   by calling this function and executing the code inside.
   */
-  function newFrame() {
-    if (!isPaused) {
+  function newFrame(timestamp) {
+    if (!isPaused && !gameOver) {
+      // frame rate (deltaTime, timestamps, fps and all that biz)
+      if (!lastTimeStamp) lastTimeStamp = timestamp;
+      const deltaTime = (timestamp - lastTimeStamp) / 1000;
+      lastTimeStamp = timestamp;
+      const fps = Math.round(1 / deltaTime);
+      $("#fpsdisplay").text("FPS: " + fps);
       handleEvent(); // handle key presses
-      repositionGameItems(); // move both paddles and the ball
+      repositionGameItems(deltaTime); // move both paddles and the ball
       checkInBounds(paddleL); // prevents paddles from going out of bounds
       checkInBounds(paddleR);
       wallCollision(); // ball collisions
@@ -380,7 +395,10 @@ function runProgram() {
         }
       }
     }
+    rafID = requestAnimationFrame(newFrame);
   }
+
+  requestAnimationFrame(newFrame);
 
   // handles movement whenever a key in keystates is true
   function handleEvent() {
@@ -552,11 +570,11 @@ function runProgram() {
   }
 
   // repositions all items
-  function repositionGameItems() {
-    paddleL.posY += paddleL.speedY;
-    paddleR.posY += paddleR.speedY;
-    ball.posX += ball.speedX;
-    ball.posY += ball.speedY;
+  function repositionGameItems(deltaTime) {
+    paddleL.posY += paddleL.speedY * deltaTime;
+    paddleR.posY += paddleR.speedY * deltaTime;
+    ball.posX += ball.speedX * deltaTime;
+    ball.posY += ball.speedY * deltaTime;
   }
 
   // starts the ball at startup
@@ -579,16 +597,17 @@ function runProgram() {
   // end the game at a certain limit
   function endGame() {
     // stop the interval timer
+    gameOver = true;
     stopPanic();
     gameMusic.fade(gameMusic.volume(), 0, 1000);
     setTimeout(() => gameMusic.stop(), 1000);
-    clearInterval(interval);
+    cancelAnimationFrame(rafID);
     $("#restart").show();
   }
 
   function restartGame() {
     gameMusic.stop();
-    clearInterval(interval);
+    cancelAnimationFrame(rafID);
     scoreL = 0;
     scoreR = 0;
     $("#scoreL").text("0");
@@ -604,16 +623,16 @@ function runProgram() {
     ball.speedX = 0;
     ball.speedY = 0;
 
-    $('#ball').css({
-      "left": ball.posX,
-      'top': ball.posY,
-      'opacity': '0',
-      'transform': 'scale(2.7)'
-    }); 
+    $("#ball").css({
+      left: ball.posX,
+      top: ball.posY,
+      opacity: "0",
+      transform: "scale(2.7)",
+    });
 
-    $('#board').css({
-      'transition': 'transform 2.5s ease-in-out',
-      'transform': 'scale(1.7)'
+    $("#board").css({
+      transition: "transform 2.5s ease-in-out",
+      transform: "scale(1.7)",
     });
   }
 }

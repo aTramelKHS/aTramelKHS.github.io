@@ -17,6 +17,7 @@
       <h1 id="loadingText">Loading, please wait</h1>
     </div>
     <div id="red-screen"></div>
+    <p id="fpsdisplay" hidden>FPS: 0</p>
     <div hidden id="menu" class="MENU">
       <h1 id="title">PONG</h1>
       <button onclick="playGame()">PLAY</button>
@@ -83,8 +84,11 @@
       </div>
       <button onclick="applyCustomBG()">CUSTOM BOARD</button>
       <br />
-      <button id="muteBtn">Mute Music</button>
-      <button id="otherMuteBtn">Mute Sounds</button>
+      <p>Sound Settings</p>
+      <button id="muteBtn">MUTE MUSIC</button>
+      <button id="otherMuteBtn">MUTE SOUNDS</button>
+      <p>Debug</p>
+      <button id="showfps">SHOW FPS</button>
     </div>
     <div id="how2play" hidden class="MENU">
       <button class="back" onclick="goBack()">BACK</button>
@@ -94,14 +98,14 @@
         To play this game, let the ball go into your side and you automatically
         win /gen /srs.
       </p>
-      <p>The recommended screen zoom size depends on the device but i suggest doing 80%-90%</p>
+      <p>The recommended screen zoom size depends on the device but i suggest doing 75%-90%</p>
       <h2>Credits:</h2>
       <p>Music From:</p>
       <p>パチスロ 逆転 裁判 (Ace Attorney Pachislot)</p>
     </div>
     <div id="modes" hidden class="MENU">
       <button class="back" onclick="goBack()">BACK</button>
-      <br />
+      <br>
       <p>Click the buttons to toggle them on and again to toggle them off</p>
       <button id="ai">SINGLEPLAYER</button>
       <p>Alone? Play with a bot!</p>
@@ -116,8 +120,6 @@
       <p>Makes the ball move fast (go figure)</p>
       <button id="ufast">ULTRA FAST</button>
       <p>Makes the ball move really fast (again go figure)</p>
-      <button id="bouncy">BOUNCY</button>
-      <p>Idk what ima do with this yet. perhaps give it physics?</p>
       <button id="ghost">GHOST</button>
       <p>Makes the transparent and blink</p>
       <button id="custrounds">CUSTOM ROUNDS</button>
@@ -133,11 +135,9 @@
       <p>Swaps the up and down buttons (W goes down and S goes up etc)</p>
       <button id="multball">MULTI BALL</button>
       <p>Oops! All the balls</p>
-      <!--<button id="crt">CRT MODE</button>
-      <p>
-        Fits the board into a 960x540 aspect ratio (16:9), equivalent to a CRT
-        display
-      </p> -->
+    </div>
+    <div id="songs" hidden class="MENU">
+      <button class="back" onclick="goBack()">BACK</button>
     </div>
     <div id="board" hidden>
       <h2 id="readyMsg" hidden></h2>
