@@ -396,7 +396,9 @@ function runProgram() {
         }
       }
     }
-    rafID = requestAnimationFrame(newFrame);
+    if (!gameOver) {
+      rafID = requestAnimationFrame(newFrame);
+    }
   }
 
   requestAnimationFrame(newFrame);
