@@ -1,18 +1,20 @@
 @keyframes background {
-    50% {background-position: center;}
+  50% {
+    background-position: center;
+  }
 }
 
 #all-contents {
-    padding: 10px;
-    font-family: Arial, sans-serif;
+  padding: 10px;
+  font-family: Arial, sans-serif;
 }
 body {
-    background-color: gray;
-    background-image: url(sourced\ images/potato.png);
-    background-position: top left;
-    animation: background 5s infinite;
-    background-size: 260px 140px; 
-    /* background-image: url(sourced\ images/potato.png), url(sourced\ images/potato.png);
+  background-color: gray;
+  background-image: url(sourced\ images/potato.png);
+  background-position: top left;
+  animation: background 5s infinite;
+  background-size: 260px 140px;
+  /* background-image: url(sourced\ images/potato.png), url(sourced\ images/potato.png);
     background-repeat: repeat-y;
     background-size: 158px 89px;
     background-attachment: fixed;
@@ -20,199 +22,220 @@ body {
     code reminants */
 }
 
-
 #all-contents {
-    max-width: 800px;
-    margin: auto;
+  max-width: calc(100% - 140px);
+  margin: auto;
 }
 
-
 nav {
-    background: #49759c;
-    margin: 0 auto;
-    display: flex;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    border-style: groove;
-    border-color:#70a7d8;
-    border-width: 20px;
-    outline-color: black;
-    outline-width: 20px;
+  background: #49759c;
+  margin: 0 auto;
+  display: flex;
+  padding: 0 auto 20px auto;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  border-style: groove;
+  border-color: #70a7d8;
+  border-width: 20px;
+  outline-color: black;
+  outline-width: 20px;
+  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0; 
+  padding: 10px 20px; 
 }
 
 h1 {
-    display: flex;
-    align-items: center;
-    color: aquamarine;
-    flex: 1;
-    margin: 0;
-    font-family: "Lucida Console";
-    font-size: 30px;
+  display: flex;
+  align-items: center;
+  color: aquamarine;
+  flex: 1;
+  margin: 0;
+  font-family: "Lucida Console";
+  font-size: 30px;
 }
 
 #nav-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-shrink: 0;
+  gap: 20px;
 }
 
 .nav-li {
-    display: inline-block;
-    padding: 0 10px;
-    color: navy;
+  display: inline-block;
+  padding: 0 10px;
+  color: navy;
+}
+
+.nav-li a {
+  text-decoration: none;
+  color: navy;
 }
 
 a {
-    text-decoration: none;
-    color: navy;
+  color: navy;
+}
+
+a:hover {
+  color:#f28500;
 }
 
 main {
-    background: rgb(245, 238, 219);
-    display: flex;
-    margin-top: 20px;
+  background: rgb(245, 238, 219);
+  display: flex;
+  margin-top: 20px;
 }
 
 .sidebar {
-    margin-right: 25px;
-    padding: 10px;
+  margin-right: 25px;
+  padding: 10px;
 }
 
 .sidebar-img {
-    width: 200px;
-    border-style: ridge;
-    border-radius: 10px;
-    border-width: 20px;
+  width: calc(100% + 20px);
+  border-style: ridge;
+  border-radius: 10px;
+  border-width: 20px;
 }
 
 .sidebar-img2 {
-    margin: 20px;
-    float: right;
-    width: 200px;
-    height: 300px;
-    object-fit: cover;
-    object-position: 75%;
-    border-style: ridge;
-    border-radius: 10px;
-    border-width: 20px;
+  margin: 20px;
+  float: right;
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  object-position: 75%;
+  border-style: ridge;
+  border-radius: 10px;
+  border-width: 20px;
 }
 
 .content {
-    flex: 1;
-    padding: 15px;
+  flex: 1;
+  padding: 55px;
 }
 
 #interests {
-    border: 4px silver ridge;
-    padding: 8px;
-    margin-top: 20px;
+  border: 4px silver ridge;
+  padding: 8px;
+  margin: 5px 0;
 }
 
-h2, h3 {
-    margin: 15px;
+#interests,
+li {
+  margin-bottom: 8px;
+  font-size: 25px;
+}
+
+h2,
+h3 {
+  margin: 15px;
 }
 
 .content h1 {
-    color: black;
+  color: black;
 }
 
 .portfolio {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .portfolio li {
-    background: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .portfolio li:hover {
-    background: #eee;
+  background: #eee;
 }
 
 .portfolio a {
-    text-decoration: none;
-    color: red;
+  text-decoration: none;
+  color: red;
 }
 
 .nav-li a:hover {
-    color: #f28500;
+  color: #f28500;
 }
 
 #portfolio-text {
-    font-family: papyrus;
+  font-family: papyrus;
 }
 
 .content h2 {
-    font-family: fantasy;
-    font-size: 47px;
-    outline: dotted;
-    outline-width: 8px;
-    text-align: center;
-    color: steelblue;
+  font-family: fantasy;
+  font-size: 47px;
+  outline: dotted;
+  outline-width: 8px;
+  text-align: center;
+  color: steelblue;
 }
 #potato {
-    height: 32px;
-    width: 47px;
+  height: 32px;
+  width: 47px;
 }
 .updateboard {
-    border-style: outset;
-    border-color:#49759c;
-    border-width: 10px;
-    border-radius: 5px;
-    display: inline-block;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-bottom: 10px;
-    width: 740px;
-    display: block;
+  align-items: center;
+  border-style: outset;
+  border-color: #49759c;
+  border-width: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  display: block;
 }
 .date {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: bold;
-    margin: 10px;
+  font-family:
+    "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+    Arial, sans-serif;
+  font-size: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  margin: 10px;
 }
 #maintxt {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 50px;
-    padding-top: 30px;
-    color:#f28500;
-    text-decoration: underline;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 50px;
+  padding-top: 30px;
+  color: #f28500;
+  text-decoration: underline;
 }
 .updateboard li {
-    list-style-type: square;
-    padding-top: 10px;
-    font-size:18px;
+  list-style-type: square;
+  padding-top: 10px;
+  font-size: 18px;
 }
 
 .main-projects {
-    text-align: center;
-    border-style: inset;
-    border-width: 7px;
-    border-color: lightgray;
+  text-align: center;
+  border-style: inset;
+  border-width: 7px;
+  border-color: lightgray;
 }
 #tetris a {
-    font-size: 55px;
-    font-weight: bold;
-    letter-spacing: 0.2em;
-    font-family: "VT323", monospace;
-    -webkit-text-stroke: 2px orange;
+  font-size: 55px;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  font-family: "VT323", monospace;
+  -webkit-text-stroke: 2px orange;
 }
 #pong a {
-    color: forestgreen;
-    font-size: 50px;
-    font-family: "Bungee", sans-serif;
-    letter-spacing: 0.1em;
-    display: inline-block;
-    transform: scaleX(1.6);
+  color: forestgreen;
+  font-size: 50px;
+  font-family: "Bungee", sans-serif;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  transform: scaleX(1.6);
 }
 .main-projects:hover {
-    border-color: rgb(195, 195, 195);
+  border-color: rgb(195, 195, 195);
 }

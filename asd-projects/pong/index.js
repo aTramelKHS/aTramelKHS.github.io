@@ -65,6 +65,7 @@ function showModes() {
   $("body").css("overflow", "scroll");
 }
 
+// base colors
 let red = 127;
 let green = 127;
 let blue = 127;
@@ -184,6 +185,7 @@ $(document).ready(() => {
   $("#wumbo").on("click", () => {
     mBtns.isWumbo = !mBtns.isWumbo;
     $("#wumbo").text(mBtns.isWumbo ? "ON" : "WUMBO");
+    wumboing();
   });
   $("#conc").on("click", () => {
     mBtns.isConcrete = !mBtns.isConcrete;
@@ -203,6 +205,35 @@ $(document).ready(() => {
     $("#fpsdisplay").toggle(mBtns.showFps);
   });
 });
+
+// applies wumbo effect
+function wumboing() {
+  if (mBtns.isWumbo) {
+    $('#paddleL, #paddleR').css({
+      'width': 50,
+      'height': 320,
+      'top': 'calc(50% - 160px)'
+    });
+    $('#ball').css({
+      'width': 80,
+      'height': 80,
+      'top': 'calc(50% - 40px)',
+      'left': 'calc(50% - 40px)'
+    });
+  } else {
+    $('#paddleL, #paddleR').css({
+      'width': 25,
+      'height': 160,
+      'top': 'calc(50% - 80px)'
+    });
+    $('#ball').css({
+      'width': 40,
+      'height': 40,
+      'top': 'calc(50% - 20px)',
+      'left': 'calc(50% - 20px)'
+    });
+  }
+}
 
 // keys (with true false values)
 const KEYSTATES = {
@@ -286,6 +317,13 @@ function runProgram() {
   // variables that you shouldnt change (like counting variables)
   let aiReactFrames = 0;
   let gameOver = false;
+
+   if (mBtns.isWumbo) {
+    $('#paddleL, #paddleR').css({
+      'width': 50,
+      'height': 320
+    });
+  }
 
   // Game Item Objects
   // red paddle (left)
@@ -395,6 +433,9 @@ function runProgram() {
           $("#scoreR").text("WINNER");
         }
       }
+    } else {
+      lastTimeStamp = 0;
+      $("#fpsdisplay").text("FPS: 0");
     }
     if (!gameOver) {
       rafID = requestAnimationFrame(newFrame);
@@ -407,10 +448,18 @@ function runProgram() {
   function handleEvent() {
     // left paddle
     if (KEYSTATES.w) {
-      paddleL.speedY = -paddleMovementRate;
+      if (!mBtns.hasFlightControls) {
+        paddleL.speedY = -paddleMovementRate;
+      } else {
+        paddleL.speedY = paddleMovementRate;
+      }
     }
     if (KEYSTATES.s) {
-      paddleL.speedY = paddleMovementRate;
+      if (!mBtns.hasFlightControls) {
+        paddleL.speedY = paddleMovementRate;
+      } else {
+        paddleL.speedY = -paddleMovementRate;
+      }
     }
     if ((!KEYSTATES.w && !KEYSTATES.s) || (KEYSTATES.w && KEYSTATES.s)) {
       paddleL.speedY = 0;
@@ -420,10 +469,18 @@ function runProgram() {
       aiMoves(paddleR);
     } else {
       if (KEYSTATES.ArrowUp) {
-        paddleR.speedY = -paddleMovementRate;
+        if (!mBtns.hasFlightControls) {
+          paddleR.speedY = -paddleMovementRate;
+        } else {
+          paddleR.speedY = paddleMovementRate;
+        }
       }
       if (KEYSTATES.ArrowDown) {
-        paddleR.speedY = paddleMovementRate;
+        if (!mBtns.hasFlightControls) {
+          paddleR.speedY = paddleMovementRate;
+        } else {
+          paddleR.speedY = -paddleMovementRate;
+        }
       }
       if (
         (!KEYSTATES.ArrowUp && !KEYSTATES.ArrowDown) ||

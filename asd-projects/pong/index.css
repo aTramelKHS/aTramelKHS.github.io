@@ -21,7 +21,6 @@
     background-color: rgba(227, 0, 0, 0.2);
   }
 }
-
 .loadingScreen {
   position: fixed;
   display: block;
@@ -122,7 +121,7 @@ button:active:after {
   width: 140px;
   height: 140px;
   left: calc(70% - 140px);
-  top: calc(50% - 170px);
+  top: calc(50% - 150px);
   background-color: rgb(127, 127, 127);
   border: 5px solid black;
 }
@@ -240,7 +239,7 @@ h2 {
   height: 160px;
   position: absolute;
   left: 5%;
-  top: 250px;
+  top: calc(50% - 80px);
   border-radius: 5px;
   box-shadow: -2px -4px 10px rgb(18, 18, 18) inset;
   z-index: 1;
@@ -252,7 +251,7 @@ h2 {
   height: 160px;
   position: absolute;
   left: calc(95% - 25px);
-  top: 250px;
+  top: calc(50% - 80px);
   border-radius: 5px;
   box-shadow: -2px -4px 10px rgb(18, 18, 18) inset;
   z-index: 1;
