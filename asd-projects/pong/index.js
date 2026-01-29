@@ -19,16 +19,23 @@ function playGame() {
   $("#readyMsg").show().text("GET READY...");
   menuMusic.pause();
   startGameMusic();
+  runProgram();
+  balls.push(new Ball('ball' + balls.length));
+  if (mBtns.hasMultiBall) {
+    balls.push(new Ball('ball' + balls.length));
+    balls.push(new Ball('ball' + balls.length));
+  }
   setTimeout(() => {
     $("#board").css("transform", "scale(1)");
-    $("#ball").css({
-      opacity: "1",
-      transform: "scale(1)",
-    });
+    for (var ball of balls) {
+     ball.element.css({
+        opacity: "1",
+        transform: "scale(1)",
+      });
+    }
   }, 500);
   setTimeout(() => {
     $("#readyMsg").text("GO!!!!!");
-    runProgram();
     startBall();
     $("#pauseBtn").prop("disabled", false);
     setTimeout(() => {
@@ -99,9 +106,6 @@ function applyCustomBG() {
   }
   $("#board").css("background-image", "url(" + input + ")");
 }
-
-// global vars
-let interval;
 
 // pause feature
 let isPaused = false;
@@ -214,24 +218,28 @@ function wumboing() {
       'height': 320,
       'top': 'calc(50% - 160px)'
     });
-    $('#ball').css({
-      'width': 80,
-      'height': 80,
-      'top': 'calc(50% - 40px)',
-      'left': 'calc(50% - 40px)'
-    });
+    for (var ball of balls) {
+      ball.element.css({
+        'width': 80,
+        'height': 80,
+        'top': 'calc(50% - 40px)',
+        'left': 'calc(50% - 40px)'
+      });
+    } 
   } else {
     $('#paddleL, #paddleR').css({
       'width': 25,
       'height': 160,
       'top': 'calc(50% - 80px)'
     });
-    $('#ball').css({
-      'width': 40,
-      'height': 40,
-      'top': 'calc(50% - 20px)',
-      'left': 'calc(50% - 20px)'
-    });
+    for (var ball of balls) {
+      ball.element.css({
+        'width': 40,
+        'height': 40,
+        'top': 'calc(50% - 20px)',
+        'left': 'calc(50% - 20px)'
+      });
+    }
   }
 }
 
@@ -259,14 +267,50 @@ $(document).on("keyup", (e) => {
 
 let paddleL = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let paddleR = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
-let ball = { posX: 0, posY: 0, speedX: 0, speedY: 0, width: 0, height: 0 };
+// let ball = { posX: 0, posY: 0, speedX: 0, speedY: 0, width: 0, height: 0 };
+let balls = [];
 let BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT;
+// ball constructor class
+class Ball {
+  constructor(id) {
+    this.element = $('<div>').attr('id', id).appendTo('#board').css({
+      'background-color': 'white',
+      'width': '40px',
+      'height': '40px',
+      'position': 'absolute',
+      'left': 'calc(50% - 20px)',
+      'top': 'calc(50% - 20px)',
+      'border-radius': '50%',
+      'box-shadow': '-2px -4px 10px rgb(18, 18, 18) inset',
+      'z-index': 1,
+      'opacity': 0,
+      'transform': 'scale(2.8)',
+      'transition': 'opacity 1.5s ease-in-out, transform 2s ease-in-out'
+    });
+    this.width = this.element.width();
+    this.height = this.element.height();
+    this.posX = BOARD_X + BOARD_WIDTH / 2 - this.width / 2 + (balls.length * 60);
+    this.posY = BOARD_Y + BOARD_HEIGHT / 2 - this.height / 2;
+    this.speedX = 0;
+    this.speedY = 0;
+  }
+}
+
+function clearBalls() {
+  for (var ball of balls) {
+    ball.element.remove();
+  }
+  balls.length = 0;
+}
 
 function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  // ensures every ball is deleted before making new balls
+  clearBalls();
+  
   // board initialization
   BOARD_WIDTH = $("#board").width();
   BOARD_HEIGHT = $("#board").height();
@@ -340,13 +384,17 @@ function runProgram() {
   paddleR.width = $("#paddleR").width();
   paddleR.height = $("#paddleR").height();
 
-  // ball
-  ball.width = $("#ball").width();
+  // placeholder
+  /*balls.push(new Ball('ball' + balls.length));
+  balls.push(new Ball('ball' + balls.length));*/
+
+  // ball (legacy)
+  /*ball.width = $("#ball").width();
   ball.height = $("#ball").height();
   ball.posX = BOARD_X + BOARD_WIDTH / 2 - ball.width / 2;
   ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
   ball.speedX = 0; // left and right
-  ball.speedY = 0; // up and down
+  ball.speedY = 0; // up and down*/
 
   let scoreL = 0;
   let scoreR = 0;
@@ -416,11 +464,13 @@ function runProgram() {
       checkInBounds(paddleL); // prevents paddles from going out of bounds
       checkInBounds(paddleR);
       wallCollision(); // ball collisions
-      if (doCollide(ball, paddleL)) {
-        handleBallPaddleCollision(paddleL);
-      }
-      if (doCollide(ball, paddleR)) {
-        handleBallPaddleCollision(paddleR);
+      for (var ball of balls) {
+        if (doCollide(ball, paddleL)) {
+          handleBallPaddleCollision(paddleL, ball);
+        }
+        if (doCollide(ball, paddleR)) {
+          handleBallPaddleCollision(paddleR, ball);
+        }
       }
       redrawItems();
       if (scoreL === winCondition || scoreR === winCondition) {
@@ -499,8 +549,13 @@ function runProgram() {
   function redrawItems() {
     $("#paddleL").css("top", paddleL.posY);
     $("#paddleR").css("top", paddleR.posY);
+    /* legacy
     $("#ball").css("left", ball.posX);
-    $("#ball").css("top", ball.posY);
+    $("#ball").css("top", ball.posY);*/
+    for (var ball of balls) {
+      ball.element.css("left", ball.posX);
+      ball.element.css("top", ball.posY);
+    }
   }
 
   // checks if a paddle is in the board's boundaries so that it doesnt go out of bounds
@@ -515,31 +570,35 @@ function runProgram() {
 
   // checks what side the ball collides with
   function wallCollision() {
-    if (ball.posX < BOARD_X) {
-      // left side
-      // give right a point and reset the ball's position after 1 second
-      scoreR += 1;
-      $("#scoreR").text(scoreR);
-      stopBall();
-    }
-    if (ball.posX + ball.width > BOARD_WIDTH) {
-      // right side
-      // give left a point and reset the ball's position after 1 second
-      scoreL += 1;
-      $("#scoreL").text(scoreL);
-      stopBall();
-    }
-    if (scoreR === winCondition - 1 || scoreL === winCondition - 1) {
-      panicMode();
-    }
-    // if the ball collides with the top or bottom it should bounce in the opposite direction
-    if (ball.posY < BOARD_Y) {
-      ball.posY = BOARD_Y;
-      ball.speedY *= -1;
-    }
-    if (ball.posY + ball.height > BOARD_HEIGHT) {
-      ball.posY = BOARD_BOTTOM - ball.height;
-      ball.speedY *= -1;
+    for (var ball of balls) {
+      if (ball.posX < BOARD_X) {
+        // left side
+        // give right a point and reset the ball's position after 1 second
+        scoreR += 1;
+        $("#scoreR").text(scoreR);
+        stopBall();
+        return;
+      }
+      if (ball.posX + ball.width > BOARD_WIDTH) {
+        // right side
+        // give left a point and reset the ball's position after 1 second
+        scoreL += 1;
+        $("#scoreL").text(scoreL);
+        stopBall();
+        return;
+      }
+      if (scoreR === winCondition - 1 || scoreL === winCondition - 1) {
+        panicMode();
+      }
+      // if the ball collides with the top or bottom it should bounce in the opposite direction
+      if (ball.posY < BOARD_Y) {
+        ball.posY = BOARD_Y;
+        ball.speedY *= -1;
+      }
+      if (ball.posY + ball.height > BOARD_HEIGHT) {
+        ball.posY = BOARD_BOTTOM - ball.height;
+        ball.speedY *= -1;
+      }
     }
   }
 
@@ -554,6 +613,7 @@ function runProgram() {
   }
 
   // ai reads every certain amount of frame and reacts accordingly
+  // IMPLEMENT LOGIC FOR MULTIBALL IN AI LATER
   function aiMoves(paddle) {
     if (difficulty === "OFF") return;
     aiReactFrames++;
@@ -613,11 +673,19 @@ function runProgram() {
     makes bounces the ball in the other direction and calculates speedY based on how far the ball's
     center is away from the paddle's center
   */
-  function handleBallPaddleCollision(paddle) {
+  function handleBallPaddleCollision(paddle, ball) {
     ball.speedX *= -1.05;
     let paddleCenter = paddle.posY + paddle.height / 2;
     let ballCenter = ball.posY + ball.height / 2;
     let offset = ballCenter - paddleCenter;
+
+    /* legacy ball collision
+    if (offset < 0) {
+      ball.speedY = -Math.abs(ball.speedY);
+    } else {
+      ball.speedY = Math.abs(ball.speedY);
+    }*/
+
     ball.speedY += (offset / (paddle.height / 2)) * 5;
     ball.speedX = Math.max(Math.min(ball.speedX, maxSpeed), -maxSpeed);
     ball.speedY = Math.max(Math.min(ball.speedY, maxSpeed), -maxSpeed);
@@ -633,24 +701,30 @@ function runProgram() {
   function repositionGameItems(deltaTime) {
     paddleL.posY += paddleL.speedY * deltaTime;
     paddleR.posY += paddleR.speedY * deltaTime;
-    ball.posX += ball.speedX * deltaTime;
-    ball.posY += ball.speedY * deltaTime;
+    for (var ball of balls) {
+      ball.posX += ball.speedX * deltaTime;
+      ball.posY += ball.speedY * deltaTime;
+    }
   }
 
   // starts the ball at startup
   function startBall() {
-    ball.speedX =
-      (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
-    ball.speedY =
-      (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
+    for (var ball of balls) {
+      ball.speedX =
+        (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
+      ball.speedY =
+        (Math.random() * 3 + startingSpeed) * (Math.random() > 0.5 ? -1 : 1);
+    }
   }
 
   //stops ball and resets position after a point is gained
   function stopBall() {
-    ball.posX = BOARD_X + BOARD_WIDTH / 2 - ball.width / 2;
-    ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
-    ball.speedX = 0;
-    ball.speedY = 0;
+    for (var ball of balls) {
+      ball.posX = BOARD_X + BOARD_WIDTH / 2 - ball.width / 2;
+      ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
+      ball.speedX = 0;
+      ball.speedY = 0;
+    }
     setTimeout(startBall, 1000);
   }
 
@@ -678,18 +752,19 @@ function runProgram() {
     paddleL.posY = 250;
     paddleR.posY = 250;
 
+    /* legacy
     ball.posX = BOARD_X + BOARD_WIDTH / 2 - ball.width / 2;
     ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
     ball.speedX = 0;
     ball.speedY = 0;
 
-    $("#ball").css({
+    ball.element.css({
       left: ball.posX,
       top: ball.posY,
       opacity: "0",
       transform: "scale(2.7)",
-    });
-
+    }); */
+    clearBalls();
     $("#board").css({
       transition: "transform 2.5s ease-in-out",
       transform: "scale(1.7)",
