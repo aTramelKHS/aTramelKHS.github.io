@@ -1,247 +1,4 @@
 // GLOBAL SCOPED
-$(document).ready(() => {
-  // wait for the HTML / CSS elements of the page to fully load, then execute unhideMenu()
-  setTimeout(() => {
-    $("#loadingText").text("click anywhere on the page to proceed");
-    $(".loadingScreen").css("cursor", "pointer");
-    $(document).one("click", () => {
-      $("#menu").show();
-      menuMusic.play();
-      $(".loadingScreen").fadeOut(1500);
-    });
-  }, 3000);
-});
-
-function playGame() {
-  $("#pauseBtn").prop("disabled", true);
-  $("#menu").hide();
-  $("#board").show();
-  $("#readyMsg").show().text("GET READY...");
-  menuMusic.pause();
-  startGameMusic();
-  runProgram();
-  balls.push(new Ball('ball' + balls.length));
-  if (mBtns.hasMultiBall) {
-    balls.push(new Ball('ball' + balls.length));
-    balls.push(new Ball('ball' + balls.length));
-  }
-  setTimeout(() => {
-    $("#board").css("transform", "scale(1)");
-    for (var ball of balls) {
-     ball.element.css({
-        opacity: "1",
-        transform: "scale(1)",
-      });
-    }
-  }, 500);
-  setTimeout(() => {
-    $("#readyMsg").text("GO!!!!!");
-    startBall();
-    $("#pauseBtn").prop("disabled", false);
-    setTimeout(() => {
-      $("#readyMsg").hide();
-    }, 2000);
-  }, 3000);
-}
-
-function showSettings() {
-  window.scrollTo(0, 0);
-  $("#menu").hide();
-  $("#settings").show();
-  $("body").css("overflow", "scroll");
-}
-
-function goBack() {
-  $("#settings").hide();
-  $("#how2play").hide();
-  $("#modes").hide();
-  $("#menu").show();
-  window.scrollTo(0, 0);
-  $("body").css("overflow", "hidden");
-}
-
-function showTutorial() {
-  $("#menu").hide();
-  $("#how2play").show();
-}
-
-function showModes() {
-  window.scrollTo(0, 0);
-  $("#menu").hide();
-  $("#modes").show();
-  $("body").css("overflow", "scroll");
-}
-
-// base colors
-let red = 127;
-let green = 127;
-let blue = 127;
-
-function showChange() {
-  $("#showColor").css(
-    "background-color",
-    "rgb(" + red + ", " + green + ", " + blue + ")"
-  );
-}
-
-function apply(element) {
-  if (element === "font") {
-    $("h1, h2, p, output, button, #scoreL, #scoreR").css(
-      "color",
-      "rgb(" + red + ", " + green + ", " + blue + ")"
-    );
-    return;
-  }
-  $(element).css(
-    "background-color",
-    "rgb(" + red + ", " + green + ", " + blue + ")"
-  );
-}
-
-function applyCustomBG() {
-  let input = prompt("provide an image url");
-  if (input === "") {
-    alert("try again");
-    return;
-  }
-  $("#board").css("background-image", "url(" + input + ")");
-}
-
-// pause feature
-let isPaused = false;
-$(document).ready(() => {
-  $("#pauseBtn").on("click", () => {
-    isPaused = !isPaused;
-    isPaused
-      ? $("#pausedMsg, #goHome, #restart").show()
-      : $("#pausedMsg, #goHome, #restart").hide();
-    isPaused ? gameMusic.pause() : gameMusic.play();
-  });
-  $("#goHome").on("click", () => {
-    isPaused = false;
-    $("#pausedMsg, #goHome, #restart").hide();
-    restartGame();
-    $("#board").hide();
-    $("#menu").show();
-    menuMusic.seek(0);
-    menuMusic.play();
-  });
-  $("#restart").on("click", () => {
-    isPaused = false;
-    $("#pausedMsg, #goHome, #restart").hide();
-    if (typeof restartGame === "function") {
-      // makes sure it only restarts if the restartGame function is declared
-      restartGame();
-      setTimeout(playGame(), 2000);
-    }
-  });
-});
-
-// single player difficulties
-let difficulties = ["OFF", "EASY", "NORMAL", "HARD"];
-let spIndex = 0;
-
-// button states
-const mBtns = {
-  singlePlayer: false,
-  isFast: false,
-  isUltraFast: false,
-  isBouncy: false,
-  isGhost: false,
-  customRounds: false,
-  isWumbo: false,
-  isConcrete: false,
-  hasFlightControls: false,
-  hasMultiBall: false,
-  showFps: false,
-};
-
-// button functions
-$(document).ready(() => {
-  $("#ai").on("click", () => {
-    spIndex += 1;
-    if (spIndex > 3) {
-      spIndex = 0;
-    }
-    mBtns.singlePlayer = spIndex !== 0 ? true : false;
-    $("#ai").text(difficulties[spIndex]);
-  });
-  $("#fast").on("click", () => {
-    mBtns.isFast = !mBtns.isFast;
-    $("#fast").text(mBtns.isFast ? "ON" : "FAST");
-  });
-  $("#ufast").on("click", () => {
-    mBtns.isUltraFast = !mBtns.isUltraFast;
-    $("#ufast").text(mBtns.isUltraFast ? "ON" : "ULTRA FAST");
-  });
-  $("#bouncy").on("click", () => {
-    mBtns.isBouncy = !mBtns.isBouncy;
-    $("#bouncy").text(mBtns.isBouncy ? "ON" : "BOUNCY");
-  });
-  $("#ghost").on("click", () => {
-    mBtns.isGhost = !mBtns.isGhost;
-    $("#ghost").text(mBtns.isGhost ? "ON" : "GHOST");
-  });
-  $("#custrounds").on("click", () => {
-    mBtns.customRounds = !mBtns.customRounds;
-    $("#custrounds").text(mBtns.customRounds ? "ON" : "CUSTOM ROUNDS");
-  });
-  $("#wumbo").on("click", () => {
-    mBtns.isWumbo = !mBtns.isWumbo;
-    $("#wumbo").text(mBtns.isWumbo ? "ON" : "WUMBO");
-    wumboing();
-  });
-  $("#conc").on("click", () => {
-    mBtns.isConcrete = !mBtns.isConcrete;
-    $("#conc").text(mBtns.isConcrete ? "ON" : "CONCRETE");
-  });
-  $("#fcontrols").on("click", () => {
-    mBtns.hasFlightControls = !mBtns.hasFlightControls;
-    $("#fcontrols").text(mBtns.hasFlightControls ? "ON" : "FLIGHT CONTROLS");
-  });
-  $("#multball").on("click", () => {
-    mBtns.hasMultiBall = !mBtns.hasMultiBall;
-    $("#multball").text(mBtns.hasMultiBall ? "ON" : "MULTI BALL");
-  });
-  $("#showfps").on("click", () => {
-    mBtns.showFps = !mBtns.showFps;
-    $("#showfps").text(mBtns.showFps ? "ON" : "SHOW FPS");
-    $("#fpsdisplay").toggle(mBtns.showFps);
-  });
-});
-
-// applies wumbo effect
-function wumboing() {
-  if (mBtns.isWumbo) {
-    $('#paddleL, #paddleR').css({
-      'width': 50,
-      'height': 320,
-      'top': 'calc(50% - 160px)'
-    });
-    for (var ball of balls) {
-      ball.element.css({
-        'width': 80,
-        'height': 80,
-        'top': 'calc(50% - 40px)',
-        'left': 'calc(50% - 40px)'
-      });
-    } 
-  } else {
-    $('#paddleL, #paddleR').css({
-      'width': 25,
-      'height': 160,
-      'top': 'calc(50% - 80px)'
-    });
-    for (var ball of balls) {
-      ball.element.css({
-        'width': 40,
-        'height': 40,
-        'top': 'calc(50% - 20px)',
-        'left': 'calc(50% - 20px)'
-      });
-    }
-  }
-}
 
 // keys (with true false values)
 const KEYSTATES = {
@@ -269,17 +26,19 @@ let paddleL = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let paddleR = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 // let ball = { posX: 0, posY: 0, speedX: 0, speedY: 0, width: 0, height: 0 };
 let balls = [];
+let ballSize = 40; // this variable is not what you think freakazoid
 let BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT;
 // ball constructor class
 class Ball {
   constructor(id) {
+    let center = (mBtns.hasMultiBall) ? 60 : 0;
     this.element = $('<div>').attr('id', id).appendTo('#board').css({
-      'background-color': 'white',
-      'width': '40px',
-      'height': '40px',
+      'background-color': ballColor,
+      'width': ballSize + 'px',
+      'height': ballSize + 'px',
       'position': 'absolute',
-      'left': 'calc(50% - 20px)',
-      'top': 'calc(50% - 20px)',
+      'left': '0px',
+      'top': '0px',
       'border-radius': '50%',
       'box-shadow': '-2px -4px 10px rgb(18, 18, 18) inset',
       'z-index': 1,
@@ -289,10 +48,12 @@ class Ball {
     });
     this.width = this.element.width();
     this.height = this.element.height();
-    this.posX = BOARD_X + BOARD_WIDTH / 2 - this.width / 2 + (balls.length * 60);
+    this.posX = BOARD_X + BOARD_WIDTH / 2 - this.width / 2 + (balls.length * 60) - center;
     this.posY = BOARD_Y + BOARD_HEIGHT / 2 - this.height / 2;
+    this.ogPositionX = this.posX; // the original position of the ball's X when created (THIS DOES NOT CHANGE AT ALL)
     this.speedX = 0;
     this.speedY = 0;
+    this.radius = this.width / 2;
   }
 }
 
@@ -307,16 +68,13 @@ function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////// SETUP /////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
-
-  // ensures every ball is deleted before making new balls
-  clearBalls();
   
   // board initialization
   BOARD_WIDTH = $("#board").width();
   BOARD_HEIGHT = $("#board").height();
   BOARD_X = parseFloat($("#board").css("left"));
   BOARD_Y = parseFloat($("#board").css("top"));
-  const BOARD_RIGHT = BOARD_X + BOARD_WIDTH;
+  // const BOARD_RIGHT = BOARD_X + BOARD_WIDTH; unused parameter
   const BOARD_BOTTOM = BOARD_Y + BOARD_HEIGHT;
 
   // fps var
@@ -324,7 +82,7 @@ function runProgram() {
 
   // interchangable variables
   let winCondition = 5;
-  let startingSpeed = 3 * FPS;
+  let startingSpeed = 4 * FPS;
   let maxSpeed = 35 * FPS;
   let paddleMovementRate = 13 * FPS;
 
@@ -362,13 +120,6 @@ function runProgram() {
   let aiReactFrames = 0;
   let gameOver = false;
 
-   if (mBtns.isWumbo) {
-    $('#paddleL, #paddleR').css({
-      'width': 50,
-      'height': 320
-    });
-  }
-
   // Game Item Objects
   // red paddle (left)
   paddleL.posX = parseInt($("#paddleL").css("left"));
@@ -384,10 +135,6 @@ function runProgram() {
   paddleR.width = $("#paddleR").width();
   paddleR.height = $("#paddleR").height();
 
-  // placeholder
-  /*balls.push(new Ball('ball' + balls.length));
-  balls.push(new Ball('ball' + balls.length));*/
-
   // ball (legacy)
   /*ball.width = $("#ball").width();
   ball.height = $("#ball").height();
@@ -396,20 +143,25 @@ function runProgram() {
   ball.speedX = 0; // left and right
   ball.speedY = 0; // up and down*/
 
+  // ensures every ball is deleted before making new balls
+  clearBalls();
+
   let scoreL = 0;
   let scoreR = 0;
 
   // mode functionality
   if (mBtns.isFast) {
-    startingSpeed = 9;
-    maxSpeed = 55;
+    startingSpeed = 9 * FPS;
+    maxSpeed = 55 * FPS;
   }
   if (mBtns.isUltraFast) {
-    startingSpeed = 17;
-    maxSpeed = 70;
+    startingSpeed = 17 * FPS;
+    maxSpeed = 70 * FPS;
   }
   if (mBtns.isGhost) {
-    $("#ball").addClass("ghost");
+    for (var ball of balls) {
+      ball.element.addClass("ghost");
+    }
   }
   if (mBtns.isConcrete) {
     paddleMovementRate = 2.5;
@@ -464,11 +216,18 @@ function runProgram() {
       checkInBounds(paddleL); // prevents paddles from going out of bounds
       checkInBounds(paddleR);
       wallCollision(); // ball collisions
+      for (var i = 0; i < balls.length; i++) {
+        for (var j = i + 1; j < balls.length; j++) {
+          doBallCollide(balls[i], balls[j]);
+        }
+      }
       for (var ball of balls) {
         if (doCollide(ball, paddleL)) {
+          playPaddleHit(1);
           handleBallPaddleCollision(paddleL, ball);
         }
         if (doCollide(ball, paddleR)) {
+          playPaddleHit(2);
           handleBallPaddleCollision(paddleR, ball);
         }
       }
@@ -612,8 +371,32 @@ function runProgram() {
       : false;
   }
 
+  function doBallCollide(ball1, ball2) {
+    // calculate total distance from eachother
+    const dx = ball2.posX - ball1.posX;
+    const dy = ball2.posY - ball1.posY
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const minDist = ball1.radius + ball2.radius;
+    if (distance < minDist) {
+      if (distance === 0) return;
+      // detect the overlap distance
+      const overlap =  minDist - distance;
+      // normalize the X and Y;
+      const normalizeX = dx / distance;
+      const normalizeY = dy / distance;
+      // prevent sticking 
+      ball1.posX -= overlap / 2 * normalizeX;
+      ball1.posY -= overlap / 2 * normalizeY;
+      ball2.posX += overlap / 2 * normalizeX;
+      ball2.posY += overlap / 2 * normalizeY;
+      // swap velocities
+      [ball1.speedX, ball2.speedX] = [ball2.speedX, ball1.speedX];
+      [ball1.speedY, ball2.speedY] = [ball2.speedY, ball1.speedY];
+    }
+  }
+
+
   // ai reads every certain amount of frame and reacts accordingly
-  // IMPLEMENT LOGIC FOR MULTIBALL IN AI LATER
   function aiMoves(paddle) {
     if (difficulty === "OFF") return;
     aiReactFrames++;
@@ -622,33 +405,51 @@ function runProgram() {
     const max = mode.reactRange[1];
     const reactInterval = min + Math.floor(Math.random() * (max - min + 1));
     if (aiReactFrames % reactInterval !== 0) return;
-
-    if (ball.speedX > 0) {
+    let targetB = null;
+    let closestB = Infinity
+    
+    // filter da balls
+    for (let ball of balls) {
+      // ignore if the ball isnt coming towards the paddle
+      if (ball.speedX <= 0) { continue }
+      // only ignore balls that arent left of the paddle
+      if (ball.posX >= paddle.posX) { continue }
+      // calculate the horizontal distance
+      const distance = paddle.posX - ball.posX;
+      // only keep the closest ball
+      if (distance < closestB) {
+        closestB = distance;
+        targetB = ball;
+      }
+    }
+    
+    // target da ball (and move accordingly)
+    if (targetB) { // only react if the target ball exists
       // reacts when the ball is heading towards it
       const paddleCenter = paddle.posY + paddle.height / 2;
       let target;
+      // error chance
       let error = (Math.random() - 0.5) * mode.imperfectionRate;
-
       if (difficulty === "EASY" || difficulty === "NORMAL") {
         // follow logic
-        const ballCenter = ball.posY + ball.height / 2;
+        const ballCenter = targetB.posY + targetB.height / 2;
         target = ballCenter + error;
       } else if (difficulty === "HARD") {
         // prediction logic
-        if (Math.abs(ball.speedX) > 0.01) {
-          const framesToReach = (paddle.posX - ball.posX) / ball.speedX;
+        if (Math.abs(targetB.speedX) > 0.01) {
+          const framesToReach = (paddle.posX - targetB.posX) / targetB.speedX;
           if (framesToReach >= 0) {
-            let predictY = ball.posY + ball.speedY * framesToReach;
+            let predictY = targetB.posY + targetB.speedY * framesToReach;
             predictY = Math.max(
-              Math.min(predictY, BOARD_HEIGHT - ball.height),
+              Math.min(predictY, BOARD_HEIGHT - targetB.height),
               0
             );
             target = predictY + error;
           } else {
-            target = ball.posY + error; // fallback if the ball is moving away
+            target = targetB.posY + error; // fallback if the ball is moving away
           }
         } else {
-          target = ball.posY + error; // fallback if the ball is not moving
+          target = targetB.posY + error; // fallback if the ball is not moving
         }
       }
 
@@ -674,19 +475,19 @@ function runProgram() {
     center is away from the paddle's center
   */
   function handleBallPaddleCollision(paddle, ball) {
-    ball.speedX *= -1.05;
+    ball.speedX *= -1.07;
     let paddleCenter = paddle.posY + paddle.height / 2;
     let ballCenter = ball.posY + ball.height / 2;
     let offset = ballCenter - paddleCenter;
 
-    /* legacy ball collision
+    /* legacy
     if (offset < 0) {
       ball.speedY = -Math.abs(ball.speedY);
     } else {
       ball.speedY = Math.abs(ball.speedY);
-    }*/
+    } */
 
-    ball.speedY += (offset / (paddle.height / 2)) * 5;
+    ball.speedY += (offset / (paddle.height / 2)) * 10;
     ball.speedX = Math.max(Math.min(ball.speedX, maxSpeed), -maxSpeed);
     ball.speedY = Math.max(Math.min(ball.speedY, maxSpeed), -maxSpeed);
     // Prevent sticking
@@ -720,7 +521,7 @@ function runProgram() {
   //stops ball and resets position after a point is gained
   function stopBall() {
     for (var ball of balls) {
-      ball.posX = BOARD_X + BOARD_WIDTH / 2 - ball.width / 2;
+      ball.posX = ball.ogPositionX;
       ball.posY = BOARD_Y + BOARD_HEIGHT / 2 - ball.height / 2;
       ball.speedX = 0;
       ball.speedY = 0;
@@ -765,9 +566,5 @@ function runProgram() {
       transform: "scale(2.7)",
     }); */
     clearBalls();
-    $("#board").css({
-      transition: "transform 2.5s ease-in-out",
-      transform: "scale(1.7)",
-    });
   }
 }

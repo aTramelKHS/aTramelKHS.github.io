@@ -8,10 +8,13 @@ const gameMusic = new Howl({
   html5: false,
   preload: true,
 });
-const hoverSound = new Howl({ src: ["sounds/hover.mp3"], volume: 0.7 });
-const clickSound = new Howl({ src: ["sounds/click.mp3"] });
-const backSound = new Howl({ src: ["sounds/back-click.mp3"] });
-const heartBeat = new Howl({ src: ["sounds/heartbeat.mp3"], loop: true });
+const sfx = {
+  hover: new Howl({ src: ["sounds/hover.mp3"], volume: 0.7 }),
+  click: new Howl({ src: ["sounds/click.mp3"] }),
+  back: new Howl({ src: ["sounds/back-click.mp3"] }),
+  heartbeat: new Howl({ src: ["sounds/heartbeat.mp3"], loop: true }),
+  ballhit: new Howl({ src: ['sounds/ping.mp3'] })
+}
 let musicMuted = false;
 let muteSfx = false;
 
@@ -42,24 +45,20 @@ function startMuffleFadeIn(sound, duration) {
   });
 }
 
+
+
 $(document).ready(() => {
   $("button:not(.back), input").on("click", () => {
-    if (!muteSfx) {
-      clickSound.seek(0);
-      clickSound.play();
-    }
+    sfx.click.seek(0);
+    sfx.click.play();
   });
   $("button, input").on("mouseenter", () => {
-    if (!muteSfx) {
-      hoverSound.seek(0);
-      hoverSound.play();
-    }
+    sfx.hover.seek(0);
+    sfx.hover.play();
   });
   $(".back").on("click", () => {
-    if (!muteSfx) {
-      backSound.seek(0);
-      backSound.play();
-    }
+    sfx.back.seek(0);
+    sfx.back.play();
   });
   $("#muteBtn").on("click", () => {
     musicMuted = !musicMuted;
@@ -70,12 +69,13 @@ $(document).ready(() => {
   $("#otherMuteBtn").on("click", () => {
     muteSfx = !muteSfx;
     $("#otherMuteBtn").text(muteSfx ? "UNMUTE SOUNDS" : "MUTE SOUNDS");
-    hoverSound.mute(muteSfx);
-    clickSound.mute(muteSfx);
-    backSound.mute(muteSfx);
-    heartBeat.mute(muteSfx);
+    for (const key in sfx) {
+      sfx[key].mute(muteSfx);
+    }
   });
 });
+// save mute settings later
+
 
 menuMusic.on("end", () => {
   menuMusic.seek(1.95);
@@ -85,7 +85,19 @@ menuMusic.on("end", () => {
 gameMusic.on("end", () => {
   gameMusic.seek(0.26);
   gameMusic.play();
-});
+})
+
+function playPaddleHit(num) {
+  // randomize later
+  const pitch = 0.8 + Math.random() * 0.3;
+  if (num === 1) {
+    sfx.ballhit.src = 'sounds/ping.mp3';
+  } else {
+    sfx.ballhit.src = 'sounds/pong.mp3';
+  }
+  sfx.ballhit.rate(pitch);
+  sfx.ballhit.play();
+}
 
 function startGameMusic() {
   gameMusic.volume(1);
@@ -96,14 +108,14 @@ function panicMode() {
   $('#red-screen').css('display', 'block');
   gameMusic.fade(gameMusic.volume(), 0.35, 800);
   filterNode.frequency.setTargetAtTime(400, aCtx.currentTime, 0.5);
-  if (!heartBeat.playing()) {
-    heartBeat.rate(1);
-    heartBeat.play();
+  if (!sfx.heartbeat.playing()) {
+    sfx.heartbeat.rate(1);
+    sfx.heartbeat.play();
   }
 }
 
 function stopPanic() {
   $('#red-screen').css('display', 'none');
   filterNode.frequency.setTargetAtTime(20000, aCtx.currentTime, 0.5);
-  heartBeat.stop();
+  sfx.heartbeat.stop();
 }

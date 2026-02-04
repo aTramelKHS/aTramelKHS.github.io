@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Pingin Pongin</title>
@@ -8,6 +8,7 @@
     <!-- Load JavaScript files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
     <script src="jquery.min.js"></script>
+    <script src="ui.js"></script>
     <script src="index.js"></script>
     <script src="audio.js"></script>
   </head>
@@ -23,12 +24,12 @@
       <button onclick="playGame()">PLAY</button>
       <button onclick="showSettings()">SETTINGS</button>
       <button onclick="showTutorial()">HOW TO PLAY/CREDITS</button>
-      <br>
+      <br />
       <button onclick="showModes()">MODES</button>
     </div>
     <div hidden id="settings" class="MENU">
       <h1>SETTINGS</h1>
-      <button class="back" onclick="goBack()">GO BACK</button>
+      <button class="back" onclick="goBack()">BACK</button>
       <form>
         <p>Red</p>
         <input
@@ -38,7 +39,11 @@
           max="255"
           value="127"
           step="1"
-          oninput="this.form.val.value = this.value ; red = this.value ; showChange()"
+          oninput="
+            this.form.val.value = this.value;
+            red = this.value;
+            showChange();
+          "
         />
         <br />
         <output name="val">127</output>
@@ -52,7 +57,11 @@
           max="255"
           value="127"
           step="1"
-          oninput="this.form.val.value = this.value ; green = this.value ; showChange()"
+          oninput="
+            this.form.val.value = this.value;
+            green = this.value;
+            showChange();
+          "
         />
         <br />
         <output name="val">127</output>
@@ -66,7 +75,11 @@
           max="255"
           value="127"
           step="1"
-          oninput="this.form.val.value = this.value ; blue = this.value ; showChange()"
+          oninput="
+            this.form.val.value = this.value;
+            blue = this.value;
+            showChange();
+          "
         />
         <br />
         <output name="val">127</output>
@@ -79,7 +92,7 @@
         <button onclick="apply('body')">BACKGROUND</button>
         <br />
         <button onclick="apply('#board')">BOARD</button>
-        <button onclick="apply('#ball')">BALL</button>
+        <button onclick="apply('ball')">BALL</button>
         <button onclick="apply('font')">FONT</button>
         <button onclick="apply('button')">BUTTONS</button>
       </div>
@@ -100,20 +113,21 @@
         To play this game, let the ball go into your side and you automatically
         win /gen /srs.
       </p>
-      <p>The recommended screen zoom size depends on the device but i suggest doing 75%-90%</p>
+      <p>
+        The recommended screen zoom size depends on the device but i suggest
+        doing 75%-90%
+      </p>
       <h2>Credits:</h2>
       <p>Music From:</p>
       <p>パチスロ 逆転 裁判 (Ace Attorney Pachislot)</p>
     </div>
     <div id="modes" hidden class="MENU">
       <button class="back" onclick="goBack()">BACK</button>
-      <br>
+      <br />
       <p>Click the buttons to toggle them on and again to toggle them off</p>
       <button id="ai">SINGLEPLAYER</button>
       <p>Alone? Play with a bot!</p>
-      <p>
-        Easy and Normal mode will only try to follow the ball's y position.
-      </p>
+      <p>Easy and Normal mode will only try to follow the ball's y position.</p>
       <p>
         Hard mode will accurately predict where the ball will cross its paddle's
         x position.
@@ -137,7 +151,6 @@
       <button id="fcontrols">FLIGHT CONTROLS</button>
       <p>Swaps the up and down buttons (W goes down and S goes up etc)</p>
       <button id="multball">MULTI BALL</button>
-      <p>Not implementing until i figure out how to make the balls collide</p>
       <p>Oops! All the balls</p>
     </div>
     <div id="songs" hidden class="MENU">
@@ -154,7 +167,6 @@
       <div id="line"></div>
       <div id="gameItem"></div>
       <div id="paddleL"></div>
-      <div id="ball"></div>
       <div id="paddleR"></div>
       <div id="scoreL">0</div>
       <div id="scoreR">0</div>
