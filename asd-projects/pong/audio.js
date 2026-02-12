@@ -90,11 +90,7 @@ gameMusic.on("end", () => {
 function playPaddleHit(num) {
   // randomize later
   const pitch = 0.8 + Math.random() * 0.3;
-  if (num === 1) {
-    sfx.ballhit.src = 'sounds/ping.mp3';
-  } else {
-    sfx.ballhit.src = 'sounds/pong.mp3';
-  }
+  (Math.random() < 0.5) ? sfx.ballhit.src = 'sounds/ping.mp3' : sfx.ballhit.src = 'sounds/pong.mp3';
   sfx.ballhit.rate(pitch);
   sfx.ballhit.play();
 }

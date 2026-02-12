@@ -1,0 +1,7 @@
+1. add upgrades that directly affect the player's values (such as dmg, starter weapons, ect);
+2. add different characters that offer unique advantages and disadvantages;
+3. add primary and secondary
+4. add dodge rolling maybe
+5. add damage indicators
+6. add critical hits
+7. make canvas into a camera that follows you

@@ -1,5 +1,3 @@
-// GLOBAL SCOPED
-
 // keys (with true false values)
 const KEYSTATES = {
   w: false,
@@ -9,7 +7,6 @@ const KEYSTATES = {
 };
 
 // turns the keystate to the corresponding key pressed true only when pressed
-// if ur wondering why im using vanilla javascript for this instead of jquery its because im more used to it
 $(document).on("keydown", (e) => {
   if (KEYSTATES.hasOwnProperty(e.key)) {
     KEYSTATES[e.key] = true;
@@ -26,7 +23,7 @@ let paddleL = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 let paddleR = { posX: 0, posY: 0, speedY: 0, width: 0, height: 0 };
 // let ball = { posX: 0, posY: 0, speedX: 0, speedY: 0, width: 0, height: 0 };
 let balls = [];
-let ballSize = 40; // this variable is not what you think freakazoid
+let ballSize = 40;
 let BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT;
 // ball constructor class
 class Ball {

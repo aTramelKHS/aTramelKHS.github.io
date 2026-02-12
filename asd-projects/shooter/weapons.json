@@ -1,0 +1,18 @@
+{
+    "pistol" : {
+        "name": "Pistol",
+        "color": "black",
+        "width": 10,
+        "height": 5,
+        "rof": 250,
+        "dmg": 1,
+        "inaccuracy": 0.1,
+        "reload": 1200,
+        "ammo": 8,
+        "mags": 2,
+        "type": "secondary",
+        "offX": 42,
+        "offY": 8,
+        "speed": 500
+    }
+}
