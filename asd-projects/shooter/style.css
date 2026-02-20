@@ -12,3 +12,7 @@ canvas {
 #hp {
     position: absolute;
 }
+
+body {
+  cursor: url('sources/img/cross-hair.png') 1 1, auto;
+}

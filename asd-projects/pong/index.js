@@ -395,7 +395,7 @@ function runProgram() {
 
   // ai reads every certain amount of frame and reacts accordingly
   function aiMoves(paddle) {
-    if (difficulty === "OFF") return;
+    if (difficulty === "LOCAL MULTIPLAYER") return;
     aiReactFrames++;
     mode = difficVals[difficulty];
     const min = mode.reactRange[0];

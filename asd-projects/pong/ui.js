@@ -14,7 +14,7 @@ $(document).ready(() => {
 
 function playGame() {
   $("#pauseBtn").prop("disabled", true);
-  $("#menu").hide();
+  $("#play").hide();
   $("#board").show();
   $("#readyMsg").show().text("GET READY...");
   menuMusic.pause();
@@ -67,6 +67,11 @@ function goBack() {
 function showTutorial() {
   $("#menu").hide();
   $("#how2play").show();
+}
+
+function showPlay() {
+  $("#menu").hide();
+  $("#play").show();
 }
 
 function showModes() {
@@ -149,7 +154,7 @@ $(document).ready(() => {
 });
 
 // single player difficulties
-let difficulties = ["OFF", "EASY", "NORMAL", "HARD"];
+let difficulties = ["LOCAL MULTIPLAYER", "EASY", "NORMAL", "HARD"];
 let spIndex = 0;
 
 // button states

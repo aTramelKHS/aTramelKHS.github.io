@@ -21,12 +21,17 @@
     <p id="fpsdisplay" hidden>FPS: 0</p>
     <div hidden id="menu" class="MENU">
       <h1 id="title">PONG</h1>
-      <button onclick="playGame()">PLAY</button>
+      <button onclick="showPlay()">PLAY</button>
       <button onclick="showSettings()">SETTINGS</button>
       <button onclick="showTutorial()">HOW TO PLAY/CREDITS</button>
       <br />
       <button onclick="showModes()">MODES</button>
-      <button>MULTIPLAYER (not implemented)</button>
+      <!--<button>MULTIPLAYER (not implemented)</button>-->
+    </div>
+    <div hidden id="play" class="MENU">
+      <button class="back" onclick="goBack()">BACK</button>
+      <button id="ai">LOCAL MULTIPLAYER</button>
+      <button onclick="playGame()">PLAY</button>
     </div>
     <div hidden id="settings" class="MENU">
       <h1>SETTINGS</h1>
@@ -126,14 +131,6 @@
       <button class="back" onclick="goBack()">BACK</button>
       <br />
       <p>Click the buttons to toggle them on and again to toggle them off</p>
-      <button id="ai">SINGLEPLAYER</button>
-      <p>Alone? Play with a bot!</p>
-      <p>Easy and Normal mode will only try to follow the ball's y position.</p>
-      <p>
-        Hard mode will accurately predict where the ball will cross its paddle's
-        x position.
-      </p>
-      <p>you control the left paddle bee tee dubs</p>
       <button id="fast">FAST</button>
       <p>Makes the ball move fast (go figure)</p>
       <button id="ufast">ULTRA FAST</button>

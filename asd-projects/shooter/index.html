@@ -5,11 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Zobies</title>
         <link rel="stylesheet" href="style.css">
+        <script src="https://cdn.jsdelivr.net/npm/sat@0.9.0/SAT.min.js"></script>
         <script src="jquery.min.js"></script>
     </head>
     <body>
         <canvas id='game' width="1050px" height="680"></canvas>
         <p>HP: <span id="hp"></span></p>
+        <p>AMMO: <span id="ammo"></span></p>
+        <p>W,A,S,D = movement, R = reload</p>
+        <button onclick="togDebug()">DEBUG</button>
         <script src="script.js"></script>
     </body>
 </html>

@@ -1,0 +1,28 @@
+{
+    "pistol" : {
+        "_comment": "values like reload and airTime are measured in miliseconds (ms)",
+        "name": "Pistol",
+        "color": "black",
+        "type": "gun",
+        "width": 10,
+        "height": 5,
+        "rof": 250,
+        "dmg": 1,
+        "inaccuracy": 0.1,
+        "reload": 1200,
+        "reloadSpd": 2000,
+        "ammo": 8,
+        "mags": 2,
+        "hand": "secondary",
+        "offX": 42,
+        "offY": 8,
+        "speed": 500,
+        "canAutoFire": false,
+        "bullet": {
+            "color": "yellow",
+            "width": 10,
+            "height": 5,
+            "airTime": 1200
+        }
+    }
+}
