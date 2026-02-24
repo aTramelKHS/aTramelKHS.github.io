@@ -1,0 +1,9 @@
+{
+    "neutral" : {
+        "health" : 10,
+        "maxSpeed": 300,
+        "width": 40,
+        "height": 40,
+        "iFrames": 1500
+    }
+}

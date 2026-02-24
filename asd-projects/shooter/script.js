@@ -1,15 +1,12 @@
 $(document).ready(() => {
   // fetch weapon data
-  fetch("json-files/weapons.json")
-    .then(res => res.json())
-    .then(data => {
-      try {
-        const player = new Hero(10, data.pistol);
-        startGame(player);
-      } catch(error) {
-        console.log('Something wrong happened: ' + error);
-      }
-    });
+  Promise.all ([
+    fetch("json-files/weapons.json").then(r => r.json()),
+    fetch("json-files/zombies.json").then(r => r.json())
+  ]) .then(([weaponData, zombieData]) => {
+    const player = new Hero(10, weaponData.pistol); 
+    startGame(player, zombieData);
+  });
 });
 
 // create polygons
@@ -41,44 +38,66 @@ function togDebug() {
 
 // hero
 class Hero {
+  /* replace health with character once characters.json is done */
   constructor(health, weapon) {
+    // hero variables
     this.width = 40;
     this.height = 40;
     this.posX = CANVAS_WIDTH / 2;
     this.posY = CANVAS_HEIGHT / 2;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.ovSpeed = Math.hypot(this.speedX, this.speedY);
-    this.isMoving = false;
-    this.health = health;
-    this.weapon = weapon;
-    this.angle = 0;
-    this.color = 'red';
-    this.maxSpeed = 300; 
-    this.friction = 8; 
     this.centX = this.posX + this.width / 2;
     this.centY = this.posY + this.height / 2;
+    this.health = health;
+    this.angle = 0;
+    this.color = 'red';
+    this.isInvincible = false;
+    this.iFrames = 1500; // 1.5 seconds (in ms) 
+    this.state = 'NORMAL';
+
+    // movement
+    this.isMoving = false;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.ovSpeed = Math.hypot(this.speedX, this.speedY); // overall combined speed
+    this.maxSpeed = 300; 
+    this.friction = 8; 
+    this.accel = 1500;
+    this.directionX = 0; // -1 for left, 1 for right
+    this.directionY = 0; // -1 for up, 1 for down
+
+    // dodge
+    this.dodgeTimer = 600;
+    this.canDodge = true;
+    this.isDodging = false;
+
+    // gun
+    this.weapon = weapon;
+    this.gunName = this.weapon.name;
     this.canShoot = true;
     this.ammoCount = this.weapon.ammo;
     this.ammoDisplay = this.ammoCount; // to display in UI only
     this.isReload = false;
-    this.accel = 1500;
-    this.accelX = 0;
-    this.accelY = 0;
-    this.isInvincible = false;
-    this.iFrames = 1500; // 1.5 seconds (in ms) 
-    this.primary = null;
-    this.secondary = null;
+    this.heldClick = false;
 
     // define da polygon (hitbox purposes)
     this.poly = createPoly(this);
     this.poly.pos.x = this.centX; 
     this.poly.pos.y = this.centY;
+
+    // inventory
+    this.primary = null;
+    this.secondary = null;
+    this.melee = null;
+    if (this.weapon.slot === "primary") this.primary = this.weapon;
+    else if (this.weapon.slot === "secondary") this.secondary = this.weapon;
+    else if (this.weapon.slot === "melee") this.melee = this.weapon;
   }
 
-  update(dt, weapon) {
+  update(dt) {
+  
     this.posX += this.speedX * dt;
     this.posY += this.speedY * dt;
+    
     this.ovSpeed = Math.hypot(this.speedX, this.speedY);
     this.centX = this.posX + this.width / 2;
     this.centY = this.posY + this.height / 2;
@@ -131,14 +150,20 @@ class Hero {
     // player looks at mouse
     this.angle = Math.atan2(dy, dx);
 
-    this.accelX = 0;
-    this.accelY = 0;
+    this.directionX = 0;
+    this.directionY = 0;
     
     this.isMoving = KEYSTATES.w || KEYSTATES.s || KEYSTATES.d || KEYSTATES.a;
-    if (Inp.held('w')) this.accelY = -1;
-    if (Inp.held('s')) this.accelY = 1;
-    if (Inp.held('d')) this.accelX = 1;
-    if (Inp.held('a')) this.accelX = -1;
+    // movement
+    if (Inp.held('w')) this.directionY = -1;
+    if (Inp.held('s')) this.directionY = 1;
+    if (Inp.held('d')) this.directionX = 1;
+    if (Inp.held('a')) this.directionX = -1;
+
+    // dodge roll
+    if (Inp.pressOnce('shift') && this.canDodge && !this.isDodging) this.dodge();
+
+    // reload
     if (Inp.pressOnce('r') && !this.isReload) {
       this.isReload = true; 
       this.canShoot = false;
@@ -150,20 +175,41 @@ class Hero {
         this.isReload = false;
       }, this.weapon.reloadSpd);
     }
-
-    if (this.accelX !== 0 && this.accelY !== 0) {
-      this.accelX /= Math.sqrt(2);
-      this.accelY /= Math.sqrt(2);
+    
+    // inventory
+    if (Inp.pressOnce('1') && this.primary) {
+      this.weapon = this.primary;
+      this.ammoCount = this.weapon.ammo;
+      this.ammoDisplay = this.ammoCount;
+    }
+    if (Inp.pressOnce('2') && this.secondary) {
+      this.weapon = this.secondary;
+      this.ammoCount = this.weapon.ammo;
+      this.ammoDisplay = this.ammoCount;
+    }
+    if (Inp.pressOnce('3') && this.melee) {
+      this.weapon = this.melee;
+      this.ammoCount = this.weapon.ammo;
+      this.ammoDisplay = this.ammoCount;
     }
 
-    this.speedX += this.accelX * this.accel * dt;
-    this.speedY += this.accelY * this.accel * dt;
+    // movement
+    // divide directional movement with square root of 2
+    if (this.directionX !== 0 && this.directionY !== 0) {
+      this.directionX /= Math.sqrt(2);
+      this.directionY /= Math.sqrt(2);
+    }
 
+    this.speedX += this.directionX * this.accel * dt;
+    this.speedY += this.directionY * this.accel * dt;
+
+    // speed clamp
     if (this.ovSpeed > this.maxSpeed) {
       this.speedX = (this.speedX / this.ovSpeed) * this.maxSpeed;
       this.speedY = (this.speedY / this.ovSpeed) * this.maxSpeed;
     }
-    if (!this.accelX && !this.accelY) {
+    // stop moving if not moving
+    if (!this.directionX && !this.directionY) {
       this.speedX -= this.speedX * this.friction * dt;
       this.speedY -= this.speedY * this.friction * dt;
     }
@@ -177,6 +223,17 @@ class Hero {
         this.isInvincible = false;
       }, this.iFrames);
     }
+  }
+
+  dodge() {
+    this.isDodging = true;
+    this.canDodge = false;
+    console.log('I am dodging!');
+    setTimeout(() => {
+      console.log('I am no longer dodging!')
+      this.isDodging = false;
+      this.canDodge = true;
+    }, this.dodgeTimer);
   }
 }
 
@@ -256,7 +313,7 @@ class Bullet {
 
 
 class Zombie {
-  constructor(id, player) {
+  constructor(id, player, type) {
     this.id = id;
     this.width = 40;
     this.height = 40;
@@ -354,47 +411,7 @@ class Pickup {
 }
 */
 
-const KEYSTATES = {
-  // movement
-  w: false,
-  a: false,
-  s: false,
-  d: false,
-  // reload
-  r: false,
-  // inventory 1 = primary, 2 = secondary, 3 = melee, 4 = throwables, q = quick throw
-  1: false,
-  2: false,
-  3: false,
-  4: false,
-  q: false
-};
-
-let mouseX = 0;
-let mouseY = 0;
-
-// event handlers
-// change the keystate to true when a specified key is pressed
-$(document).on("keydown", (e) => {
-  if (KEYSTATES.hasOwnProperty(e.key)) {
-    KEYSTATES[e.key] = true;
-  }
-});
-
-// change the keystate to false when its released
-$(document).on("keyup", (e) => {
-  if (KEYSTATES.hasOwnProperty(e.key)) {
-    KEYSTATES[e.key] = false;
-  }
-});
-
-// detect mouse movement
-$(document).mousemove(function(event) {
-  // look in direction of mouse
-  const rect = canvas.getBoundingClientRect();
-  mouseX = event.pageX - rect.left;
-  mouseY = event.pageY - rect.top;
-});
+const KEYSTATES = {};
 
 // input helper
 const Inp = {
@@ -415,7 +432,38 @@ const Inp = {
 }
 
 
-function startGame(player) {
+let mouseX = 0;
+let mouseY = 0;
+
+
+// event handlers
+// change the keystate to true when a specified key is pressed
+$(document).on("keydown", (e) => {
+  KEYSTATES[e.key] = true;
+});
+
+// change the keystate to false when its released
+$(document).on("keyup", (e) => {
+  KEYSTATES[e.key] = false;
+});
+
+// supposed to make every key in keystates false but never works
+window.addEventListener('blur', function() {
+    for (let key in KEYSTATES) {
+        KEYSTATES[key] = false;
+    }
+    Inp.prev = {};
+});
+
+// detect mouse movement
+$(document).mousemove(function(event) {
+  // look in direction of mouse
+  const rect = canvas.getBoundingClientRect();
+  mouseX = event.pageX - rect.left;
+  mouseY = event.pageY - rect.top;
+});
+
+function startGame(player, data) {
   // initialization
   let gameOver = false;
 
@@ -429,13 +477,15 @@ function startGame(player) {
   // store enemies
   let enemies = [];
 
+  // wave number 
+  let waveNum = 1;
+
   // detect clicks
   $(document).on('mousedown', function() {
     if (!player.canShoot || player.ammoCount <= 0) return; 
-
     projectiles.push(new Bullet(projectiles.length, player));
     player.ammoCount -= 1;
-
+    
     player.canShoot = false;
     
     player.ammoDisplay = player.ammoCount;
@@ -472,7 +522,8 @@ function startGame(player) {
       }
       enemies = enemies.filter(b => !b.dead);
       if (enemies.length === 0) {
-        enemies.push(new Zombie(enemies.length, player), new Zombie(enemies.length, player));
+        waveNum += 1;
+        newWave(waveNum, player);
       }
       displayUI();
       player.draw(ctx);
@@ -491,6 +542,26 @@ function startGame(player) {
   }
 
   requestAnimationFrame(nextFrame);
+
+  function getAvailableZombie(wave) {
+    return Object.entries(data.types)
+      .filter(([name, z]) => wave >= z.unlockWave) 
+      .map(([name]) => name);
+  }
+
+  function spawnZombies(wave, player) {
+    const available = getAvailableZombie(wave);
+    const type = available[Math.floor(Math.random() * available.length)];
+    const zomData = data.types[type];
+
+    return new Zombie(type, zomData, player);
+  }
+
+  function newWave(currentWave, player) {
+    for (let i = 0; i < currentWave; i++) {
+      enemies.push(spawnZombies(currentWave, player));
+    }
+  }
 
   function endGame() {
     gameOver = true;

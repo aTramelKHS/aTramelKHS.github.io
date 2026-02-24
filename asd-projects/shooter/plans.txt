@@ -5,3 +5,7 @@
 5. add damage indicators
 6. add critical hits
 7. make canvas into a camera that follows you
+
+
+known bugs
+1. game loop still runs when out of the tab causing position values to continue increasing

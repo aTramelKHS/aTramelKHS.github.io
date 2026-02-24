@@ -1,14 +1,40 @@
 {
-    "reg": {
-
-    },
-    "fast": {
-
-    },
-    "tanky": {
-
-    },
-    "mini": {
-        
+    "types": {
+        "reg": {
+            "hp": 10,
+            "spd": 80,
+            "width": 40,
+            "height": 40,
+            "dmg": 1,
+            "color": "green",
+            "waveUnlock": 1
+        },
+        "fast": {
+            "hp": 10,
+            "spd": 140,
+            "width": 40,
+            "height": 40,
+            "dmg": 1,
+            "color": "lime",
+            "waveUnlock": 5
+        },
+        "tanky": {
+            "hp": 20,
+            "spd": 60,
+            "width": 60,
+            "height": 60,
+            "dmg": 3,
+            "color": "green",
+            "waveUnlock": 7
+        },
+        "mini": {
+            "hp": 3,
+            "spd": 160,
+            "width": 20,
+            "height": 20,
+            "dmg": 1,
+            "color": "green",
+            "waveUnlock": 4
+        }
     }
 }
