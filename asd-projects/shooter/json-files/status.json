@@ -1,0 +1,27 @@
+{
+    "dazed" : {
+        "width" : 18,
+        "height" : 18,
+        "duration" : 400,
+        "loop" : true,
+        "sprite" : {
+            "sheet" : "sources/img/Effects/dazed.png",
+            "frame" : [0, 1, 2, 3]
+        }
+    },
+    "burning" : {
+        "width" : 32,
+        "height" : 32,
+        "duration" : 1800,
+        "tickDelay" : 1,
+        "loop" : true,
+        "sprite" : {
+            "sheet" : "no sprite yet",
+            "frame" : []
+        }
+    },
+    "poisoned" : {
+
+    }
+
+}

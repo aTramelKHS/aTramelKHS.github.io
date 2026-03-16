@@ -3,6 +3,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
 }
 
 canvas {
@@ -15,4 +16,39 @@ canvas {
 
 body {
   cursor: url('sources/img/cross-hair.png') 1 1, auto;
+}
+.MAIN-MENU {
+    display: grid;
+    place-items: center;
+}
+#title {
+    font-size: 65px;
+    color: maroon;
+}
+
+#health-bar {
+    font-size: 22px;
+    position: absolute;
+    top: 20px;
+    left: 60px;
+}
+#stamina-bar {
+    font-size: 22px;
+    position: absolute;
+    top: 20px;
+    left: 170px;
+}
+
+#ammo-count {
+    font-size: 20px;
+    position: absolute;
+    bottom: 120px;
+    left: 60px;
+}
+
+#wave-count {
+    font-size: 20px;
+    position: absolute;
+    bottom: 120px;
+    left: calc(50% - 40px);
 }

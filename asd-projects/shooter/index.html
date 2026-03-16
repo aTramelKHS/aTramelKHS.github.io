@@ -3,17 +3,35 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Zobies</title>
+        <title>They Must Die</title>
         <link rel="stylesheet" href="style.css">
         <script src="https://cdn.jsdelivr.net/npm/sat@0.9.0/SAT.min.js"></script>
         <script src="jquery.min.js"></script>
     </head>
     <body>
-        <canvas id='game' width="1050px" height="680"></canvas>
-        <p>HP: <span id="hp"></span></p>
-        <p>AMMO: <span id="ammo"></span></p>
-        <p>W,A,S,D = movement, R = reload</p>
-        <button onclick="togDebug()">DEBUG</button>
+        <div class="MAIN-MENU" hidden>
+            <h1 id="title">They Must Die</h1>
+            <h2>By: Austin :)</h2>
+            <h1>keep in mind this menu is not final and things may be subject to change</h1>
+            <button onclick="runProgram()">Play game</button>
+            <p>choose starting weapon</p>
+            <button onclick="changeWeapon('pistol')">pistol</button>
+            <button onclick="changeWeapon('shotgun')">shotgun</button>
+            <button onclick="changeWeapon('rifle')">rifle</button>
+            <button onclick="changeWeapon('golf-club')">test melee</button>
+        </div> 
+        <div class='GAME' hidden>
+            <canvas id='game' width="1250px" height="780"></canvas>
+            <div class="ui">
+                <p id="health-bar">HP: <span id="hp"></span></p>
+                <p id="stamina-bar">STAM: <span id="stamina"></span></p>
+                <p id="ammo-count">AMMO: <span id="ammo"></span></p>
+                <p id="wave-count">WAVE: <span id="wave"></span></p>
+                <p>W,A,S,D = movement, R = reload, Space = dodge roll</p>
+                <button onclick="togDebug()">DEBUG</button>
+                <button onclick="stopZombies()">STOP ZOMBIES</button>
+            </div>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>

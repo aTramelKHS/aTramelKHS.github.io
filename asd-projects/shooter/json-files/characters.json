@@ -1,9 +1,26 @@
 {
-    "neutral" : {
+    "Garry" : {
         "health" : 10,
         "maxSpeed": 300,
-        "width": 40,
-        "height": 40,
-        "iFrames": 1500
+        "iFrames": 1500,
+        "width" : 30,
+        "height" : 30,
+        "accel": 1500,
+        "knockback": null,
+        "stamina" : 15,
+        "sprites" : {
+            "body" : {
+                "sprite" : "sources/img/Characters/Garry/body.png",
+                "frame" : {
+                    "normal" : 0,
+                    "hurt" : 1
+                }
+            },
+            "hands" : {
+                "pistol" : "sources/img/Characters/Garry/pistol.png",
+                "shotgun" : "sources/img/Characters/Garry/shotgun.png",
+                "rifle" : "sources/img/Characters/Garry/rifle.png"
+            }
+        }
     }
 }

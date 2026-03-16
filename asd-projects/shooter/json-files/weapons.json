@@ -2,52 +2,163 @@
     "pistol" : {
         "_comment": "values like reload and airTime are measured in miliseconds (ms)",
         "name": "Pistol",
-        "color": "black",
         "type": "gun",
-        "width": 10,
-        "height": 5,
+        "width": 20,
+        "height": 10,
         "rof": 250,
-        "dmg": 1,
-        "inaccuracy": 0.1,
-        "reload": 1200,
+        "dmg": 2,
+        "inaccuracy": 10,
         "reloadSpd": 2000,
         "ammo": 8,
         "mags": 2,
         "slot": "secondary",
-        "offX": 42,
-        "offY": 8,
+        "offX": 14,
+        "offY": -10,
         "speed": 700,
-        "canAutoFire": false,
+        "fireMode": "single",
+        "knockback" : 15,
         "bullet": {
             "color": "yellow",
             "width": 10,
             "height": 5,
-            "airTime": 1200
+            "airTime": 1200,
+            "health": 2
+        },
+        "muzzle": {
+            "x" : 10,
+            "y" : 0
         }
     },
-    "test" : {
-        "name": "Test",
-        "color": "green",
+    "admingun" : {
+        "name": "Admingun",
         "type": "gun",
-        "width": 10,
-        "height": 5,
-        "rof": 250,
-        "dmg": 1,
+        "width": 20,
+        "height": 10,
+        "rof": 50,
+        "dmg": 2,
         "inaccuracy": 0.1,
-        "reload": 1200,
-        "reloadSpd": 2000,
-        "ammo": 8,
-        "mags": 2,
+        "reloadSpd": 0,
+        "ammo": 99999,
+        "mags": 99999,
         "slot": "secondary",
-        "offX": 42,
-        "offY": 8,
-        "speed": 500,
-        "canAutoFire": true,
+        "offX": 18,
+        "offY": 0,
+        "speed": 700,
+        "fireMode": "auto",
+        "knockback" : 30,
         "bullet": {
             "color": "yellow",
             "width": 10,
             "height": 5,
-            "airTime": 1200
+            "airTime": 1200,
+            "health": 99
+        },
+        "muzzle": {
+            "x" : 8,
+            "y" : -10
+        }
+    },
+    "shotgun" : {
+        "name": "Shotgun",
+        "type": "gun",
+        "width": 32,
+        "height": 26,
+        "rof": 800,
+        "dmg": 1,
+        "inaccuracy": 15,
+        "reloadSpd": 2000,
+        "ammo": 2,
+        "mags": 2,
+        "slot": "primary",
+        "offX": 18,
+        "offY": 0,
+        "speed": 700,
+        "fireMode": "scatter",
+        "knockback" : 1080,
+        "bullet": {
+            "count": 7,
+            "color": "dark-gray",
+            "width": 7,
+            "height": 7,
+            "airTime": 360,
+            "health": 1
+        },
+        "muzzle": {
+            "x" : 18,
+            "y" : 0
+        }
+    },
+    "rifle" : {
+        "name": "Rifle",
+        "type": "gun",
+        "width": 32,
+        "height": 22,
+        "rof": 300,
+        "dmg": 1,
+        "inaccuracy": 15,
+        "reloadSpd": 2000,
+        "ammo": 12,
+        "mags": 2,
+        "slot": "primary",
+        "offX": 20,
+        "offY": 0,
+        "speed": 900,
+        "fireMode": "auto",
+        "knockback" : 0,
+        "bullet": {
+            "color": "yellow",
+            "width": 10,
+            "height": 5,
+            "airTime": 1400,
+            "health": 1
+        },
+        "muzzle": {
+            "x" : 14,
+            "y" : 0
+        }
+    },
+    "golf-club" : {
+        "name": "Golf Club",
+        "type": "melee",
+        "slot": "melee",
+        "mode" : "swing",
+        "width": 20,
+        "height": 10,
+        "duration": 0.204,
+        "arc" : 80,
+        "reach" : 40,
+        "dmg": 2,
+        "offX": 18,
+        "offY": 0,
+        "knockback" : 80,
+        "hitbox": {
+            "width": 30,
+            "height": 24
+        }
+    },
+    "awp" : {
+        "name": "AWP",
+        "type": "gun",
+        "width": 20,
+        "height": 10,
+        "rof": 250,
+        "dmg": 2,
+        "inaccuracy": 80,
+        "reloadSpd": 4300,
+        "ammo": 5,
+        "mags": 2,
+        "slot": "secondary",
+        "offX": 18,
+        "offY": 0,
+        "speed": 1200,
+        "fireMode": "sniper",
+        "knockback" : 80,
+        "bullet": {
+            "color": "yellow",
+            "width": 10,
+            "height": 5,
+            "airTime": 1200,
+            "health": 2
         }
     }
 }
