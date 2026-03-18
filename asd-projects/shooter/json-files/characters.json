@@ -18,8 +18,11 @@
             },
             "hands" : {
                 "pistol" : "sources/img/Characters/Garry/pistol.png",
+                "admingun" : "sources/img/Characters/Garry/pistol.png",
                 "shotgun" : "sources/img/Characters/Garry/shotgun.png",
-                "rifle" : "sources/img/Characters/Garry/rifle.png"
+                "rifle" : "sources/img/Characters/Garry/rifle.png",
+                "revolver" : "sources/img/Characters/Garry/revolver.png",
+                "golf club" : "sources/img/Melee/golf-club.png"
             }
         }
     }

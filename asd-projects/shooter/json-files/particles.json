@@ -1,0 +1,13 @@
+{
+    "crit" : {
+        "width" : 42,
+        "height" : 24,
+        "life" : 420,
+        "sprite" : "sources/img/Effects/crit-indicator.png"
+    },
+    "muzzle-flash" : {
+        "width" : 32,
+        "height" : 32,
+        "life" : 80
+    }
+}

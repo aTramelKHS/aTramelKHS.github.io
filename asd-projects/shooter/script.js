@@ -1,6 +1,7 @@
 $(document).ready(() => {
   $('.MAIN-MENU').show();
 });
+document.addEventListener("contextmenu", e => e.preventDefault());
 let spawnWeapon = 'pistol';
 function changeWeapon(weapon) {
   spawnWeapon = weapon;
@@ -13,11 +14,20 @@ function runProgram() {
     fetch("json-files/weapons.json").then(r => r.json()),
     fetch("json-files/zombies.json").then(r => r.json()),
     fetch("json-files/characters.json").then(r => r.json()),
-    fetch("json-files/status.json").then(r => r.json())
-  ]) .then(([weaponData, zombieData, charData, statData]) => {
+    fetch("json-files/status.json").then(r => r.json()),
+    fetch("json-files/particles.json").then(r => r.json())
+  ]) .then(([weaponData, zombieData, charData, statData, particleData]) => {
     // player setup
     const player = new Hero(weaponData[spawnWeapon], charData.Garry); 
-    startGame(player, zombieData);
+    for (const [key, p] of Object.entries(particleData)) {
+      if (p.sprite) {
+        const img = new Image();
+        img.src = p.sprite;
+        p.sprite = img; // replace path with actual image
+      }
+    }
+
+    startGame(player, zombieData, particleData);
   });
 }
 
@@ -105,20 +115,16 @@ class Hero {
 
     // weapon equiped
     this.weapon = weapon;
-    this.wName = this.weapon.name;
-    this.usingGun = this.weapon.type === "gun";
-    this.usingMelee = this.weapon.type === "melee";
-    if (this.usingGun) {
+    if (this.weapon.type === "gun") {
       this.canShoot = true;
       this.ammoCount = this.weapon.ammo;
       this.ammoDisplay = this.ammoCount; // to display in UI only
       this.isReload = false;
       this.cdTimerG = 0; // cooldown timer (gun)
-    } else if (this.usingMelee) {
+    } else if (this.weapon.type === "melee") {
       this.canSwing = true;
       this.cdTimerM = 0; // cooldown timer (melee)
     }
-
 
     // define da polygon (hitbox purposes)
     this.poly = createPoly(this, -9, 0);
@@ -139,6 +145,17 @@ class Hero {
     else if (this.weapon.slot === "melee") this.inventory.melee = this.weapon;
 
     this.currentSlot = this.weapon.slot; // either primary (1) secondary (2) or melee (3)
+
+    // bobbing
+    this.bobTimer = 0;
+    this.bob = {
+      x : 0,
+      y : 0
+    }
+
+    // recoil
+    this.recOffset = 0; // push back
+    this.recVelocity = 0; // snap back
     
     // sprites
     // body
@@ -208,6 +225,26 @@ class Hero {
       }
     }
 
+    // bobbing
+    if (this.isMoving && !this.isDodging) {
+      this.bobTimer += dt * 10;
+    } else {
+      this.bobTimer = 0;
+    }
+    const bobAmount = Math.min(this.ovSpeed * 0.04, 3);
+
+    this.bob.x = Math.cos(this.bobTimer) * bobAmount;
+    this.bob.y = Math.sin(this.bobTimer * 2) * (bobAmount * 0.5);
+
+    // recoil 
+    this.recOffset += this.recVelocity * dt;
+    
+    // spring force to bring the gun back to zero
+    this.recVelocity += (0 - this.recOffset) * 40 * dt;
+
+    // damping
+    this.recVelocity *= 0.85;
+
     if (this.isDodging) this.dodge(dt);
 
     this.move.update(this, dt);
@@ -217,7 +254,10 @@ class Hero {
     // render weapon
     ctx.save();
     ctx.fillStyle = this.weapon.color;
-    ctx.translate(this.centX, this.centY);
+    ctx.translate(
+      this.centX + this.bob.x - Math.cos(this.angle) * this.recOffset, 
+      this.centY + this.bob.y - Math.sin(this.angle) * this.recOffset
+    );
     ctx.rotate(this.angle);
     ctx.drawImage(
       this.weaponSprite, // sprite
@@ -265,6 +305,10 @@ class Hero {
     // GUNS
     if (this.weapon.type === 'gun') {
       if (!this.canShoot || this.ammoCount <= 0) return; 
+      if (this.isReload) {
+        console.log('you cant shoot while reloading doofus!');
+        return;
+      }
       // MUZZLE FLASH
       particles.push(new Particle(this, "muzzle-flash"));
       const {muzzleX, muzzleY} = this.getMuzzlePos();
@@ -283,9 +327,10 @@ class Hero {
       this.ammoCount--;
       this.canShoot = false;
       this.ammoDisplay = this.ammoCount;
+      this.recVelocity += this.weapon.recoil * 0.25;
 
       this.canShoot = false;
-      this.cdTimer = this.weapon.rof;
+      this.cdTimerG = this.weapon.rof;
     }
     // MELEE
     if (this.weapon.type === 'melee') {
@@ -293,6 +338,7 @@ class Hero {
       projectiles.push(new MeleeHitbox(this));
 
       this.canSwing = false;
+      this.cdTimerM = this.weapon.rof;
     }
   }
 
@@ -527,6 +573,7 @@ class Projectile {
     this.health = player.weapon.bullet.health;
     this.hitSet = new Set();
     this.force = player.weapon.knockback;
+    this.crit = player.weapon.critchance || 0;
 
     // despawner
     this.dead = false;
@@ -594,10 +641,12 @@ class MeleeHitbox {
     this.mode = this.weapon.mode;
     this.dmg = this.weapon.dmg;
     this.force = this.weapon.knockback;
+    this.crit = this.weapon.critchance || 0;
     this.vel = {
       x: 0,
       y: 0
     }
+
     // damager
     this.canDamage = false;
     this.hitSet = new Set();
@@ -622,6 +671,8 @@ class MeleeHitbox {
     this.poly = createPoly(this, 0, 0);
     this.poly.pos.x = player.centX;
     this.poly.pos.y = player.centY;
+
+    // sprites go here
   }
   update(dt) {
     this.timer += dt;
@@ -675,15 +726,31 @@ class MeleeHitbox {
 }
 
 class Particle {
-  constructor(player, type) {
-    this.parent = player;
-    this.x = this.parent.x;
-    this.y = this.parent.y;
-    this.angle;
-    this.life = 80; // ms
+  constructor(a, b, c) {
+    // case 1: parent and type
+    if (typeof a === "object") {
+      this.parent = a;
+      this.type = b;
+      this.x = this.parent.x;
+      this.y = this.parent.y;
+    }
+    // case 2: type, x, and y
+    else {
+      this.parent = null;
+      this.type = a;
+      this.x = b;
+      this.y = c;
+    }
+
+    const data = particleTypes[this.type];
+
+    this.width = data.width;
+    this.height = data.height;
+    this.angle = 0;
+    this.life = data.life; // ms
     this.start = performance.now();
     this.dead = false;
-    this.type = type;
+    this.sprite = data.sprite;
   }
   update() {
     if (performance.now() - this.start > this.life) {
@@ -695,16 +762,28 @@ class Particle {
       this.y = muzzleY;
       this.angle = this.parent.angle;
     }
+    if (this.type === "crit") {
+      this.y -= 0.54;
+    }
   }
   draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-
-    ctx.fillStyle = "yellow";
-    ctx.beginPath();
-    ctx.arc(0, 0, 6, 0, Math.PI * 2);
-    ctx.fill();
+    if (this.sprite) {
+      ctx.drawImage(
+        this.sprite,
+        -this.width * scale / 2,
+        -this.height * scale / 2,
+        this.width * scale,
+        this.height * scale
+      );
+    } else {
+      ctx.fillStyle = "yellow";
+      ctx.beginPath();
+      ctx.arc(0, 0, 6, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     ctx.restore();
   }
@@ -824,7 +903,12 @@ class Zombie {
     ctx.fillStyle = this.color;
     ctx.translate(this.centX, this.centY);
     ctx.rotate(this.angle);
-    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+    ctx.fillRect(
+      -this.width / 2 * scale, 
+      -this.height / 2 * scale, 
+      this.width * scale, 
+      this.height * scale
+    );
     ctx.restore();
     // draw health bar
     ctx.save();
@@ -849,8 +933,15 @@ class Zombie {
       ctx.restore();
     }
   }
-  takeDmg(projectile) {
-    this.health -= projectile.dmg;
+  takeDmg(projectile, particles) {
+    let damage = projectile.dmg
+    const randomizer = Math.random();
+    if (randomizer < projectile.crit) {
+      damage *= 2;
+      console.log('CRIT!')
+      particles.push(new Particle("crit", this.centX, this.centY - 20));
+    }
+    this.health -= damage;
   }
   knockback(source) {
     if (source.force <= 0) return;
@@ -960,13 +1051,15 @@ $(document).on("keydown", (e) => KEYSTATES[e.key] = true);
 $(document).on("keyup", (e) => KEYSTATES[e.key] = false );
 
 // play game with player and zombie data
-function startGame(player, zombie) {
+function startGame(player, zombie, particle) {
   // initialization
 
   // class setup
   const inputSystem = new HandleInputs();
   const draw = new Draw();
 
+  // global particle types
+  window.particleTypes = particle;
   // store projectiles
   let projectiles = [];
 
@@ -1042,7 +1135,7 @@ function startGame(player, zombie) {
           if (SAT.testPolygonPolygon(projectile.poly, enemy.poly)) { 
             if (!projectile.hitSet.has(enemy.id)) {
               projectile.hitSet.add(enemy.id);
-              enemy.takeDmg(projectile); 
+              enemy.takeDmg(projectile, particles); 
               enemy.knockback(projectile);
               if (projectile instanceof Projectile) {
                 projectile.health--;
