@@ -3,7 +3,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
+    user-select: none;
 }
 
 canvas {
@@ -42,13 +42,13 @@ body {
 #ammo-count {
     font-size: 20px;
     position: absolute;
-    bottom: 120px;
+    bottom: 40px;
     left: 60px;
 }
 
 #wave-count {
     font-size: 20px;
     position: absolute;
-    bottom: 120px;
+    bottom: 40px;
     left: calc(50% - 40px);
 }

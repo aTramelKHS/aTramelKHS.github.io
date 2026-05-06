@@ -1,9 +1,9 @@
 {
     "Garry" : {
         "health" : 10,
-        "maxSpeed": 300,
+        "maxSpeed": 280,
         "iFrames": 1500,
-        "width" : 30,
+        "width" : 16,
         "height" : 30,
         "accel": 1500,
         "knockback": null,
@@ -22,7 +22,9 @@
                 "shotgun" : "sources/img/Characters/Garry/shotgun.png",
                 "rifle" : "sources/img/Characters/Garry/rifle.png",
                 "revolver" : "sources/img/Characters/Garry/revolver.png",
-                "golf club" : "sources/img/Melee/golf-club.png"
+                "golf club" : "sources/img/Characters/Garry/golf-club.png",
+                "bow" : "sources/img/Characters/Garry/bow.png",
+                "fists" : "sources/img/Characters/Garry/fists.png"
             }
         }
     }

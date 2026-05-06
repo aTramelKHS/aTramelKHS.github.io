@@ -1,0 +1,23 @@
+{
+    "medkit" : {
+        "lootType" : "health",
+        "val" : 2,
+        "width" : 20,
+        "height" : 20,
+        "sprite" : "sources/img/Loot/medkit.png"
+    },
+    "shotgun" : {
+        "weaponType" : "shotgun",
+        "ammo" : 2,
+        "width" : 44,
+        "height" : 22,
+        "sprite" : "sources/img/Loot/shotgun.png"
+    },
+    "pistol" : {
+        "weaponType" : "pistol",
+        "ammo" : 8,
+        "width" : 18,
+        "height" : 16,
+        "sprite" : "sources/img/Loot/pistol.png"
+    }
+}

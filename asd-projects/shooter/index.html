@@ -12,25 +12,35 @@
         <div class="MAIN-MENU" hidden>
             <h1 id="title">They Must Die</h1>
             <h2>By: Austin :)</h2>
-            <h1>keep in mind this menu is not final and things may be subject to change</h1>
+            <h1>not final menu</h1>
             <button onclick="runProgram()">Play game</button>
+            <h3>CONTROLS:</h3>
+            <p>W,A,S,D = movement, R = reload, Space = dodge roll, 1 = primary, 2 = secondary, 3 = melee</p>
             <p>choose starting weapon</p>
-            <button onclick="changeWeapon('pistol')">pistol</button>
-            <button onclick="changeWeapon('shotgun')">shotgun</button>
-            <button onclick="changeWeapon('rifle')">rifle</button>
-            <button onclick="changeWeapon('revolver')">BIG IRON</button>
-            <button onclick="changeWeapon('golfclub')">test melee</button>
+            <div>
+                <h2>PRIMARY</h2>
+                <button onclick="addWeaponToSlot('shotgun', 'primary')">shotgun</button>
+                <button onclick="addWeaponToSlot('rifle', 'primary')">rifle</button>
+            </div>
+            <div>
+                <h2>SECONDARY</h2>
+                <button onclick="addWeaponToSlot('pistol', 'secondary')">pistol</button>
+                <button onclick="addWeaponToSlot('revolver', 'secondary')">BIG IRON</button>
+            </div>
+            <div>
+                <h2>MELEE</h2>
+                <button onclick="addWeaponToSlot('golfclub', 'melee')">golf club</button>
+            </div>
         </div> 
         <div class='GAME' hidden>
-            <canvas id='game' width="1250px" height="780"></canvas>
+            <canvas id='game' width="1350px" height="720px"></canvas>
             <div class="ui">
                 <p id="health-bar">HP: <span id="hp"></span></p>
                 <p id="stamina-bar">STAM: <span id="stamina"></span></p>
                 <p id="ammo-count">AMMO: <span id="ammo"></span></p>
                 <p id="wave-count">WAVE: <span id="wave"></span></p>
-                <p>W,A,S,D = movement, R = reload, Space = dodge roll</p>
-                <button onclick="togDebug()">DEBUG</button>
-                <button onclick="stopZombies()">STOP ZOMBIES</button>
+                <!--<button onclick="togDebug()">DEBUG</button>
+                <button onclick="stopZombies()">STOP ZOMBIES</button>-->
             </div>
         </div>
         <script src="script.js"></script>
