@@ -1,23 +1,49 @@
 {
     "medkit" : {
-        "lootType" : "health",
-        "val" : 2,
+        "category" : "health",
+        "health" : 2,
         "width" : 20,
         "height" : 20,
         "sprite" : "sources/img/Loot/medkit.png"
     },
     "shotgun" : {
-        "weaponType" : "shotgun",
-        "ammo" : 2,
+        "category" : "weapon",
         "width" : 44,
-        "height" : 22,
+        "height" : 10,
+        "ammo" : 2,
         "sprite" : "sources/img/Loot/shotgun.png"
     },
     "pistol" : {
-        "weaponType" : "pistol",
-        "ammo" : 8,
+        "category" : "weapon",
         "width" : 18,
         "height" : 16,
+        "ammo" : 8,
         "sprite" : "sources/img/Loot/pistol.png"
+    },
+    "rifle" : {
+        "category" : "weapon",
+        "width" : 42,
+        "height" : 13,
+        "ammo" : 28,
+        "sprite" : "sources/img/Loot/rifle.png"
+    },
+    "revolver" : {
+        "category" : "weapon",
+        "width" : 42,
+        "height" : 13,
+        "ammo" : 6,
+        "sprite" : "sources/img/Loot/revolver.png"
+    },
+    "golfclub" : {
+        "category" : "weapon",
+        "width" : 42,
+        "height" : 13,
+        "sprite" : "sources/img/Melee/golf-club.png"
+    },
+    "bow" : {
+        "category" : "weapon",
+        "width" : 32,
+        "height" : 32,
+        "sprite" : "sources/img/Loot/bow.png"
     }
 }

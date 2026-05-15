@@ -193,6 +193,7 @@ h3 {
   height: 50%;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 4%, rgba(255, 255, 255, 0) 18%);
   opacity: 0.8;
+  pointer-events: none;
 }
 .content::after {
   content: '';
@@ -204,6 +205,7 @@ h3 {
   background: linear-gradient(to top, rgba(255, 255, 255, 0.25) 1%, rgba(255, 255, 255, 0) 2.65%);
   border-radius: 10px 10px 0 0;
   opacity: 0.8;
+  pointer-events: none;
 }
 
 .content a {
@@ -317,6 +319,7 @@ h3 {
   height: 50%;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.45) 0.3%, rgba(255, 255, 255, 0) 3%);
   opacity: 0.8;
+  pointer-events: none;
 }
 
 .date {
@@ -355,6 +358,14 @@ h3 {
 .updateboard a {
   color: rgb(14, 237, 129);
   text-shadow: 2px 2px rgba(0, 0, 0, 0.577);
+}
+
+.updateboard #signoff {
+  color: rgb(0, 208, 255);
+  font-size: 32px;
+}
+.updateboard #signoff a:hover {
+  color: rgb(0, 95, 117);
 }
 
 .updateboard a:hover {

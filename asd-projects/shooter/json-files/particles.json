@@ -8,6 +8,23 @@
     "muzzle-flash" : {
         "width" : 32,
         "height" : 32,
-        "life" : 80
+        "life" : 80,
+        "behavior" : "follow-player"
+    },
+    "full-charge" : {
+        "width" : 21,
+        "height" : 21,
+        "life" : 300,
+        "sprite" : "sources/img/Effects/fullcharge.png",
+        "frames" : [0, 1, 2, 3, 4],
+        "behavior" : "follow-player",
+        "addToScale" : 0.5
+    },
+    "blood-drop" : {
+        "width" : 4,
+        "height" : 4,
+        "life" : 180,
+        "sprite" : "sources/img/Effects/Blood/blood-drop.png",
+        "addToScale" : 1.4
     }
 }

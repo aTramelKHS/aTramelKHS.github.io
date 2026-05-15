@@ -1,7 +1,7 @@
 {
     "Garry" : {
-        "health" : 10,
-        "maxSpeed": 280,
+        "health" : 14,
+        "maxSpeed": 320,
         "iFrames": 1500,
         "width" : 16,
         "height" : 30,
@@ -25,6 +25,12 @@
                 "golf club" : "sources/img/Characters/Garry/golf-club.png",
                 "bow" : "sources/img/Characters/Garry/bow.png",
                 "fists" : "sources/img/Characters/Garry/fists.png"
+            },
+            "walk" : {
+                "sprite" : "sources/img/Characters/Garry/lowerbod.png",
+                "frames" : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "width" : 30,
+                "height" : 30
             }
         }
     }

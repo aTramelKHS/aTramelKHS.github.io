@@ -1,59 +1,130 @@
 {
     "reg": {
         "waveUnlock": 1,
-        "hp": 10,
-        "spd": 80,
+        "hp": 12,
+        "spd": 210,
         "width": 32,
         "height": 32,
-        "dmg": 1,
-        "color": "green"
+        "color": "green",
+        "closeToPlayerRange" : 60,
+        "weapon" : {
+            "type": "melee",
+            "dmg": 3,
+            "rof" : 3600,
+            "canAttackRange" : 120,
+            "projectileType" : "zom-arm",
+            "arc" : 135,
+            "reach" : 50,
+            "duration" : 0.3,
+            "knockback" : 1200
+        },
+        "lootTable" : {
+            "nothing" : 55,
+            "medkit": 10,
+            "rifle" : 1.5
+        }
     },
     "fast": {  
         "waveUnlock": 5,
         "hp": 10,
-        "spd": 140,
+        "spd": 290,
         "width": 32,
         "height": 32,
-        "dmg": 1,
-        "color": "lime"
+        "closeToPlayerRange" : 60,
+        "weapon" : {
+            "type": "melee",
+            "dmg": 1,
+            "rof" : 1400,
+            "canAttackRange" : 90,
+            "projectileType" : "zom-arm",
+            "arc" : 160,
+            "reach" : 50,
+            "duration" : 0.10,
+            "knockback" : 1750
+        },
+        "color": "lime",
+        "lootTable" : {
+            "nothing" : 75,
+            "medkit": 25,
+            "golfclub" : 8
+        }
     },
     "tanky": {
         "waveUnlock": 7,
         "hp": 20,
-        "spd": 60,
+        "spd": 120,
         "width": 45,
         "height": 45,
-        "dmg": 3,
-        "color": "green"
+        "color": "green",
+        "closeToPlayerRange" : 60,
+        "weapon" : {
+            "type": "melee",
+            "dmg": 7,
+            "rof" : 4200,
+            "canAttackRange" : 120,
+            "projectileType" : "zom-arm",
+            "arc" : 160,
+            "reach" : 50,
+            "duration" : 0.86,
+            "knockback" : 2600,
+            "addToScale" : 0.5
+        },
+        "lootTable" : {
+            "nothing" : 85,
+            "medkit": 25,
+            "shotgun": 7,
+            "revolver" : 3
+        }
     },
     "mini": {
         "waveUnlock": 4,
         "hp": 3,
-        "spd": 160,
-        "width": 15,
-        "height": 15,
-        "dmg": 1,
+        "spd": 280,
+        "width": 20,
+        "height": 20,
+        "closeToPlayerRange" : 30,
+        "weapon" : {
+            "type": "melee",
+            "dmg": 1,
+            "rof" : 920,
+            "canAttackRange" : 120,
+            "projectileType" : "zom-arm",
+            "arc" : 135,
+            "reach" : 20,
+            "duration" : 0.3,
+            "knockback" : 200,
+            "addToScale": -0.7
+        },
         "color": "green"
     },
-    "poison": {
-        "_comment": "zombies that can inflict status effects have a special 'inflict' property that corresponds to the status",
-        "waveUnlock": 9,
-        "hp": 10,
-        "spd": 80,
-        "width": 32,
-        "height": 32,
-        "dmg": 1,
-        "color": "green",
-        "inflict" : "poison"
-    },
-    "brute": {
-        "waveUnlock": 9,
-        "hp": 15,
-        "spd": 80,
-        "width": 32,
-        "height": 32,
-        "dmg": 3,
-        "color": "green",
-        "inflict" : "dazed"
+    "ranged": {
+        "waveUnlock" : 6,
+        "hp" : 5,
+        "spd" : 225,
+        "width" : 32,
+        "height" : 32,
+        "closeToPlayerRange": 450,
+        "weapon" : {
+            "type": "ranged",
+            "fireMode" : "single",
+            "dmg" : 2,
+            "rof" : 1020,
+            "canAttackRange" : 520,
+            "projectileType" : "rock",
+            "inaccuracy" : 2,
+            "airTime" : 1200,
+            "health" : 2,
+            "knockback" : 15,
+            "speed": 460,
+            "offX": 12,
+            "offY": 0
+        },
+        "lootTable" : {
+            "nothing" : 68,
+            "medkit": 16,
+            "bow" : 2
+        },
+        "behavior": "backup",
+        "color" : "brown"
     }
 }

@@ -28,21 +28,14 @@ function runProgram() {
     // game setup
     const game = new Game(particleData, projectileData, lootData);
     game.createEntities(charData.Garry, weaponData, zombieData);
-    // sprite setup
-    for (const [key, p] of Object.entries(particleData)) {
-      if (p.sprite) {
-        const img = new Image();
-        img.src = p.sprite;
-        p.sprite = img; // replace path with actual image
-      }
-    }
+    game.loadSprites([particleData, projectileData, lootData]);
     // todo add projectile and loot sprites here
     game.startGame();
   });
 }
 
 // create squares
-function createPoly(obj, wOffset, hOffset) {
+function createPoly(obj, wOffset, hOffset, scale) {
   const poly = new SAT.Polygon(new SAT.Vector(), [
     new SAT.Vector(-obj.width * scale /2 - wOffset, -obj.height * scale/2  - hOffset),
     new SAT.Vector(obj.width * scale /2 + wOffset, -obj.height * scale /2  - hOffset),
@@ -69,7 +62,7 @@ let stopMoving = false;
 function stopZombies() {
   stopMoving = !stopMoving;
 }
-const scale = 1.5;
+const scale = 1.75;
 
 // game objects 
 
@@ -88,11 +81,14 @@ class Hero {
     this.centX = this.pos.x + this.width / 2;
     this.centY = this.pos.y + this.height / 2;
     this.health = this.char.health;
+    this.maxHealth = this.char.health;
     this.angle = 0;
+    this.source = 'player';
 
     // invincibility
     this.isInvincible = false;
     this.iFrames = this.char.iFrames; // 1.5 seconds (in ms) 
+    this.iTimer = 0;
 
     // movement
     this.isMoving = false;
@@ -126,19 +122,16 @@ class Hero {
 
     // inventory
     this.inventory;
+    this.canSwitch = true;
 
     // weapon equiped
     this.weapon;
-    this.pickupRadius = 100 * scale;
     this.isGrabbing = false;
 
     // define da polygon (hitbox purposes)
-    this.poly = createPoly(this, 0, 0);
+    this.poly = createPoly(this, 2, 2, scale);
     this.poly.pos.x = this.centX; 
     this.poly.pos.y = this.centY;
-
-    // status effects
-    this.status = new Set();
 
     // bobbing
     this.bobTimer = 0;
@@ -146,6 +139,11 @@ class Hero {
       x : 0,
       y : 0
     }
+
+    // knockback
+    this.knockX = 0;
+    this.knockY = 0;
+    this.knockTimer = 0;
 
     // recoil
     this.recOffset = 0; // push back
@@ -169,11 +167,45 @@ class Hero {
     // indices
     this.bodyFrame = this.char.sprites.body.frame.normal;
 
+    // lower body
+    this.walkSprite = new Image();
+    this.walkSprite.src = this.char.sprites.walk.sprite;
+    this.walkFrameWidth = this.char.sprites.walk.width;
+    this.walkFrameHeight = this.char.sprites.walk.height
+    this.walkFrames = this.char.sprites.walk.frames;
+    this.currentWalkFrame = 0;
+    this.walkFrameDuration = 1000 / this.char.sprites.walk.frames.length;
+    this.walkLastFrameTime = performance.now();
+
     // circular ranges
-    this.noSpawnRadius = 200 * scale; 
+    this.noSpawnRadius = 200 * scale;
+    this.pickupRadius = 100 * scale;
+    this.equipRadius = 25 * scale; 
   }
 
   update(dt) {
+    // start knockback
+    if (this.knockTimer > 0) {
+      this.pos.x += this.knockX * dt;
+      this.pos.y += this.knockY * dt;
+
+      // force decay
+      this.knockX *= 0.85;
+      this.knockY *= 0.85;
+
+      // decrease the timer
+      this.knockTimer -= dt;
+
+      // update
+      this.centX = this.pos.x + this.width / 2;
+      this.centY = this.pos.y + this.height / 2;
+
+      this.poly.pos.x = this.centX; 
+      this.poly.pos.y = this.centY;
+      this.poly.setAngle(this.angle);
+      return; // dont calculate normal movement
+    }
+
     // update player position
     this.pos.x += this.speedX * dt;
     this.pos.y += this.speedY * dt;
@@ -192,7 +224,7 @@ class Hero {
     this.poly.pos.y = this.centY;
     this.poly.setAngle(this.angle);
 
-    // timed events
+    // TIMED EVENTS
     // update stamina
     if (this.regenStamina && this.stamina < this.maxStamina) {
       this.staminaTimer -= dt * 1000; // converts deltatime to miliseconds
@@ -220,39 +252,58 @@ class Hero {
         this.cdTimerM = 0;
       }
     }
+
+    // charged cooldown
+    if (!this.canCharge && !this.isCharging) {
+      this.cdTimerC -= dt * 1000;
+      if (this.cdTimerC <= 0) {
+        this.canCharge = true;
+        this.cdTimerC = 0;
+      }
+    }
+
+    // invincibility timer
+    if (this.isInvincible) {
+      this.iTimer -= dt * 1000;
+      if (this.iTimer <= 0) {
+        this.isInvincible = false;
+        this.iTimer = 0;
+      }
+    }
+
+    // reload timer
     if (this.isReload) {
       this.reloadTimer -= dt * 1000
       if (this.reloadTimer <= 0) {
-
         this.ammoCount = this.weapon.ammo;
         this.ammoDisplay = this.ammoCount;
         if (this.consumesAmmo || this.weapon.type !== 'melee') {
-          this.inventory.slots[this.inventory.currentSlot].ammo = this.ammoCount;
+          this.inventory.slots[this.inventory.currentSlot].ammo = this.ammoCount; // saves ammo count in inventory slot
         }
         this.isReload = false;
         this.canShoot = true;
       }
     }
 
-    // bobbing
-    if (this.isMoving && !this.isDodging) {
-      this.bobTimer += dt * 10;
-    } else {
-      this.bobTimer = 0;
+    // charging
+    if (this.isCharging) {
+      this.timeCharged += dt * 1000; // increase charge time by delta time
+      if (this.timeCharged > this.weapon.chargeTime) {
+        // cap timer
+        this.timeCharged = this.weapon.chargeTime;
+        // draw full charge particle
+        if (!this.chargeCapped) {
+          this.game.createParticle(this, "full-charge");
+          this.chargeCapped = true;
+        }
+      }
+      // get charge percent
+      this.chargePercent = this.timeCharged / this.weapon.chargeTime;
     }
-    const bobAmount = Math.min(this.ovSpeed * 0.04, 3);
 
-    this.bob.x = Math.cos(this.bobTimer) * bobAmount;
-    this.bob.y = Math.sin(this.bobTimer * 2) * (bobAmount * 0.5);
+    this.doBobbing(dt);
 
-    // recoil 
-    this.recOffset += this.recVelocity * dt;
-    
-    // spring force to bring the gun back to zero
-    this.recVelocity += (0 - this.recOffset) * 40 * dt;
-
-    // damping
-    this.recVelocity *= 0.85;
+    this.doWalkAnim();
 
     if (this.isDodging) this.dodge(dt);
 
@@ -260,6 +311,24 @@ class Hero {
   }
 
   draw(ctx) {
+    // render walk
+    if (this.isMoving) {
+      ctx.save();
+      ctx.translate(this.centX, this.centY);
+      ctx.rotate(this.angle);
+      ctx.drawImage(
+        this.walkSprite, // sprite
+        this.currentWalkFrame * this.walkFrameWidth, // sprite index
+        0, 
+        this.walkFrameWidth, 
+        this.walkFrameHeight, 
+        -this.walkFrameWidth * scale / 2, // sprite size
+        -this.walkFrameHeight * scale / 2, 
+        this.walkFrameWidth * scale, 
+        this.walkFrameHeight * scale
+      );
+      ctx.restore();
+    }
     // render weapon
     if (!this.hideWeapon) {
       ctx.save();
@@ -350,13 +419,35 @@ class Hero {
       this.hideWeapon = true;
       this.cdTimerM = this.weapon.rof || 0;
     }
-    /*if (this.weapon.type === 'throw') {
-      if (!this.canThrow) return;
-      projectiles.push(new Projectile(projectiles.length, this, 0, 0, 0));
-    }*/
+    // CHARGING
+    if (this.weapon.type === 'charge') {
+      const {muzzleX, muzzleY} = this.getSpawnWP();
+      // increase values by percentage
+      this.weapon.dmg = this.weapon.minDmg + (this.weapon.maxDmg - this.weapon.minDmg) * this.chargePercent;
+      this.weapon.speed = this.weapon.minSpeed + (this.weapon.maxSpeed - this.weapon.minSpeed) * this.chargePercent;
+      this.weapon.airTime = this.weapon.minAirTime + (this.weapon.maxAirTime - this.weapon.minAirTime) * this.chargePercent;
+      const inaccuracy = (Math.random() - 0.5) * this.weapon.inaccuracy;
+
+      this.game.createProjectile(this, inaccuracy, muzzleX, muzzleY);
+      
+      // start cooldown
+      this.cdTimerC = this.weapon.minRateOfCharge + (this.weapon.maxRateOfCharge - this.weapon.minRateOfCharge) * this.chargePercent || 0;
+      
+      // revert starting values
+      this.timeCharged = 0;
+      this.isCharging = false;
+      this.chargePercent = 0;
+      this.chargeCapped = false;
+
+      // revert back to base values
+      this.weapon.dmg = this.weapon.minDmg;
+      this.weapon.speed = this.weapon.minSpeed;
+      this.weapon.airTime = this.weapon.minAirTime;
+    }
   }
 
   getSpawnWP() {
+    // gets the world position of muzzle (also refered as projectile spawn position)
     const cos = Math.cos(this.angle);
     const sin = Math.sin(this.angle);
 
@@ -380,14 +471,17 @@ class Hero {
     return {muzzleX, muzzleY}
   }
 
-  takeDmg(dmg) {
+  takeDmg(projectile) {
     if (!this.isInvincible) {
-      this.health -= dmg;
+      let damage = projectile.dmg
+      const randomizer = Math.random();
+      if (randomizer < projectile.crit) {
+        damage *= 2;
+        this.game.createParticle("crit", this.centX, this.centY - 20);
+      }
+      this.health = Math.floor(this.health - damage);
       this.isInvincible = true;
-      // change later
-      setTimeout(() => {
-        this.isInvincible = false;
-      }, this.iFrames);
+      this.iTimer = this.iFrames;
     }
   }
 
@@ -462,6 +556,80 @@ class Hero {
     }
     return;
   }
+  doBobbing(dt) {
+    if (this.isMoving && !this.isDodging) {
+      this.bobTimer += dt * 10;
+    } else {
+      this.bobTimer = 0;
+    }
+    const bobAmount = Math.min(this.ovSpeed * 0.04, 3);
+    
+    // sway the arm offset
+    this.bob.x = Math.cos(this.bobTimer) * bobAmount;
+    this.bob.y = Math.sin(this.bobTimer * 2) * (bobAmount * 0.5);
+
+    // recoil 
+    this.recOffset += this.recVelocity * dt;
+    
+    // spring force to bring the gun back to zero
+    this.recVelocity += (0 - this.recOffset) * 40 * dt;
+
+    // damping
+    this.recVelocity *= 0.85;
+  }
+  doWalkAnim() {
+    if (this.isMoving) {
+      if (performance.now() - this.walkLastFrameTime > this.walkFrameDuration) {
+        this.currentWalkFrame = (this.currentWalkFrame + 1) % this.walkFrames.length;
+        this.walkLastFrameTime = performance.now();
+      }
+    } else {
+      this.currentWalkFrame = 0;
+    }
+  }
+  collisionLogic(projectiles) {
+    // if any projectiles collide with any enemy
+    for (let projectile of projectiles) {
+      if (projectile.source !== 'enemy') continue;
+      if (SAT.testPolygonPolygon(projectile.poly, this.poly)) {
+        if (projectile instanceof MeleeHitbox && !projectile.canDamage) continue;
+        if (!projectile.hitSet.has(this.id)) {
+          projectile.hitSet.add(this.id);
+          this.takeDmg(projectile);
+          this.knockback(projectile);
+          this.spawnBlood(projectile);
+          if (projectile instanceof Projectile) {
+            if (projectile.health !== null) {
+              projectile.health--;
+              if (projectile.health <= 0) {
+                projectile.dead = true;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  spawnBlood(projectile) {
+    const particleX = (projectile.centX + this.centX) / 2;
+    const particleY = (projectile.centY + this.centY) / 2;
+    const spawnNumber = Math.floor(Math.random() * 3) + 3; // random number between 3 and 5
+    for (let i = 0; i < spawnNumber; i++) {
+      const angleOffset = (Math.random() - 0.5) * 35;
+      const angle = this.angle + angleOffset * (Math.PI / 180);
+      this.game.createParticle('blood-drop', particleX, particleY, angle);
+    }
+  }
+  knockback(source) {
+    if (source.force <= 0) return;
+    //if (this.knockbackForce === 0) return; dont remember what this is for but looks important
+    let dx = Math.cos(source.angle);
+    let dy = Math.sin(source.angle);
+
+    this.knockX = dx * source.force;
+    this.knockY = dy * source.force;
+    this.knockTimer = 0.12;
+  }
 }
 
 class Inventory {
@@ -489,12 +657,19 @@ class Inventory {
 
     const current = this.slots[indexSlot];
     if (current !== null) {
-      this.game.createDrop('weapon', { ...this.lootData[type], ammo : current.ammo } || 0, this.player.pos.x, this.player.pos.y);
+      this.game.createDrop(
+        {...this.lootData[current.weaponType], 
+        ammo : current.ammo}, 
+        this.player.pos.x, 
+        this.player.pos.y,
+        current.weaponType
+      );
     }
     this.slots[indexSlot] = {
       weaponType: type,
       ammo: ammo
     }
+    this.player.isGrabbing = false;
     this.switchSlot(indexSlot);
   }
   switchSlot(selectedSlot) {
@@ -528,45 +703,43 @@ class Inventory {
     } else if (weaponData.type === "melee") {
       this.player.canSwing = true;
       this.player.cdTimerM = 0; // cooldown timer (melee)
+    } else if (weaponData.type === "charge") {
+      this.player.canCharge = true;
+      this.player.timeCharged = 0;
+      this.player.percentage = 0;
+      this.player.isCharging = false;
+      this.player.chargeCapped = false;
+      this.player.cdTimerC = 0; // cool down timer (charge)
     }
     this.player.consumesAmmo = weaponData.ammo !== null;
     this.player.weaponSprite = this.player.hands[weaponData.name.toLowerCase()];
     this.currentSlot = selectedSlot;
   }
-  getCurrentWeapon() {
-    let slot = this.slots[this.currentSlot];
-    return slot;
-  }
 }
 
 class Loot {
-  constructor(type, lootData, x, y) {
-    this.type = type;
+  constructor(lootData, x, y, name) {
     this.pos = {
       x: x,
       y: y
     }
+    this.lootName = name;
     this.width = lootData.width;
     this.height = lootData.height;
     this.centX = this.pos.x + this.width / 2;
     this.centY = this.pos.y + this.height / 2;
-    switch(this.type) {
+    this.category = lootData.category;
+    switch(this.category) {
       case 'health':
-        this.val = lootData.value;
+        this.heal = lootData.health;
         break
       case 'weapon':
-        this.weaponType = lootData.weaponType;
-        this.val = lootData.ammo;
-        this.requiresKey = true;
+        this.ammo = lootData.ammo;
         break
     }
-    this.sprite = new Image();
-    this.sprite.src = lootData.sprite;
+    this.sprite = lootData.sprite;
     this.dead = false;
     this.maxSpeed = 600;
-    this.poly = createPoly(this, 0, 0);
-    this.poly.pos.x = this.centX; 
-    this.poly.pos.y = this.centY;
     this.timer = 0;
     this.maxMins = 2 * 60000; // 2 minutes (in miliseconds)
   }
@@ -581,7 +754,7 @@ class Loot {
     const distFromPlayer = dx * dx + dy * dy;
     // if drop is in 
     if (distFromPlayer < player.pickupRadius**2) {
-      if (this.type === 'weapon' && !player.isGrabbing) return
+      if (this.category === 'weapon' && !player.isGrabbing) return
       // normalize 
       const dist = Math.hypot(dx, dy);
       const directX = dx / dist;
@@ -593,21 +766,20 @@ class Loot {
       this.centX = this.pos.x + this.width / 2;
       this.centY = this.pos.y + this.height / 2;
 
-      // update hitbox
-      this.poly.pos.x = this.centX; 
-      this.poly.pos.y = this.centY;
+      if (distFromPlayer < player.equipRadius**2) {
+        this.dead = true;
+        this.onPickup(player);
+      }
     }
   }
   onPickup(player) {
-    if (this.type === "weapon") {
-      return;
-    }
-    switch(this.type) {
+    switch(this.category) {
       case 'health':
-        player.health += this.val;
+        player.health = Math.min(player.health + this.heal, player.maxHealth);
         break
       case 'weapon':
-        // add weapon to inventory with stored ammo
+        player.inventory.addWeapon(this.lootName, this.ammo);
+        player.isGrabbing = false;
         break
     }
   }
@@ -659,9 +831,21 @@ class HandleInputs {
     if (Inp.pressOnce('3')) player.inventory.switchSlot(2);
 
     // test keys
-    if (Inp.pressOnce('e')) player.isGrabbing = true;
+    if (Inp.pressOnce('e') && !player.isGrabbing) player.isGrabbing = true;
+    if (Inp.release('e')) player.isGrabbing = false;
+    
     // detect clicks
+    if (Inp.pressOnce('t')) player.inventory.addWeapon('rifle', 2);
     // left clicks
+    if (player.weapon.type === "charge") {
+      if (Mouse.held()) {
+        if (!player.canCharge) return;
+        player.isCharging = true;
+        player.canCharge = false;
+      }
+      if (Mouse.release() && player.isCharging) player.attack();
+      return;
+    }
     if (player.isAuto !== true && Mouse.pressOnce()) player.attack();
      // detect autofire
     if (player.isAuto && Mouse.held()) player.attack();
@@ -702,42 +886,46 @@ class Draw {
   }
 }
 
-// extents of the Entity class
 class Projectile {
-  constructor(id, player, angleOffset, muzzleX, muzzleY, projectileTypes) {
+  constructor(id, entity, angleOffset, muzzleX, muzzleY, projectileTypes) {
     this.id = id;
-    const base = projectileTypes[player.weapon.projectileType];
+    const base = projectileTypes[entity.weapon.projectileType];
     this.width = base.width;
     this.height = base.height
-    this.color = base.color;
     this.behavior = base.behavior;
     this.pos = {
       x : muzzleX,
       y : muzzleY
     }
-    this.centX = muzzleX;
-    this.centY = muzzleY;
-    this.angle = player.angle + angleOffset * (Math.PI / 180);
-    this.type = player.weapon.type;
-    this.speedX = Math.cos(this.angle) * player.weapon.speed;
-    this.speedY = Math.sin(this.angle) * player.weapon.speed;
+    
+    this.centX = this.pos.x + this.width / 2;
+    this.centY = this.pos.y + this.height / 2;
+    this.angle = entity.angle + angleOffset * (Math.PI / 180);
+    this.type = entity.weapon.type;
+    this.speedX = Math.cos(this.angle) * entity.weapon.speed;
+    this.speedY = Math.sin(this.angle) * entity.weapon.speed;
     
     // damager
-    this.dmg = player.weapon.dmg;
-    this.health = player.weapon.health;
+    this.dmg = entity.weapon.dmg;
+    this.health = entity.weapon.health;
     this.hitSet = new Set();
-    this.force = player.weapon.knockback;
-    this.crit = player.weapon.critchance || 0;
+    this.force = entity.weapon.knockback;
+    this.crit = entity.weapon.critchance || 0;
+    this.source = entity.source;
 
     // despawner
     this.dead = false;
-    this.airTime = player.weapon.airTime;
+    this.airTime = entity.weapon.airTime;
     this.spawnTime = performance.now();
 
     // define da polygon (hitbox purposes)
-    this.poly = createPoly(this, 0, 0);
+    this.poly = createPoly(this, 0, 0, scale);
     this.poly.pos.x = this.centX; 
     this.poly.pos.y = this.centY;
+
+    // sprites
+    this.color = base.color || null;
+    this.sprite = base.sprite || null;
   }
   update(dt) {
     // update position
@@ -761,12 +949,27 @@ class Projectile {
   }
   draw(ctx) {
     // render bullets
-    ctx.save();
-    ctx.fillStyle = this.color;
-    ctx.translate(this.pos.x, this.pos.y);
-    ctx.rotate(this.angle);
-    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-    ctx.restore();
+    if (this.color) {
+      ctx.save();
+      ctx.fillStyle = this.color;
+      ctx.translate(this.pos.x, this.pos.y);
+      ctx.rotate(this.angle);
+      ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+      ctx.restore();
+    }
+    if (this.sprite) {
+      ctx.save();
+      ctx.translate(this.pos.x, this.pos.y);
+      ctx.rotate(this.angle);
+      ctx.drawImage(
+        this.sprite, // sprite
+        -this.width * scale / 2, // sprite size
+        -this.height * scale / 2, 
+        this.width * scale, 
+        this.height * scale
+      );
+      ctx.restore();
+    }
     // draw hitbox (debug)
     if (debug) {
       ctx.save();
@@ -787,17 +990,21 @@ class Projectile {
 }
 
 class MeleeHitbox {
-  constructor(player, projectileTypes) {
+  constructor(entity, projectileTypes) {
     // position
-    this.player = player;
-    this.weapon = player.weapon;
-    const base = projectileTypes[player.weapon.projectileType];
+    this.entity = entity;
+    this.weapon = entity.weapon;
+    const base = projectileTypes[entity.weapon.projectileType];
     this.width = base.width;
     this.height = base.height;
+    this.scale = scale + (entity.weapon.addToScale || 0);
     this.pos = {
-      x: this.player.centX + this.weapon.muzzle.x,
-      y: this.player.centY + this.weapon.muzzle.y
+      x: this.entity.centX + this.weapon.muzzle.x,
+      y: this.entity.centY + this.weapon.muzzle.y
     }
+    this.centX = this.pos.x + this.width / 2;
+    this.centY = this.pos.y + this.height / 2;
+
     this.reach = this.weapon.reach;
     this.mode = base.behavior;
     this.dmg = this.weapon.dmg;
@@ -807,6 +1014,8 @@ class MeleeHitbox {
       x: 0,
       y: 0
     }
+    // determines if its an enemy attack or player attack
+    this.source = entity.source;
 
     // damager
     this.canDamage = true;
@@ -820,22 +1029,21 @@ class MeleeHitbox {
     // attack direction
     if (this.mode === "swing") {
       this.arc = this.weapon.arc * (Math.PI / 180);
-      this.startingAngle = player.angle - this.arc / 2;
-      this.endingAngle = player.angle + this.arc / 2;
+      this.startingAngle = entity.angle - this.arc / 2;
+      this.endingAngle = entity.angle + this.arc / 2;
       this.angle = this.startingAngle;
     } 
     if (this.mode === "stab") {
-      this.angle = player.angle;
+      this.angle = entity.angle;
     }
     
     // hitbox
-    this.poly = createPoly(this, 0, 0);
+    this.poly = createPoly(this, 0, 0, this.scale);
     this.poly.pos.x = this.pos.x;
     this.poly.pos.y = this.pos.y;
 
     // sprites go here
-    this.sprite = new Image();
-    this.sprite.src = base.sprite;
+    this.sprite = base.sprite;
   }
   update(dt) {
     this.timer += dt;
@@ -844,23 +1052,25 @@ class MeleeHitbox {
     const ease = 1 - Math.pow(1 - t, 3);
     if (this.mode === "swing") {
       // Always match player angle
-      this.angle = this.startingAngle + (this.endingAngle - this.startingAngle) * t;
+      this.angle = this.startingAngle + (this.endingAngle - this.startingAngle) * ease;
       // Always stay in front of the player
-      this.pos.x = this.player.centX + Math.cos(this.angle) * this.reach;
-      this.pos.y = this.player.centY + Math.sin(this.angle) * this.reach;
+      this.pos.x = this.entity.centX + Math.cos(this.angle) * this.reach;
+      this.pos.y = this.entity.centY + Math.sin(this.angle) * this.reach;
        // velocity 
       const angleVel = (this.endingAngle - this.startingAngle) / this.duration;
       this.vel.x = Math.cos(this.angle) * this.reach * angleVel;
       this.vel.y = Math.sin(this.angle) * this.reach * angleVel;
     }
     if (this.mode === "stab") {
+      this.angle = this.entity.angle;
+      const {muzzleX, muzzleY} = this.entity.getSpawnWP();
       if ( t <= 0.5) { // punch in
-        this.pos.x = this.player.centX + Math.cos(this.angle) * (this.reach * t * 2);
-        this.pos.y = this.player.centY + Math.sin(this.angle) * (this.reach * t * 2);
+        this.pos.x = muzzleX + Math.cos(this.angle) * (this.reach * t * 2);
+        this.pos.y = muzzleY + Math.sin(this.angle) * (this.reach * t * 2);
       } else {
         this.canDamage = false;
-        this.pos.x = this.player.centX + Math.cos(this.angle) * (this.reach * (1 - (t - 0.5) * 2));
-        this.pos.y = this.player.centY + Math.sin(this.angle) * (this.reach * (1 - (t - 0.5) * 2));
+        this.pos.x = muzzleX + Math.cos(this.angle) * (this.reach * (1 - (ease - 0.5) * 2));
+        this.pos.y = muzzleY + Math.sin(this.angle) * (this.reach * (1 - (ease - 0.5) * 2));
       }
     }
 
@@ -871,7 +1081,7 @@ class MeleeHitbox {
     this.poly.pos.y = this.pos.y;
 
     // despawner
-    if (t >= 1) this.dead = true;
+    if (t >= 1 || this.entity.dead) this.dead = true;
   }
   draw(ctx) {
     ctx.save();
@@ -879,10 +1089,10 @@ class MeleeHitbox {
     ctx.rotate(this.angle);
     ctx.drawImage(
       this.sprite, // sprite
-      -this.width * scale / 2, // sprite size
-      -this.height * scale / 2, 
-      this.width * scale, 
-      this.height * scale
+      -this.width * this.scale / 2, // sprite size
+      -this.height * this.scale / 2, 
+      this.width * this.scale, 
+      this.height * this.scale
     );
     ctx.restore();
     if (debug) {
@@ -904,7 +1114,7 @@ class MeleeHitbox {
 }
 
 class Particle {
-  constructor(particleData, a, b, c) {
+  constructor(particleData, a, b, c, angle) {
     // case 1: parent and type
     if (typeof a === "object") {
       this.parent = a;
@@ -920,21 +1130,36 @@ class Particle {
       this.y = c;
     }
 
-    const data = particleData[this.type];
+    const base = particleData[this.type];
 
-    this.width = data.width;
-    this.height = data.height;
+    this.width = base.width;
+    this.height = base.height;
     this.angle = 0;
-    this.life = data.life; // ms
+    this.life = base.life; // ms
     this.start = performance.now();
     this.dead = false;
-    this.sprite = data.sprite;
+    this.sprite = base.sprite;
+    this.behavior = base.behavior;
+    this.scale = scale + (base.addToScale || 0);
+    // indices
+    if (base.frames) {
+      this.frames = base.frames;
+      this.currentFrame = 0;
+      this.frameDuration = base.life / base.frames.length;
+      this.lastFrameTime = performance.now();
+      this.particleCapped = false;
+    }
+    if (this.type === 'blood-drop') {
+      this.angle = angle;
+      this.speedX = Math.cos(this.angle) * (Math.random() * 410 + 60);
+      this.speedY = Math.sin(this.angle) * (Math.random() * 410 + 60);
+    }
   }
-  update() {
+  update(dt) {
     if (performance.now() - this.start > this.life) {
       this.dead = true;
     }
-    if (this.type === "muzzle-flash") {
+    if (this.behavior === 'follow-player') {
       const {muzzleX, muzzleY} = this.parent.getSpawnWP();
       this.x = muzzleX;
       this.y = muzzleY;
@@ -943,18 +1168,40 @@ class Particle {
     if (this.type === "crit") {
       this.y -= 0.54;
     }
+    if (this.frames) {
+      if (performance.now() - this.lastFrameTime > this.frameDuration) {
+        this.currentFrame = (this.currentFrame + 1) % this.frames.length;
+        this.lastFrameTime = performance.now();
+      }
+    }
+    if (this.type === "blood-drop") {
+      this.x += this.speedX * dt;
+      this.y += this.speedY * dt;
+    }
   }
   draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
     ctx.rotate(this.angle);
-    if (this.sprite) {
+    if (this.frames) {
+      ctx.drawImage(
+        this.sprite, // sprite
+        this.currentFrame * this.width, // sprite index
+        0, 
+        this.width, 
+        this.height, 
+        -this.width * this.scale / 2, // sprite size
+        -this.height * this.scale / 2, 
+        this.width * this.scale, 
+        this.height * this.scale
+      );
+    } else if (this.sprite) {
       ctx.drawImage(
         this.sprite,
-        -this.width * scale / 2,
-        -this.height * scale / 2,
-        this.width * scale,
-        this.height * scale
+        -this.width * this.scale / 2,
+        -this.height * this.scale / 2,
+        this.width * this.scale,
+        this.height * this.scale
       );
     } else {
       ctx.fillStyle = "yellow";
@@ -968,7 +1215,7 @@ class Particle {
 }
 
 class Zombie {
-  constructor(id, type, player, game) {
+  constructor(id, type, player, game, lootData) {
     this.game = game;
     // spawn area
     // choose a random spawn position if that spawn position is over the players radius^2 choose a new spawn
@@ -988,20 +1235,20 @@ class Zombie {
     // define
     this.id = id;
     this.type = type;
-    this.width = this.type.width;
-    this.height = this.type.height;
+    this.width = type.width;
+    this.height = type.height;
     this.pos = {
       x: spawnX,
       y: spawnY
     }
     this.speedX = 0;
     this.speedY = 0;
-    this.maxSpeed = this.type.spd;
-    this.health = this.type.hp;
+    this.maxSpeed = type.spd;
+    this.health = type.hp;
     this.angle = 0;
     this.centX = this.pos.x + this.width / 2;
     this.centY = this.pos.y + this.height / 2;
-    this.color = this.type.color;
+    this.color = type.color;
 
     // knockback
     this.knockX = 0;
@@ -1009,14 +1256,54 @@ class Zombie {
     this.knockTimer = 0;
 
     // attack
-    this.damage = this.type.dmg;
+    this.weaponType = type.weapon.type;
+    if (this.weaponType === "melee") {
+      this.weapon = {
+        dmg : type.weapon.dmg,
+        muzzle : { x: 0, y: 0 },
+        arc : type.weapon.arc,
+        knockback : type.weapon.knockback,
+        reach : type.weapon.reach,
+        duration : type.weapon.duration,
+        critchance : 0,
+        projectileType : type.weapon.projectileType
+      }
+    } else if (this.weaponType === "ranged") {
+      this.weapon = {
+        dmg : type.weapon.dmg,
+        muzzle : { x: 0, y: 0 },
+        critchance : 0,
+        projectileType : type.weapon.projectileType,
+        knockback : type.weapon.knockback,
+        inaccuracy : type.weapon.inaccuracy,
+        airTime : type.weapon.airTime,
+        health : type.weapon.health,
+        speed : type.weapon.speed,
+        offX : type.weapon.offX,
+        offY : type.weapon.offY
+      }
+    }
+    this.canAttack = true;
+    this.attackTimer = 0;
+    this.attackCooldown = type.weapon.rof; 
+    this.attackRange = type.weapon.canAttackRange;
+    this.closeToPlayerRange = type.closeToPlayerRange;
+    this.source = 'enemy';
+
+    // ai logic
+    this.stopMoving = false;
+    this.behavior = type.behavior;
 
     // kill
     this.dead = false;
     this.spawnTime = performance.now();
 
+    // loot
+    this.lootTable = type.lootTable || null;
+    this.lootData = lootData;
+
     // define da polygon (hitbox purposes)
-    this.poly = createPoly(this, 0, 0);
+    this.poly = createPoly(this, 0, 0, scale);
     this.poly.pos.x = this.centX; 
     this.poly.pos.y = this.centY;
   }
@@ -1047,28 +1334,53 @@ class Zombie {
 
       return; // dont calculate normal movement
     }
+    if (!this.canAttack) {
+      this.attackTimer -= dt * 1000; // convert dt to ms
+      if (this.attackTimer <= 0) {
+        this.canAttack = true;
+        this.attackTimer = 0;
+      }
+    }
     // center difference
     const dx = player.centX - this.centX;
     const dy = player.centY - this.centY;
 
     // normalize 
-    const dist = Math.hypot(dx, dy);
-    const directX = dx / dist;
-    const directY = dy / dist;
-    if (!stopMoving) {
+    const distanceFromPlayer = Math.hypot(dx, dy);
+    const directX = dx / distanceFromPlayer;
+    const directY = dy / distanceFromPlayer;
+    // attack
+    if (distanceFromPlayer < this.attackRange && this.canAttack) {
+      this.canAttack = false
+      this.attack();
+      this.attackTimer = this.attackCooldown;
+      this.stopMoving = true;
+    }
+    this.stopMoving = distanceFromPlayer < this.closeToPlayerRange ? true : false
+    if (!this.stopMoving) {
       // follow
       this.pos.x += directX * this.maxSpeed * dt;
       this.pos.y += directY * this.maxSpeed * dt;
+    }
+    this.centX = this.pos.x + this.width / 2;
+    this.centY = this.pos.y + this.height / 2;
 
-      this.centX = this.pos.x + this.width / 2;
-      this.centY = this.pos.y + this.height / 2;
+    this.angle = Math.atan2(dy, dx);
 
-      this.angle = Math.atan2(dy, dx);
+    // update hitbox
+    this.poly.pos.x = this.centX; 
+    this.poly.pos.y = this.centY;
+    this.poly.setAngle(this.angle);
+  }
+  attack() {
+    debugger;
+    if (this.weaponType === "melee") {
+      this.game.createMeleeSwing(this);
+    } else if (this.weaponType === "ranged") {
 
-      // update hitbox
-      this.poly.pos.x = this.centX; 
-      this.poly.pos.y = this.centY;
-      this.poly.setAngle(this.angle);
+      const inaccuracy = (Math.random() - 0.5) * this.weapon.inaccuracy;
+      let {muzzleX, muzzleY} = this.getSpawnWP();
+      this.game.createProjectile(this, inaccuracy, muzzleX, muzzleY);
     }
   }
   draw(ctx) {
@@ -1114,7 +1426,7 @@ class Zombie {
       damage *= 2;
       this.game.createParticle("crit", this.centX, this.centY - 20);
     }
-    this.health -= damage;
+    this.health = Math.floor(this.health - damage);
   }
   knockback(source) {
     if (source.force <= 0) return;
@@ -1127,24 +1439,33 @@ class Zombie {
     this.knockTimer = 0.12;
   }
   // loot table 
-  dropLoot(type) {
-    if (this.type === 'reg') {
-      // item drop logic
+  rollLoot() {
+    if (!this.lootTable) return;
+    let weight = 0;
+    for (let itemWeight of Object.values(this.lootTable)) weight += itemWeight;
+    let random = Math.random() * weight
+    for (let [item, itemWeight] of Object.entries(this.lootTable)) {
+      if (random < itemWeight) return item;
+      random -= itemWeight;
     }
   }
-  collisionLogic(player, projectiles) {
-    // if player collides with any enemy
-    if (SAT.testPolygonPolygon(player.poly, this.poly)) { 
-      player.takeDmg(this.damage); 
-    }
+  dropLoot() {
+    let loot = this.rollLoot();
+    if (!loot || loot === 'nothing') return;
+    this.game.createDrop(this.lootData[loot], this.centX, this.centY, loot);
+  }
+  collisionLogic(projectiles) {
+    if (this.dead) return;
     // if any projectiles collide with any enemy
     for (let projectile of projectiles) {
+      if (projectile.source !== 'player') continue;
       if (SAT.testPolygonPolygon(projectile.poly, this.poly)) {
         if (projectile instanceof MeleeHitbox && !projectile.canDamage) continue;
         if (!projectile.hitSet.has(this.id)) {
           projectile.hitSet.add(this.id);
           this.takeDmg(projectile);
           this.knockback(projectile);
+          this.spawnBlood(projectile);
           if (projectile instanceof Projectile) {
             if (projectile.health !== null) {
               projectile.health--;
@@ -1153,25 +1474,67 @@ class Zombie {
               }
             }
           }
+          if (this.killCheck()) return;
         }
       }
+    }
+  }
+  getSpawnWP() {
+    // gets the world position of muzzle (also refered as projectile spawn position)
+    const cos = Math.cos(this.angle);
+    const sin = Math.sin(this.angle);
+
+    // weapon origin
+    const weaponX = this.centX 
+      + (this.weapon.offX * scale) * cos
+      - (this.weapon.offY * scale) * sin;
+
+    const weaponY = this.centY
+      + (this.weapon.offX * scale) * sin
+      + (this.weapon.offY * scale) * cos;
+
+    // muzzle world position
+    const muzzleX = weaponX
+      + (this.weapon.muzzle.x * scale) * cos 
+      - (this.weapon.muzzle.y * scale) * sin;
+
+    const muzzleY = weaponY
+      + (this.weapon.muzzle.x * scale) * sin
+      + (this.weapon.muzzle.y * scale) * cos;
+    return {muzzleX, muzzleY}
+  }
+  spawnBlood(projectile) {
+    const particleX = (projectile.centX + this.centX) / 2;
+    const particleY = (projectile.centY + this.centY) / 2;
+    const spawnNumber = Math.floor(Math.random() * 3) + 3; // random number between 3 and 5
+    for (let i = 0; i < spawnNumber; i++) {
+      const angleOffset = (Math.random() - 0.5) * 35;
+      const angle = this.angle + angleOffset * (Math.PI / 180);
+      this.game.createParticle('blood-drop', particleX, particleY, angle);
+    }
+  }
+  killCheck() {
+    if (this.health <= 0) {
+      this.dead = true;
+      this.dropLoot();
+      return true;
     }
   }
 }
 
 class Wave {
-  constructor(zombieData, playerData, game) {
+  constructor(zombieData, playerData, game, lootData) {
     this.game = game;
     this.zombie = zombieData;
     this.player = playerData;
-    this.enemies = [];
+    this.lootData = lootData;
     this.waveNum = 0;
     // total enemies that can spawn in the wave
     this.totalEnemies = 0;
     // remaining zombies
     this.enemiesToSpawn = 0;
     // max amount of enemies that can be displayed on the screen
-    this.maxEnemies = 2;
+    this.maxEnemies = 15;
   }
   getAvailableZombies() {
     const unlocked = Object.entries(this.zombie)
@@ -1190,7 +1553,7 @@ class Wave {
     const type = available[Math.floor(Math.random() * available.length)];
     const zomData = this.zombie[type];
 
-    return new Zombie(this.enemies.length, zomData, this.player, this.game);
+    return new Zombie(this.game.enemies.length, zomData, this.player, this.game, this.lootData);
   }
   newWave() {
     this.waveNum++;
@@ -1198,18 +1561,18 @@ class Wave {
     this.enemiesToSpawn = this.totalEnemies;
     const spawnCount = Math.min(this.enemiesToSpawn, this.maxEnemies);
     for (let i = 0; i < spawnCount; i++) {
-      this.enemies.push(this.spawnZombies());
+      this.game.enemies.push(this.spawnZombies());
       this.enemiesToSpawn--;
     }
   }
   isWaveComplete() {
-    if (this.enemies.length === 0) {
+    if (this.game.enemies.length === 0) {
       this.newWave();
     }
   }
   spawnMore() {
-    while (this.enemies.length < this.maxEnemies && this.enemiesToSpawn !== 0) {
-      this.enemies.push(this.spawnZombies());
+    while (this.game.enemies.length < this.maxEnemies && this.enemiesToSpawn !== 0) {
+      this.game.enemies.push(this.spawnZombies());
       this.enemiesToSpawn--;
     }
   }
@@ -1309,6 +1672,7 @@ class Game {
       drop : lootJSON
     };
     this.player;
+    this.enemies = [];
     // helper systems 
     this.inputSystem = new HandleInputs();
     this.drawSystem = new Draw(); 
@@ -1346,7 +1710,7 @@ class Game {
     this.updateGameItems(deltaTime);
     ctx.translate(-this.camera.pos.x + CANVAS_WIDTH/2, -this.camera.pos.y + CANVAS_HEIGHT/2);
     // draw everything
-    this.drawSystem.update([...this.objectTables.projectiles, this.player, ...this.waveSetup.enemies, ...this.objectTables.particles, ...this.objectTables.drops]);
+    this.drawSystem.update([...this.objectTables.drops, ...this.objectTables.projectiles, this.player, ...this.enemies, ...this.objectTables.particles]);
     this.updateWave();
     ctx.restore();
     this.updateUI();
@@ -1355,7 +1719,8 @@ class Game {
     Mouse.update();
     Inp.update();
     if (this.player.health <= 0) {
-      this.endGame();
+      $('#death-screen').show();
+      this.gameOver();
     }
 
     this.rafID = requestAnimationFrame(this.newFrame);
@@ -1363,6 +1728,7 @@ class Game {
   updateGameItems(deltaTime) {
     // player
     this.player.update(deltaTime);
+    this.player.collisionLogic(this.objectTables.projectiles)
     // camera
     this.camera.update(deltaTime);
     // particles
@@ -1377,11 +1743,11 @@ class Game {
     for (let drop of this.objectTables.drops) drop.update(deltaTime, this.player);
     this.objectTables.drops = this.objectTables.drops.filter(b => !b.dead);
     // zombies
-    for (let zombie of this.waveSetup.enemies) {
+    for (let zombie of this.enemies) {
       zombie.update(deltaTime, this.player);
-      zombie.collisionLogic(this.player, this.objectTables.projectiles);
+      zombie.collisionLogic(this.objectTables.projectiles);
     }
-    this.waveSetup.enemies = this.waveSetup.enemies.filter(b => !b.dead);
+    this.enemies = this.enemies.filter(b => !b.dead);
   }
   updateWave() {
     // check if more zombies need to be spawn
@@ -1390,8 +1756,18 @@ class Game {
     this.waveSetup.isWaveComplete();
   }
   updateUI() {
-    this.player.health > 0 ? $('#hp').text(this.player.health) : $('#hp').text('YOU DIED');
-    if (!this.player.consumesAmmo || this.player.weapon.type === 'melee') {
+    let healthPercentage = (this.player.health / this.player.maxHealth) * 100;
+    $('#health-fill').css({
+      'width' : healthPercentage + '%',
+      'height' : healthPercentage + '%',
+    });
+    if (healthPercentage <= 45) {
+      $('#health-fill').addClass('low');
+    } else {
+      $('#health-fill').removeClass('low');
+    }
+    $('#health-number').text(!this.gameOver ? this.player.health : 'YOU DIED');
+    if (!this.player.weapon.ammo || this.player.weapon.type === 'melee') {
       $('#ammo').text('infinite');
     } else {
       $('#ammo').text(this.player.ammoDisplay + "/" + this.player.weapon.ammo ); 
@@ -1437,22 +1813,33 @@ class Game {
         break;
       }
     }
-    this.waveSetup = new Wave(zombieData, this.player, this);
+    this.waveSetup = new Wave(zombieData, this.player, this, this.objectData.drop);
     this.camera = new Camera(this.player);
   }
-  createProjectile(entityRef, inaccuracy, x, y ) {
+  createProjectile(entityRef, inaccuracy, x, y) {
     this.objectTables.projectiles.push(new Projectile(this.objectTables.projectiles.length, entityRef, inaccuracy, x, y, this.objectData.projectile));
   }
   createMeleeSwing(entityRef) {
     this.objectTables.projectiles.push(new MeleeHitbox(entityRef, this.objectData.projectile));
   }
-  createParticle(type, x, y) {
-    this.objectTables.particles.push(new Particle(this.objectData.particle, type, x, y));
+  createParticle(type, x, y, angle) {
+    this.objectTables.particles.push(new Particle(this.objectData.particle, type, x, y, angle));
   }
   createParticleWithParent(parent, type) {
     this.objectTables.particles.push(new Particle(this.objectData.particle, parent, type));
   }
-  createDrop(type, data, x, y) {
-    this.objectTables.drops.push(new Loot(type, data, x, y));
+  createDrop(data, x, y, name) {
+    this.objectTables.drops.push(new Loot(data, x, y, name));
+  }
+  loadSprites(dataObjects) {
+    for (let i = 0; i < dataObjects.length; i++) {
+      for (const [key, path] of Object.entries(dataObjects[i])) {
+        if (path.sprite) {
+          const img = new Image();
+          img.src = path.sprite;
+          path.sprite = img; 
+        }
+      }
+    }
   }
 }

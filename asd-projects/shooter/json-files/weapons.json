@@ -102,17 +102,17 @@
         "slot": "melee",
         "width": 18,
         "height": 26,
-        "rof": 200,
+        "rof": 300,
         "duration": 0.25,
-        "reach" : 32,
-        "dmg": 2,
+        "reach" : 33,
+        "dmg": 3,
         "offX": 12,
         "offY": 0,
-        "knockback" : 1530,
+        "knockback" : 1630,
         "projectileType" : "fist",
         "muzzle": {
-            "x" : 5,
-            "y" : 5
+            "x" : -7,
+            "y" : 6
         }
     },
     "revolver" : {
@@ -160,6 +160,33 @@
         "maxDistance" : 1200,
         "muzzle": {
             "x" : 10,
+            "y" : 0
+        }
+    },
+    "bow": {
+        "name" : "Bow",
+        "type" : "charge",
+        "width" : 38,
+        "height" : 36,
+        "minRateOfCharge": 1100,
+        "maxRateOfCharge": 220,
+        "minDmg": 2,
+        "maxDmg" : 8,
+        "inaccuracy": 4,
+        "slot": "primary",
+        "offX": 14,
+        "offY": 0,
+        "minSpeed": 360,
+        "maxSpeed" : 1120,
+        "minAirTime" : 540,
+        "maxAirTime" : 1200,
+        "chargeTime" : 1250, 
+        "fireMode": "single",
+        "knockback" : 50,
+        "projectileType" : "arrow",
+        "health" : 1,
+        "muzzle": {
+            "x" : 5,
             "y" : 0
         }
     }

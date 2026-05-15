@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 body {
     position: absolute;
     top: 50%;
@@ -26,17 +28,59 @@ body {
     color: maroon;
 }
 
-#health-bar {
-    font-size: 22px;
+
+#death-screen { 
+    background-image: url('sources/img/UI/death-screen.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+#health-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    width: 45px;
+    height: 45px;
+    scale : 3.8;
+    top: 14%;
+    left: 8%;
+    background-image: url('sources/img/UI/heart-container.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     position: absolute;
-    top: 20px;
-    left: 60px;
+}
+#health-fill {
+    width: 100%;
+    height: 100%;
+    background-image: url('sources/img/UI/heart.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: width 0.4s, height 0.4s;
+}
+#health-fill.low {
+    background-image: url('sources/img/UI/low-heath.png');
+}
+#health-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Press Start 2P", system-ui;
+    font-size: 10px;
+    color: white;
+    pointer-events: none;
 }
 #stamina-bar {
     font-size: 22px;
     position: absolute;
-    top: 20px;
-    left: 170px;
+    top: 28%;
+    left: 75px;
 }
 
 #ammo-count {
@@ -52,3 +96,4 @@ body {
     bottom: 40px;
     left: calc(50% - 40px);
 }
+

@@ -5,42 +5,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>They Must Die</title>
         <link rel="stylesheet" href="style.css">
+        
         <script src="https://cdn.jsdelivr.net/npm/sat@0.9.0/SAT.min.js"></script>
         <script src="jquery.min.js"></script>
+        
     </head>
     <body>
         <div class="MAIN-MENU" hidden>
             <h1 id="title">They Must Die</h1>
             <h2>By: Austin :)</h2>
-            <h1>not final menu</h1>
             <button onclick="runProgram()">Play game</button>
             <h3>CONTROLS:</h3>
-            <p>W,A,S,D = movement, R = reload, Space = dodge roll, 1 = primary, 2 = secondary, 3 = melee</p>
-            <p>choose starting weapon</p>
-            <div>
-                <h2>PRIMARY</h2>
-                <button onclick="addWeaponToSlot('shotgun', 'primary')">shotgun</button>
-                <button onclick="addWeaponToSlot('rifle', 'primary')">rifle</button>
-            </div>
-            <div>
-                <h2>SECONDARY</h2>
-                <button onclick="addWeaponToSlot('pistol', 'secondary')">pistol</button>
-                <button onclick="addWeaponToSlot('revolver', 'secondary')">BIG IRON</button>
-            </div>
-            <div>
-                <h2>MELEE</h2>
-                <button onclick="addWeaponToSlot('golfclub', 'melee')">golf club</button>
-            </div>
+            <p>W,A,S,D = movement, R = reload, Space = dodge roll, 1 = primary, 2 = secondary, 3 = melee, E = equip</p>
         </div> 
         <div class='GAME' hidden>
-            <canvas id='game' width="1350px" height="720px"></canvas>
+            <canvas id='game' width="1400px" height="700px"></canvas>
             <div class="ui">
-                <p id="health-bar">HP: <span id="hp"></span></p>
+                <div id="health-container"><div id="health-fill"><span id="health-number"></span></div></div>
                 <p id="stamina-bar">STAM: <span id="stamina"></span></p>
                 <p id="ammo-count">AMMO: <span id="ammo"></span></p>
                 <p id="wave-count">WAVE: <span id="wave"></span></p>
-                <!--<button onclick="togDebug()">DEBUG</button>
-                <button onclick="stopZombies()">STOP ZOMBIES</button>-->
+                <div hidden id="death-screen"></div>
             </div>
         </div>
         <script src="script.js"></script>
